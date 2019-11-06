@@ -1,30 +1,30 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Address extends CI_Controller {
+class Schedules extends CI_Controller {
 	
-	public function consultAddress()
+	public function registerSchedule()
 	{
 		// $this->load->view('welcome_message');
-		echo "consultAddress";
+		echo "registerSchedule";
 		exit;
 	}
-	public function registerAddress()
+	public function consultSchedule()
 	{
 		// $this->load->view('welcome_message');
-		echo "registerAddress";
+		echo "consultSchedule";
 		exit;
 	}
-	public function updateAddress()
+	public function updateSchedule()
 	{
 		// $this->load->view('welcome_message');
-		echo "updateAddress";
+		echo "updateSchedule";
 		exit;
 	}
-	public function deleteAddress()
+	public function deleteSchedule()
 	{
 		// $this->load->view('welcome_message');
-		echo "deleteAddress";
+		echo "deleteSchedule";
 		exit;
 	}
 }

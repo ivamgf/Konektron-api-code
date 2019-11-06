@@ -27,10 +27,4 @@ class Sign extends CI_Controller {
 		echo "Contact";
 		exit;
 	}
-	public function recovery()
-	{
-		// $this->load->view('welcome_message');
-		echo "Recovery";
-		exit;
-	}
 }

@@ -1,36 +1,36 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends CI_Controller {
+class stockServices extends CI_Controller {
 	
-	public function profileAdmin()
+	public function registerServices()
 	{
 		// $this->load->view('welcome_message');
-		echo "profileAdmin";
+		echo "registerServices";
 		exit;
 	}
-	public function clients()
+	public function consultServices()
 	{
 		// $this->load->view('welcome_message');
-		echo "clients";
+		echo "consultServices";
 		exit;
 	}
-	public function orders()
+	public function service()
 	{
 		// $this->load->view('welcome_message');
-		echo "orders";
+		echo "service";
 		exit;
 	}
-	public function payments()
+	public function updateService()
 	{
 		// $this->load->view('welcome_message');
-		echo "payments";
+		echo "updateService";
 		exit;
-	}
-	public function schedules()
+	}	
+	public function deleteService()
 	{
 		// $this->load->view('welcome_message');
-		echo "schedules";
+		echo "deleteService";
 		exit;
 	}
 }
