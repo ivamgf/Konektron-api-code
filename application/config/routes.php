@@ -71,14 +71,6 @@ $route['registerCards']['POST'] = 'cards/register/Cards';
 $route['updateCards/(:num)']['PATCH'] = 'cards/updateCards/$1';
 $route['deleteCards/(:num)']['DEL'] = 'cards/deleteCards/$1';
 
-// Routes to Carts Methods
-$route['cart']['POST'] = 'carts/cart';
-$route['consultCart/(:num)']['GET'] = 'carts/consultCart/$1';
-$route['checkoutCustom']['POST'] = 'carts/checkoutCustom';
-$route['checkoutConfirm']['POST'] = 'carts/checkoutConfirm';
-$route['updateCart/(:num)']['PATCH'] = 'carts/updateCart/$1';
-$route['cancelCart/(:num)']['DEL'] = 'carts/cancelCart/$1';
-
 // Routes to Dashboard Methods
 $route['profileAdmin/(:num)']['GET'] = 'dashboard/profileAdmin/$1';
 $route['clients']['GET'] = 'dashboard/clients';
@@ -112,25 +104,12 @@ $route['myOrders/(:num)']['GET'] = 'profile/myOrders/$1';
 $route['mySchedules/(:num)']['GET'] = 'profile/mySchedules/$1';
 
 // Routes to Category Methods
-// Products Methods
-$route['categoryProd']['GET'] = 'category/categoryProd';
-$route['registerCatProd']['POST'] = 'category/registerCatProd';
-$route['updateCatProd/(:num)']['PATCH'] = 'category/updateCatProd/$1';
-$route['deleteCatProd/(:num)']['DEL'] = 'category/deleteCatProd/$1';
-$route['catProd/(:num)']['GET'] = 'category/catProd/$1';
 // Services Methods
 $route['categoryServ']['GET'] = 'category/categoryServ';
 $route['registerCatServ']['POST'] = 'category/registerCatServ';
 $route['updateCatServ/(:num)']['PATCH'] = 'category/updateCatServ/$1';
 $route['deleteCatServ/(:num)']['DEL'] = 'category/deleteCatServ/$1';
 $route['catServ/(:num)']['GET'] = 'category/catServ/$1';
-
-// Routes to stockProducts Methods
-$route['registerProduct']['POST'] = 'stockProducts/registerProduct';
-$route['consultProducts']['GET'] = 'stockProducts/consultProducts';
-$route['product/(:num)']['GET'] = 'stockProducts/product/$1';
-$route['updateProduct/(:num)']['PATCH'] = 'stockProducts/updateProduct/$1';
-$route['deleteProduct/(:num)']['DEL'] = 'stockProducts/deleteProduct/$1';
 
 // Routes to StockServices Methods
 $route['registerServices']['POST'] = 'stockServices/registerServices';
