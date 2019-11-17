@@ -9,6 +9,12 @@ class Address extends CI_Controller {
 		echo "consultAddress";
 		exit;
 	}
+	public function address()
+	{
+		// $this->load->view('welcome_message');
+		echo "address";
+		exit;
+	}
 	public function registerAddress()
 	{
 		// $this->load->view('welcome_message');
