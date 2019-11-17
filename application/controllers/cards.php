@@ -9,6 +9,12 @@ class Cards extends CI_Controller {
 		echo "consultCards";
 		exit;
 	}
+	public function cards()
+	{
+		// $this->load->view('welcome_message');
+		echo "cards";
+		exit;
+	}
 	public function registerCards()
 	{
 		// $this->load->view('welcome_message');
