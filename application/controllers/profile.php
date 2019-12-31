@@ -15,6 +15,18 @@ class Profile extends CI_Controller {
 		echo "consultProfile";
 		exit;
 	}
+	public function consultProfileId()
+	{
+		// $this->load->view('welcome_message');
+		echo "consultProfileId";
+		exit;
+	}
+	public function consultProfileUsers()
+	{
+		// $this->load->view('welcome_message');
+		echo "consultProfileUsers";
+		exit;
+	}
 	public function updateProfile()
 	{
 		// $this->load->view('welcome_message');
@@ -25,24 +37,6 @@ class Profile extends CI_Controller {
 	{
 		// $this->load->view('welcome_message');
 		echo "deleteProfile";
-		exit;
-	}
-	public function myPayments()
-	{
-		// $this->load->view('welcome_message');
-		echo "myPayments";
-		exit;
-	}
-	public function myOrders()
-	{
-		// $this->load->view('welcome_message');
-		echo "myOrders";
-		exit;
-	}
-	public function mySchedules()
-	{
-		// $this->load->view('welcome_message');
-		echo "mySchedule";
 		exit;
 	}
 }

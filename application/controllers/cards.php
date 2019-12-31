@@ -9,10 +9,16 @@ class Cards extends CI_Controller {
 		echo "consultCards";
 		exit;
 	}
-	public function cards()
+	public function consultCardsId()
 	{
 		// $this->load->view('welcome_message');
-		echo "cards";
+		echo "Consult cards for id_cards";
+		exit;
+	}
+	public function consultCardsUsers()
+	{
+		// $this->load->view('welcome_message');
+		echo "Consult cards for id_users";
 		exit;
 	}
 	public function registerCards()

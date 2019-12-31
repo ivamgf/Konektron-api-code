@@ -15,10 +15,10 @@ class stockServices extends CI_Controller {
 		echo "consultServices";
 		exit;
 	}
-	public function service()
+	public function consultServicesId()
 	{
 		// $this->load->view('welcome_message');
-		echo "service";
+		echo "consultServicesId";
 		exit;
 	}
 	public function updateService()

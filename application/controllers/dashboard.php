@@ -14,23 +14,5 @@ class Dashboard extends CI_Controller {
 		// $this->load->view('welcome_message');
 		echo "clients";
 		exit;
-	}
-	public function orders()
-	{
-		// $this->load->view('welcome_message');
-		echo "orders";
-		exit;
-	}
-	public function payments()
-	{
-		// $this->load->view('welcome_message');
-		echo "payments";
-		exit;
-	}
-	public function schedules()
-	{
-		// $this->load->view('welcome_message');
-		echo "schedules";
-		exit;
-	}
+	}	
 }

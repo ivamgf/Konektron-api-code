@@ -3,34 +3,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Category extends CI_Controller {
 	
-	public function categoryServ()
+	public function consultCategory()
 	{
 		// $this->load->view('welcome_message');
-		echo "categoryServ";
+		echo "Consult category";
 		exit;
 	}
-	public function registerCatServ()
+	public function consultCategoryId()
 	{
 		// $this->load->view('welcome_message');
-		echo "registerCatServ";
+		echo "Consult category for id_category";
 		exit;
 	}
-	public function updateCatServ()
+	public function registerCategory()
+	{
+		// $this->load->view('welcome_message');
+		echo "registerCategory";
+		exit;
+	}
+	public function updateCategory()
 	{
 		// $this->load->view('welcome_message');
 		echo "updateCatServ";
 		exit;
 	}
-	public function deleteCatServ()
+	public function deleteCategory()
 	{
 		// $this->load->view('welcome_message');
 		echo "deleteCatServ";
-		exit;
-	}
-	public function catServ()
-	{
-		// $this->load->view('welcome_message');
-		echo "catServ";
 		exit;
 	}
 }

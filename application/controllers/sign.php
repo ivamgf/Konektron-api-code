@@ -15,6 +15,12 @@ class Sign extends CI_Controller {
 		echo "Signup";
 		exit;
 	}
+	public function verify()
+	{
+		// $this->load->view('welcome_message');
+		echo "verify";
+		exit;
+	}
 	public function forgot()
 	{
 		// $this->load->view('welcome_message');
