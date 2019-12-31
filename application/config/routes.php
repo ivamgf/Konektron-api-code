@@ -56,17 +56,22 @@ $route['translate_uri_dashes'] = FALSE;
 // Routes to Sign Methods
 $route['signin']['POST'] = 'sign/signin';
 $route['signup']['POST'] = 'sign/signup';
+$route['verify']['POST'] = 'sign/signup';
 $route['forgot']['POST'] = 'sign/forgot';
 $route['contact']['POST'] = 'sign/contact';
 
 // Routes to Address Methods
-$route['consultAddress/(:num)']['GET'] = 'address/consultAddress/$1';
+$route['consultAddress']['GET'] = 'address/consultAddress';
+$route['consultAddressId/(:num)']['GET'] = 'address/consultAddressId/$1';
+$route['consultAddressUsers/(:num)']['GET'] = 'address/consultAddressUsers/$1';
 $route['registerAddress']['POST'] = 'address/registerAddress';
 $route['updateAddress/(:num)']['PATCH'] = 'address/updateAddress/$1';
 $route['deleteAddress/(:num)']['DEL'] = 'address/deleteAddress/$1';
 
 // Routes to Cards Methods
-$route['consultCards/(:num)']['GET'] = 'cards/consultCards/$1';
+$route['consultCards']['GET'] = 'cards/consultCards/$1';
+$route['consultCardsId/(:num)']['GET'] = 'cards/consultCardsId/$1';
+$route['consultCardsUsers/(:num)']['GET'] = 'cards/consultCardsUsers/$1';
 $route['registerCards']['POST'] = 'cards/register/Cards';
 $route['updateCards/(:num)']['PATCH'] = 'cards/updateCards/$1';
 $route['deleteCards/(:num)']['DEL'] = 'cards/deleteCards/$1';
@@ -74,52 +79,55 @@ $route['deleteCards/(:num)']['DEL'] = 'cards/deleteCards/$1';
 // Routes to Dashboard Methods
 $route['profileAdmin/(:num)']['GET'] = 'dashboard/profileAdmin/$1';
 $route['clients']['GET'] = 'dashboard/clients';
-$route['orders']['GET'] = 'dashboard/orders';
-$route['payments']['GET'] = 'dashboard/payments';
-$route['schedules']['GET'] = 'dashboard/schedules';
 
 // Routes to Logs Methods
 $route['registerLogs']['POST'] = 'logs/registerLogs';
 $route['consultLogs']['GET'] = 'logs/consultLogs';
+$route['consultLogsId/(:num)']['GET'] = 'logs/consultLogsId/$1';
 
 // Routes to Orders Methods
+$route['consultOrder']['GET'] = 'orders/consultOrder';
+$route['consultOrderId/(:num)']['GET'] = 'orders/consultOrderId/$1';
+$route['consultOrderUsers/(:num)']['GET'] = 'orders/consultOrderUsers/$1';
 $route['registerOrder']['POST'] = 'orders/registerOrder';
-$route['consultOrder/(:num)']['GET'] = 'orders/consultOrder/$1';
 $route['updateOrder/(:num)']['PATCH'] = 'orders/updateOrder/$1';
 $route['deleteOrder/(:num)']['DEL'] = 'orders/deleteOrders/$1';
 
 // Routes to Payment Methods
+$route['consultPayment']['GET'] = 'payment/consultPayment';
+$route['consultPaymentId/(:num)']['GET'] = 'payment/consultPaymentId/$1';
+$route['consultPaymentUsers/(:num)']['GET'] = 'payment/consultPaymentUsers/$1';
 $route['registerPayment']['POST'] = 'payment/registerPayment';
-$route['consultPayment/(:num)']['GET'] = 'payment/consultPayment/$1';
 $route['updatePayment/(:num)']['PATCH'] = 'payment/updatePayment/$1';
-$route['cancelPayment/(:num)']['DEL'] = 'payment/cancelPayment/$1';
+$route['deletePayment/(:num)']['DEL'] = 'payment/deletePayment/$1';
 
 // Routes to Profile Methods
+$route['consultProfile']['GET'] = 'profile/consultProfile';
+$route['consultProfileId/(:num)']['GET'] = 'profile/consultProfileId/$1';
+$route['consultProfileUsers/(:num)']['GET'] = 'profile/consultProfileUsers/$1';
 $route['registerProfile']['POST'] = 'profile/registerProfile';
-$route['consultProfile/(:num)']['GET'] = 'profile/consultProfile/$1';
 $route['updateProfile/(:num)']['PATCH'] = 'profile/updateProfile/$1';
 $route['deleteProfile/(:num)']['DEL'] = 'profile/deleteProfile/$1';
-$route['myPayments/(:num)']['GET'] = 'profile/myPayments/$1';
-$route['myOrders/(:num)']['GET'] = 'profile/myOrders/$1';
-$route['mySchedules/(:num)']['GET'] = 'profile/mySchedules/$1';
 
 // Routes to Category Methods
 // Services Methods
-$route['categoryServ']['GET'] = 'category/categoryServ';
-$route['registerCatServ']['POST'] = 'category/registerCatServ';
-$route['updateCatServ/(:num)']['PATCH'] = 'category/updateCatServ/$1';
-$route['deleteCatServ/(:num)']['DEL'] = 'category/deleteCatServ/$1';
-$route['catServ/(:num)']['GET'] = 'category/catServ/$1';
+$route['consultCategory']['GET'] = 'category/consultCategory';
+$route['consultCategoryId/(:num)']['GET'] = 'profile/consultCategoryId/$1';
+$route['registerCategory']['POST'] = 'category/registerCategory';
+$route['updateCategory/(:num)']['PATCH'] = 'category/updateCategory/$1';
+$route['deleteCategory/(:num)']['DEL'] = 'category/deleteCategory/$1';
 
 // Routes to StockServices Methods
-$route['registerServices']['POST'] = 'stockServices/registerServices';
 $route['consultServices']['GET'] = 'stockServices/consultServices';
-$route['service/(:num)']['GET'] = 'stockServices/service/$1';
+$route['consultServicesId/(:num)']['GET'] = 'stockServices/consultServicesId';
+$route['registerServices']['POST'] = 'stockServices/registerServices';
 $route['updateService/(:num)']['PATCH'] = 'stockServices/updateService/$1';
 $route['deleteService/(:num)']['DEL'] = 'stockServices/deleteService/$1';
 
 // Routes to Schedules Methods
+$route['consultSchedule']['GET'] = 'schedule/consultSchedule';
+$route['consultScheduleId/(:num)']['GET'] = 'schedule/consultScheduleId/$1';
+$route['consultScheduleUsers/(:num)']['GET'] = 'schedule/consultScheduleUsers/$1';
 $route['registerSchedule']['POST'] = 'schedule/registerSchedule';
-$route['consultSchedule/(:num)']['GET'] = 'schedule/consultSchedule/$1';
 $route['updateSchedule/(:num)']['GET'] = 'schedule/updateSchedule/$1';
 $route['deleteSchedule/(:num)']['PATCH'] = 'schedule/deleteSchedule/$1';

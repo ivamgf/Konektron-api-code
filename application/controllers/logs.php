@@ -15,4 +15,10 @@ class Logs extends CI_Controller {
 		echo "consultLogs";
 		exit;
 	}
+	public function consultLogsId()
+	{
+		// $this->load->view('welcome_message');
+		echo "consultLogsId";
+		exit;
+	}
 }

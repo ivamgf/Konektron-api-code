@@ -15,16 +15,28 @@ class Payment extends CI_Controller {
 		echo "consultPayment";
 		exit;
 	}
+	public function consultPaymentId()
+	{
+		// $this->load->view('welcome_message');
+		echo "consultPaymentId";
+		exit;
+	}
+	public function consultPaymentUsers()
+	{
+		// $this->load->view('welcome_message');
+		echo "consultPaymentUsers";
+		exit;
+	}
 	public function updatePayment()
 	{
 		// $this->load->view('welcome_message');
 		echo "updatePayment";
 		exit;
 	}
-	public function cancelPayment()
+	public function deletePayment()
 	{
 		// $this->load->view('welcome_message');
-		echo "cancelPayment";
+		echo "deletePayment";
 		exit;
 	}
 }

@@ -15,6 +15,18 @@ class Orders extends CI_Controller {
 		echo "consultOrder";
 		exit;
 	}
+	public function consultOrderId()
+	{
+		// $this->load->view('welcome_message');
+		echo "consultOrderId";
+		exit;
+	}
+	public function consultOrderUsers()
+	{
+		// $this->load->view('welcome_message');
+		echo "consultOrderUsers";
+		exit;
+	}
 	public function updateOrder()
 	{
 		// $this->load->view('welcome_message');

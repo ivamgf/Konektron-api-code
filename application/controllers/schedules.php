@@ -15,6 +15,18 @@ class Schedules extends CI_Controller {
 		echo "consultSchedule";
 		exit;
 	}
+	public function consultScheduleId()
+	{
+		// $this->load->view('welcome_message');
+		echo "consultScheduleId";
+		exit;
+	}
+	public function consultScheduleUsers()
+	{
+		// $this->load->view('welcome_message');
+		echo "consultScheduleUsers";
+		exit;
+	}
 	public function updateSchedule()
 	{
 		// $this->load->view('welcome_message');
