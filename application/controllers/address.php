@@ -5,38 +5,52 @@ class Address extends CI_Controller {
 	
 	public function consultAddress()
 	{
-		// $this->load->view('welcome_message');
-		echo "consultAddress";
-		exit;
+		$this->load->model('AddressModel', 'addressModel', true);
+		$list_address = $this->addressModel->getAddress();
+
+		$dataAddress = array(
+			"list_address" => $list_address
+		);
 	}
 	public function consultAddressId()
 	{
-		// $this->load->view('welcome_message');
-		echo "Consult address for id_address";
-		exit;
+		$this->load->model('AddressModel', 'addressModel', true);
+		$address = $this->addressModel->getAddressId($id_address);
+		$dataAddress = array(
+			"address" => $address
+		);
 	}
 	public function consultAddressUsers()
 	{
-		// $this->load->view('welcome_message');
-		echo "Consult address for id_users";
-		exit;
+		$this->load->model('AddressModel', 'addressModel', true);
+		$address = $this->addressModel->getAddressUsers($id_users);
+		$dataAddress = array(
+			"address" => $address
+		);
 	}
 	public function registerAddress()
 	{
-		// $this->load->view('welcome_message');
-		echo "registerAddress";
-		exit;
+		$this->load->model('AddressModel', 'addressModel', true);
+		$address = [];
+		$this->addressModel->insert($address);
 	}
-	public function updateAddress()
+	public function updateAddress($id_address)
 	{
-		// $this->load->view('welcome_message');
-		echo "updateAddress";
-		exit;
+		$this->load->model('AddressModel', 'addressModel', true);
+		$address = array();
+		$id = $this->addressModel->patchAddress($id_address, $address);
+		if(is_null($id)) {
+			$this->session->set_flashdata('edit-address', 'Erro ao atualizar dados!');
+		}
+		else {
+			$this->session->set_flashdata('edit-address', 'Alteração feita com sucesso!');
+		}
+		$msgAddress = $this->session->set_flashdata('edit-address');
 	}
-	public function deleteAddress()
+	public function deleteAddress($id_address)
 	{
-		// $this->load->view('welcome_message');
-		echo "deleteAddress";
-		exit;
+		$this->load->model('AddressModel', 'addressModel', true);
+		$this->addressModel->delAddress($id_address);
+		// redirect(base_url(''));
 	}
 }
