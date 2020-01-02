@@ -12,7 +12,8 @@ class Address extends CI_Controller {
 			"list_address" => $list_address
 		);
 	}
-	public function consultAddressId()
+
+	public function consultAddressId($id_address)
 	{
 		$this->load->model('AddressModel', 'addressModel', true);
 		$address = $this->addressModel->getAddressId($id_address);
@@ -20,7 +21,8 @@ class Address extends CI_Controller {
 			"address" => $address
 		);
 	}
-	public function consultAddressUsers()
+
+	public function consultAddressUsers($id_users)
 	{
 		$this->load->model('AddressModel', 'addressModel', true);
 		$address = $this->addressModel->getAddressUsers($id_users);
@@ -28,12 +30,14 @@ class Address extends CI_Controller {
 			"address" => $address
 		);
 	}
+
 	public function registerAddress()
 	{
 		$this->load->model('AddressModel', 'addressModel', true);
 		$address = [];
 		$this->addressModel->insert($address);
 	}
+
 	public function updateAddress($id_address)
 	{
 		$this->load->model('AddressModel', 'addressModel', true);
@@ -47,6 +51,7 @@ class Address extends CI_Controller {
 		}
 		$msgAddress = $this->session->set_flashdata('edit-address');
 	}
+
 	public function deleteAddress($id_address)
 	{
 		$this->load->model('AddressModel', 'addressModel', true);
