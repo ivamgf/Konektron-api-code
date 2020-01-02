@@ -3,16 +3,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends CI_Controller {
 	
-	public function profileAdmin()
+	public function profileAdmin($id_admin)
 	{
-		// $this->load->view('welcome_message');
-		echo "profileAdmin";
-		exit;
+		$this->load->model('DashboardModel', 'dashboardModel', true);
+		$dashboard = $this->dashboardModel->getDashboardId($id_admin);
+		$dataDashboard = array(
+			"dashboard" => $dashboard
+		);
 	}
 	public function clients()
 	{
-		// $this->load->view('welcome_message');
-		echo "clients";
-		exit;
+		$this->load->model('DashboardModel', 'dashboardModel', true);
+		$list_clients = $this->dashboardModel->getClients();
+
+		$dataClients = array(
+			"list_clients" => $list_clients
+		);
 	}	
 }

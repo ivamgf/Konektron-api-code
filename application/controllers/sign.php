@@ -9,12 +9,28 @@ class Sign extends CI_Controller {
 		echo "Signin";
 		exit;
 	}
-	public function signup()
+
+	public function signinProviders()
 	{
 		// $this->load->view('welcome_message');
-		echo "Signup";
+		echo "SigninProviders";
 		exit;
 	}
+
+	public function signup()
+	{
+		$this->load->model('SignModel', 'signModel', true);
+		$signup = [];
+		$this->signModel->insert($signup);
+	}
+
+	public function signupProviders()
+	{
+		$this->load->model('SignModel', 'signModel', true);
+		$signupProviders = [];
+		$this->signModel->insert($signupProviders);
+	}
+
 	public function verify()
 	{
 		// $this->load->view('welcome_message');

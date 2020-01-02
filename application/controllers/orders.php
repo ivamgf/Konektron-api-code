@@ -2,41 +2,59 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Orders extends CI_Controller {
-	
-	public function registerOrder()
-	{
-		// $this->load->view('welcome_message');
-		echo "registerOrder";
-		exit;
-	}
+		
 	public function consultOrder()
 	{
-		// $this->load->view('welcome_message');
-		echo "consultOrder";
-		exit;
+		$this->load->model('OrdersModel', 'ordersModel', true);
+		$list_orders = $this->ordersModel->getOrders();
+
+		$dataOrders = array(
+			"list_orders" => $list_orders
+		);
 	}
-	public function consultOrderId()
+
+	public function consultOrderId($id_order)
 	{
-		// $this->load->view('welcome_message');
-		echo "consultOrderId";
-		exit;
+		$this->load->model('OrdersModel', 'ordersModel', true);
+		$orders = $this->ordersModel->getOrdersId($id_order);
+		$dataOrders = array(
+			"orders" => $orders
+		);
 	}
-	public function consultOrderUsers()
+
+	public function consultOrderUsers($id_users)
 	{
-		// $this->load->view('welcome_message');
-		echo "consultOrderUsers";
-		exit;
+		$this->load->model('OrdersModel', 'ordersModel', true);
+		$orders = $this->ordersModel->getOrdersUsers($id_users);
+		$dataOrders = array(
+			"orders" => $orders
+		);
 	}
-	public function updateOrder()
+
+	public function registerOrder()
 	{
-		// $this->load->view('welcome_message');
-		echo "updateOrder";
-		exit;
+		$this->load->model('OrdersModel', 'ordersModel', true);
+		$orders = [];
+		$this->ordersModel->insert($orders);
 	}
-	public function deleteOrder()
+
+	public function updateOrder($id_order)
 	{
-		// $this->load->view('welcome_message');
-		echo "deleteOrder";
-		exit;
+		$this->load->model('OrdersModel', 'ordersModel', true);
+		$orders = array();
+		$id = $this->ordersModel->patchOrders($id_order, $orders);
+		if(is_null($id)) {
+			$this->session->set_flashdata('edit-orders', 'Erro ao atualizar dados!');
+		}
+		else {
+			$this->session->set_flashdata('edit-orders', 'Alteração feita com sucesso!');
+		}
+		$msgOrders = $this->session->set_flashdata('edit-orders');
+	}
+
+	public function deleteOrder($id_order)
+	{
+		$this->load->model('OrdersModel', 'ordersModel', true);
+		$this->ordersModel->delOrders($id_order);
 	}
 }

@@ -2,41 +2,59 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Schedules extends CI_Controller {
-	
-	public function registerSchedule()
-	{
-		// $this->load->view('welcome_message');
-		echo "registerSchedule";
-		exit;
-	}
+		
 	public function consultSchedule()
 	{
-		// $this->load->view('welcome_message');
-		echo "consultSchedule";
-		exit;
+		$this->load->model('SchedulesModel', 'schedulesModel', true);
+		$list_schedules = $this->schedulesModel->getSchedules();
+
+		$dataSchedules = array(
+			"list_schedules" => $list_schedules
+		);
 	}
-	public function consultScheduleId()
+
+	public function consultScheduleId($id_schedule)
 	{
-		// $this->load->view('welcome_message');
-		echo "consultScheduleId";
-		exit;
+		$this->load->model('SchedulesModel', 'schedulesModel', true);
+		$schedules = $this->schedulesModel->getSchedulesId($id_schedule);
+		$dataSchedules = array(
+			"schedules" => $schedules
+		);
 	}
-	public function consultScheduleUsers()
+
+	public function consultScheduleUsers($id_users)
 	{
-		// $this->load->view('welcome_message');
-		echo "consultScheduleUsers";
-		exit;
+		$this->load->model('SchedulesModel', 'schedulesModel', true);
+		$schedules = $this->schedulesModel->getSchedulesUsers($id_users);
+		$dataSchedules = array(
+			"schedules" => $schedules
+		);
 	}
-	public function updateSchedule()
+
+	public function registerSchedule()
 	{
-		// $this->load->view('welcome_message');
-		echo "updateSchedule";
-		exit;
+		$this->load->model('SchedulesModel', 'schedulesModel', true);
+		$schedules = [];
+		$this->schedulesModel->insert($schedules);
 	}
-	public function deleteSchedule()
+
+	public function updateSchedule($id_schedule)
 	{
-		// $this->load->view('welcome_message');
-		echo "deleteSchedule";
-		exit;
+		$this->load->model('SchedulesModel', 'schedulesModel', true);
+		$schedules = array();
+		$id = $this->schedulesModel->patchSchedules($id_schedule, $schedules);
+		if(is_null($id)) {
+			$this->session->set_flashdata('edit-schedules', 'Erro ao atualizar dados!');
+		}
+		else {
+			$this->session->set_flashdata('edit-schedules', 'Alteração feita com sucesso!');
+		}
+		$msgSchedules = $this->session->set_flashdata('edit-schedules');
+	}
+
+	public function deleteSchedule($id_schedule)
+	{
+		$this->load->model('SchedulesModel', 'schedulesModel', true);
+		$this->schedulesModel->delSchedules($id_schedule);
 	}
 }
