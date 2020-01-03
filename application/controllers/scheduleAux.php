@@ -22,10 +22,37 @@ class ScheduleAux extends CI_Controller {
 		);
 	}
 
+	public function consultScheduleAuxIdSch($id_schedule)
+	{
+		$this->load->model('ScheduleAuxModel', 'scheduleAuxModel', true);
+		$scheduleAux = $this->scheduleAuxModel->getScheduleAuxIdSch($id_schedule);
+		$dataScheduleAux = array(
+			"scheduleAux" => $scheduleAux
+		);
+	}
+
 	public function consultScheduleAuxUsers($id_users)
 	{
 		$this->load->model('ScheduleAuxModel', 'scheduleAuxModel', true);
 		$scheduleAux = $this->scheduleAuxModel->getScheduleAuxUsers($id_users);
+		$dataScheduleAux = array(
+			"scheduleAux" => $scheduleAux
+		);
+	}
+
+	public function consultScheduleAuxProviders($id_providers)
+	{
+		$this->load->model('ScheduleAuxModel', 'scheduleAuxModel', true);
+		$scheduleAux = $this->scheduleAuxModel->getScheduleAuxProviders($id_providers);
+		$dataScheduleAux = array(
+			"scheduleAux" => $scheduleAux
+		);
+	}
+
+	public function consultScheduleAuxService($id_service)
+	{
+		$this->load->model('ScheduleAuxModel', 'scheduleAuxModel', true);
+		$scheduleAux = $this->scheduleAuxModel->getScheduleAuxService($id_service);
 		$dataScheduleAux = array(
 			"scheduleAux" => $scheduleAux
 		);

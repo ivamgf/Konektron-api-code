@@ -22,10 +22,10 @@ class CategoryAux extends CI_Controller {
 		);
 	}
 
-	public function consultCategoryAuxUsers($id_users)
+	public function consultCategoryAuxService($id_service)
 	{
 		$this->load->model('CategoryAuxModel', 'categoryAuxModel', true);
-		$categoryAux = $this->categoryAuxModel->getCategoryAuxUsers($id_users);
+		$categoryAux = $this->categoryAuxModel->getCategoryAuxService($id_service);
 		$dataCategoryAux = array(
 			"categoryAux" => $categoryAux
 		);

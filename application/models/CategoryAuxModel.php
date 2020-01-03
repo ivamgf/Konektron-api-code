@@ -10,8 +10,8 @@
 			return $this->db->get_where('orkney10_konektron_cli.category_aux', array('id_category_aux' => $id_category_aux))->row();
 		}
 
-		public function getCategoryAuxUsers($id_users) {
-			return $this->db->get_where('orkney10_konektron_cli.category_aux', array('id_users' => $id_users))->row();
+		public function getCategoryAuxService($id_service) {
+			return $this->db->get_where('orkney10_konektron_cli.category_aux', array('id_service' => $id_service))->row();
 		}
 
 		public function insertCategoryAux($id_category_aux) {
