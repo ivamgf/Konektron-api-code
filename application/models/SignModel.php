@@ -11,7 +11,10 @@
 		}
 
 		public function signinUser($us_email, $us_password) {
-			return $this->db->get_where('orkney10_konektron_cli.users', array('us_email' => $us_email, 'us_password' => $us_password))->row();
+			$this->db->where("email", $us_email);
+			$this->db->where("password", $us_password);
+			$user = $this->db->get("user")->row_array();
+			return $user;
 		}
 
 		public function getAuthUsers($id_auth) {

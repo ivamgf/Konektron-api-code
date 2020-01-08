@@ -7,26 +7,13 @@ class Sign extends CI_Controller {
 	{
 		$this->load->model('SignModel', 'signModel', true);
 		$signin = $this->signModel->signinUser($us_email, $us_password);
-		if(is_null($signin)) {
-			redirect(base_url(''));
+		if($signin) {
+			$this -> session->set_userdata('usersSession', $signin);
+			// msg success
 		} else {
-			$dataSignin = array(
-				"signin" => $signin
-			);
-	
-			$this->load->model('SignModel', 'signModel', true);
-			$auth = $this->signModel->getAuthUsers($id_auth);
-			$dataAuth = array(
-				"auth" => $auth
-			);
-
-			$session = array(
-				"id" => $signin -> id,
-				"user" => $signin -> user,
-				"email" => $signin -> email
-			);
-			$this -> session->set_userdata('usersSession', $session);
+			// msg danger
 		}
+		// redirect(base_url(''));
 	}
 
 	public function signinProviders()
