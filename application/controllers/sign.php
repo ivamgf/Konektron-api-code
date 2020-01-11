@@ -18,9 +18,15 @@ class Sign extends CI_Controller {
 
 	public function signinProviders()
 	{
-		// $this->load->view('welcome_message');
-		echo "SigninProviders";
-		exit;
+		$this->load->model('SignModel', 'signModel', true);
+		$signinProviders = $this->signModel->signinProviders($pr_email, $pr_password);
+		if($signinProviders) {
+			$this -> session->set_userdata('providerSession', $signinProviders);
+			// msg success
+		} else {
+			// msg danger
+		}
+		// redirect(base_url(''));
 	}
 
 	public function signup()
