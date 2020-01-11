@@ -54,8 +54,10 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 // Routes to Sign Methods
-$route['signin']['POST'] = 'sign/signin';
+$route['signin/(:num)/(:num)']['POST'] = 'sign/signin/$1/$2';
+$route['signinProviders']['POST'] = 'sign/signinProviders';
 $route['signup']['POST'] = 'sign/signup';
+$route['signupProviders']['POST'] = 'sign/signupProviders';
 $route['verify']['POST'] = 'sign/signup';
 $route['forgot']['POST'] = 'sign/forgot';
 $route['contact']['POST'] = 'sign/contact';
