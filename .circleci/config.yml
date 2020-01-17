@@ -30,8 +30,3 @@ jobs:
       # Unit tests
       - store_test_results:
           path: test-results      
-
-      # run tests with phpunit or codecept
-      #- run: ./vendor/bin/phpunit
-      - run: ./vendor/bin/codecept build
-      - run: ./vendor/bin/codecept run
