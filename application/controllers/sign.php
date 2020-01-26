@@ -61,4 +61,12 @@ class Sign extends CI_Controller {
 		echo "Contact";
 		exit;
 	}
+	public function logoutUser()
+	{
+		$this->session->unset_userdata('usersSession');
+	}
+	public function logoutProviders()
+	{
+		$this->session->unset_userdata('providerSession');
+	}
 }

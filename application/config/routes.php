@@ -61,6 +61,8 @@ $route['signupProviders']['POST'] = 'sign/signupProviders';
 $route['verify']['POST'] = 'sign/signup';
 $route['forgot']['POST'] = 'sign/forgot';
 $route['contact']['POST'] = 'sign/contact';
+$route['logoutUser']['GET'] = 'sign/logoutUser';
+$route['logoutProvider']['GET'] = 'sign/providerSession';
 
 // Routes to Address Methods
 $route['consultAddress']['GET'] = 'address/consultAddress';
