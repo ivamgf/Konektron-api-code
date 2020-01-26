@@ -4,10 +4,12 @@
 		
 		public function signup($signup) {
 			$this->db->insert('orkney10_konektron_cli.users', $signup);
+			return $this->db->insert_id();
 		}
 
 		public function signupProviders($signupProviders) {
 			$this->db->insert('orkney10_konektron_cli.providers', $signupProviders);
+			return $this->db->insert_id();
 		}
 
 		public function signinUser($us_email, $us_password) {
