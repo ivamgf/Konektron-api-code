@@ -30,7 +30,7 @@
 			return $this->db->get_where('orkney10_konektron_cli.authorization', array('id_auth' => $id_auth))->row();
 		}
 
-		public function tokenValidForgot($us_email)
+		public function tokenValidForgot($us_email, $token)
 		{
 			$this->db->where($us_email);
 			$this->db->update('orkney10_konektron_cli.users', array('token_forgot' => $token));
