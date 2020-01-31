@@ -9,9 +9,9 @@ class Sign extends CI_Controller {
 		$signin = $this->signModel->signinUser($us_email, $us_password);
 		if($signin) {
 			$this -> session->set_userdata('usersSession', $signin);
-			// msg success
+			$message = 'Login realizado com sucesso!';
 		} else {
-			// msg danger
+			$message = 'Falha ao realizar o login!';
 		}
 		// redirect(base_url(''));
 	}
@@ -22,9 +22,9 @@ class Sign extends CI_Controller {
 		$signinProviders = $this->signModel->signinProviders($pr_email, $pr_password);
 		if($signinProviders) {
 			$this -> session->set_userdata('providerSession', $signinProviders);
-			// msg success
+			$message = 'Login realizado com sucesso!';
 		} else {
-			// msg danger
+			$message = 'Falha ao realizar o login!';
 		}
 		// redirect(base_url(''));
 	}
@@ -49,11 +49,22 @@ class Sign extends CI_Controller {
 		echo "verify";
 		exit;
 	}
-	public function forgot()
+	public function forgot($us_email)
 	{
-		// $this->load->view('welcome_message');
-		echo "Forgot";
-		exit;
+
+		$token = md5($us_email);
+		$tokenValid = $this->usersSession->tokenValidForgot($us_email);
+		if($tokenValid)
+		{
+			$this->load->library('email');	
+			$this->email->from($us_email, 'User');	
+			$this->email->subject('Recuperar Senha');
+			$this->email->message('');			
+			$this->email->send();			
+			echo $this->email->print_debugger();
+			$message = 'Enviamos um e-mail para você poder redefinir a senha!';
+		}	
+		
 	}
 	public function contact()
 	{

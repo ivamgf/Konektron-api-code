@@ -54,15 +54,15 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 // Routes to Sign Methods
-$route['signin/(:num)/(:num)']['POST'] = 'sign/signin/$1/$2';
-$route['signinProviders']['POST'] = 'sign/signinProviders';
+$route['signin/(:any)/(:any)']['POST'] = 'sign/signin/$1/$2';
+$route['signinProviders/(:any)/(:any)']['POST'] = 'sign/signinProviders/$1/$2';
 $route['signup']['POST'] = 'sign/signup';
 $route['signupProviders']['POST'] = 'sign/signupProviders';
-$route['verify']['POST'] = 'sign/signup';
-$route['forgot']['POST'] = 'sign/forgot';
+$route['verify']['POST'] = 'sign/verify';
+$route['forgot/(:any)']['POST'] = 'sign/forgot/$1';
 $route['contact']['POST'] = 'sign/contact';
 $route['logoutUser']['GET'] = 'sign/logoutUser';
-$route['logoutProvider']['GET'] = 'sign/providerSession';
+$route['logoutProvider']['GET'] = 'sign/logoutProviders';
 
 // Routes to Address Methods
 $route['consultAddress']['GET'] = 'address/consultAddress';
