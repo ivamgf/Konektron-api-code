@@ -52,19 +52,28 @@ class Sign extends CI_Controller {
 	public function forgot($us_email)
 	{
 
-		$token = md5($us_email);
-		$tokenValid = $this->usersSession->tokenValidForgot($us_email);
-		if($tokenValid)
-		{
-			$this->load->library('email');	
-			$this->email->from($us_email, 'User');	
-			$this->email->subject('Recuperar Senha');
-			$this->email->message('');			
-			$this->email->send();			
-			echo $this->email->print_debugger();
-			$message = 'Enviamos um e-mail para você poder redefinir a senha!';
-		}	
+		/*
+		$this->load->library('email');	
+		$this->email->from($us_email, 'User');	
+		$this->email->subject('Recuperar Senha');
+		$this->email->message('');			
+		$this->email->send();			
+		echo $this->email->print_debugger();
+		*/			
 		
+	}
+	public function tokenPassword($us_email)
+	{
+		$token = md5(date('YmdHis'), $us_email);
+		$tokenValid = $this->usersSession->tokenValidForgot($us_email, $token);
+		if($tokenValid)
+		{			
+			$message = 'Enviamos um e-mail para você poder redefinir a senha!';
+		} 
+		else 
+		{
+			$message = 'Não existe um usuário cadastrado com este E-mail!';
+		}
 	}
 	public function contact()
 	{

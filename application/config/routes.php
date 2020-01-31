@@ -60,6 +60,7 @@ $route['signup']['POST'] = 'sign/signup';
 $route['signupProviders']['POST'] = 'sign/signupProviders';
 $route['verify']['POST'] = 'sign/verify';
 $route['forgot/(:any)']['POST'] = 'sign/forgot/$1';
+$route['tokenPassword/(:any)']['POST'] = 'sign/tokenPassword/$1';
 $route['contact']['POST'] = 'sign/contact';
 $route['logoutUser']['GET'] = 'sign/logoutUser';
 $route['logoutProvider']['GET'] = 'sign/logoutProviders';
