@@ -40,4 +40,20 @@
 			}
 			return FALSE;
 		}
+
+		public function tokenValidRecover($token)
+		{
+			$user - $this->db->get_where('orkney10_konektron_cli.users', array('token_recover' => $token))->row();
+			return !is_null($user);
+		}
+
+		public function updatePassword($token, $password)
+		{
+			$this->db->where('token_recover', $token);
+			$this->db->update('orkney10_konektron_cli.users', array('password' => $password, 'token_recover' => NULL));
+			if ($this->db->affected_rows() > 0) {
+				return TRUE;
+			}
+			return FALSE;
+		}
 	}

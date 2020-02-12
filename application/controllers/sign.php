@@ -49,6 +49,33 @@ class Sign extends CI_Controller {
 		echo "verify";
 		exit;
 	}
+
+	public function recoverToken($token)
+	{
+		$tokenValidRecover = $this->usersSession->tokenValidRecover($token);
+
+		$data = array(
+			'token' => $token,
+			'tokenValidRecover' => $tokenValidRecover
+		);
+	}
+
+	public function recover($token)
+	{
+		$password = sha1($this->input->post('password'));
+		$newPassword = $this->usersSession->updatePassword($token, $password);
+		if ($newPassword)
+		{
+			$message = 'Senha alterada com sucesso!';
+			redirect(base_url('sign/signin'));
+		}
+		else
+		{
+			$message = 'Erro, não foi possível alterar a senha!';
+			redirect(base_url('sign/recover/{$token}'));
+		}
+	}
+
 	public function forgot($us_email)
 	{
 		// $this->load->library('email');
