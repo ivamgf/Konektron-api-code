@@ -56,4 +56,31 @@
 			}
 			return FALSE;
 		}
+
+		public function tokenValidForgotProviders($pr_email, $token)
+		{
+			$this->db->where($pr_email);
+			$this->db->update('orkney10_konektron_cli.providers', array('token_forgotProviders' => $token));
+			if($this->db->affected_rows() > 0)
+			{
+				return TRUE;
+			}
+			return FALSE;
+		}
+
+		public function tokenValidRecoverProviders($token)
+		{
+			$user - $this->db->get_where('orkney10_konektron_cli.providers', array('token_recoverProviders' => $token))->row();
+			return !is_null($provider);
+		}
+
+		public function updatePasswordProviders($token, $password)
+		{
+			$this->db->where('token_recoverProviders', $token);
+			$this->db->update('orkney10_konektron_cli.providers', array('password' => $password, 'token_recoverProviders' => NULL));
+			if ($this->db->affected_rows() > 0) {
+				return TRUE;
+			}
+			return FALSE;
+		}
 	}
