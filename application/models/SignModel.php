@@ -83,4 +83,24 @@
 			}
 			return FALSE;
 		}
+
+		public function ativationModel($id_users)
+		{
+			$status = true;
+			$this->db->update('orkney10_konektron_cli.users', array('status' => $status));
+			if ($this->db->affected_rows() > 0) {
+				return TRUE;
+			}
+			return FALSE;
+		}
+
+		public function ativationProvidersModel($id_providers)
+		{
+			$status = true;
+			$this->db->update('orkney10_konektron_cli.providers', array('status' => $status));
+			if ($this->db->affected_rows() > 0) {
+				return TRUE;
+			}
+			return FALSE;
+		}
 	}
