@@ -43,18 +43,106 @@ class Sign extends CI_Controller {
 		$this->signModel->insert($signupProviders);
 	}
 
-	public function verify()
+	public function verify($us_email)
 	{
-		// $this->load->view('welcome_message');
-		echo "verify";
-		exit;
+		// Config E-mail
+		$config['protocol'] = 'sendmail';
+		$config['smtp_host'] = 'ssl://orkneytech.com.br';
+		$config['smtp_port'] = 465;
+		$config['smtp_user'] = 'contatos@orkneytech.com.br';
+		$config['smtp_pass'] = 'Orkneytech10106088';
+		$config['smtp_charset'] = 'utf-8';
+		$config['smtp_mailtype'] = 'html';
+		$config['mailpath'] = '/usr/sbin/sendmail';
+		$config['charset'] = 'iso-8859-1';
+		$config['wordwrap'] = TRUE;
+
+		$this->email->initialize($config);
+		// Config E-mail
+
+		// Message E-mail
+		$verify = 'verify';
+		$URL = '';
+		$Title = 'Ativação de conta';
+		$Paragraph_1 = 'Ative sua conta para começar a usar o sistema, <br>';
+		$Paragraph_2 = 'Se não foi você que se registrou, entre em contato conosco, <br>';
+		$paragraph_3 = 'pelo e-mail contatos@orkneytech.com.br <br>';
+		$paragraph_4 = 'Se você se registrou em nosso sistema recentemente, clique no link abaixo. <br>';
+		$link_1 = "<a href='" . base_url("'".$URL."/{".$verify."}'") . "' target='_blank'>". base_url("'".$URL."/{".$verify."}'") ."</a>";
+		$Msg = $Title . $Paragraph_1 . $Paragraph_2 . $paragraph_3 . $paragraph_4 . $link_1;
+		// Message E-mail
+
+		// Send E-mail
+		$this->email->from($config['smtp_user'], 'Konektron');
+		$this->email->to($us_email);
+		$this->email->subject('Recuperação de Senha');
+		$this->email->message($Msg);
+		$this->email->send();			
+		// echo $this->email->print_debugger();
+		// Send E-mail
+		
+		// Message App
+		$message = 'Enviamos um e-mail para você poder redefinir a senha!';
 	}
 
-	public function verifyProviders()
+	public function verifyProviders($us_email)
 	{
-		// $this->load->view('welcome_message');
-		echo "verify";
-		exit;
+		// Config E-mail
+		$config['protocol'] = 'sendmail';
+		$config['smtp_host'] = 'ssl://orkneytech.com.br';
+		$config['smtp_port'] = 465;
+		$config['smtp_user'] = 'contatos@orkneytech.com.br';
+		$config['smtp_pass'] = 'Orkneytech10106088';
+		$config['smtp_charset'] = 'utf-8';
+		$config['smtp_mailtype'] = 'html';
+		$config['mailpath'] = '/usr/sbin/sendmail';
+		$config['charset'] = 'iso-8859-1';
+		$config['wordwrap'] = TRUE;
+
+		$this->email->initialize($config);
+		// Config E-mail
+
+		// Message E-mail
+		$verify = 'verify';
+		$URL = '';
+		$Title = 'Ativação de conta';
+		$Paragraph_1 = 'Ative sua conta para começar a usar o sistema, <br>';
+		$Paragraph_2 = 'Se não foi você que se registrou, entre em contato conosco, <br>';
+		$paragraph_3 = 'pelo e-mail contatos@orkneytech.com.br <br>';
+		$paragraph_4 = 'Se você se registrou em nosso sistema recentemente, clique no link abaixo. <br>';
+		$link_1 = "<a href='" . base_url("'".$URL."/{".$verify."}'") . "' target='_blank'>". base_url("'".$URL."/{".$verify."}'") ."</a>";
+		$Msg = $Title . $Paragraph_1 . $Paragraph_2 . $paragraph_3 . $paragraph_4 . $link_1;
+		// Message E-mail
+
+		// Send E-mail
+		$this->email->from($config['smtp_user'], 'Konektron');
+		$this->email->to($us_email);
+		$this->email->subject('Recuperação de Senha');
+		$this->email->message($Msg);
+		$this->email->send();			
+		// echo $this->email->print_debugger();
+		// Send E-mail
+		
+		// Message App
+		$message = 'Enviamos um e-mail para você poder redefinir a senha!';
+	}
+
+	public function ativation()
+	{
+		// Update for ativation
+		$this->load->model('SignModel', 'signModel', true);
+		$ativation = $this->signModel->ativationModel();
+		$status = $this->input->post('status');
+		$activationStatus = $this->usersSession->ativationModel($id_users);
+	}
+
+	public function ativationProviders()
+	{
+		// Update for ativation
+		$this->load->model('SignModel', 'signModel', true);
+		$ativationProviders = $this->signModel->ativationProvidersModel();
+		$status = $this->input->post('status');
+		$activationProvidersStatus = $this->providerSession->ativationProvidersModel($id_providers);
 	}
 
 	public function recoverToken($token)
@@ -215,11 +303,40 @@ class Sign extends CI_Controller {
 		
 	}
 
-	public function contact()
+	public function contact($Message)
 	{
-		// $this->load->view('welcome_message');
-		echo "Contact";
-		exit;
+		// Config E-mail
+		$config['protocol'] = 'sendmail';
+		$config['smtp_host'] = 'ssl://orkneytech.com.br';
+		$config['smtp_port'] = 465;
+		$config['smtp_user'] = 'contatos@orkneytech.com.br';
+		$config['smtp_pass'] = 'Orkneytech10106088';
+		$config['smtp_charset'] = 'utf-8';
+		$config['smtp_mailtype'] = 'html';
+		$config['mailpath'] = '/usr/sbin/sendmail';
+		$config['charset'] = 'iso-8859-1';
+		$config['wordwrap'] = TRUE;
+
+		$this->email->initialize($config);
+		// Config E-mail
+
+		// Message E-mail
+		$URL = '';
+		$Title = 'Mensagem de cliente';
+		$Msg = $Title . $Message;
+		// Message E-mail
+
+		// Send E-mail
+		$this->email->from($config['smtp_user'], 'Konektron');
+		$this->email->to('contatos@orkneytech.com.br');
+		$this->email->subject('Mensagem de cliente');
+		$this->email->message($Msg);
+		$this->email->send();			
+		// echo $this->email->print_debugger();
+		// Send E-mail
+		
+		// Message App
+		$message = 'Enviamos um e-mail para você poder redefinir a senha!';
 	}
 
 	public function logoutUser()
