@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Sign extends CI_Controller {
 	
 	public function signin($us_email, $us_password)
@@ -13,10 +12,19 @@ class Sign extends CI_Controller {
 		} else {
 			$message = 'Falha ao realizar o login!';
 		}
-		// redirect(base_url(''));
+		return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(
+                json_encode(
+                    [
+                        'msg' => $message,
+                    ]
+                )
+            );
 	}
 
-	public function signinProviders()
+	public function signinProviders($pr_email, $pr_password)
 	{
 		$this->load->model('SignModel', 'signModel', true);
 		$signinProviders = $this->signModel->signinProviders($pr_email, $pr_password);
@@ -26,7 +34,16 @@ class Sign extends CI_Controller {
 		} else {
 			$message = 'Falha ao realizar o login!';
 		}
-		// redirect(base_url(''));
+		return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(
+                json_encode(
+                    [
+                        'msg' => $message,
+                    ]
+                )
+            );
 	}
 
 	public function signup()

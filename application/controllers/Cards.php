@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class CardsModel extends CI_Controller {
+class Cards extends CI_Controller {
 	
 	public function consultCards()
 	{
