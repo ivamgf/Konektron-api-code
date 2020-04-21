@@ -16,20 +16,18 @@
 
 		public function insertProfile($profile) {
 			$this->db->insert('orkney10_konektron_cli.profiles', $profile);
+			return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
 		}
 
 		public function patchProfile($id_profile, $profile) {
 			$this->db->where('id_profile', $id_profile);
 			$this->db->update('orkney10_konektron_cli.profiles', $profile);
-
-			if($this->db->affected_rows() > 0) {
-				return $id_profile;
-			} 
-			return NULL;
+			return $this->db->affected_rows() > 0;
 		}
 
 		public function delProfile($id_profile) {
 			$this->db->where('id_profile', $id_profile);
 			$this->db->delete('orkney10_konektron_cli.profiles');
+			return $this->db->affected_rows() > 0;
 		}
 	}

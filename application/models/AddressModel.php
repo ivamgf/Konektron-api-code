@@ -16,20 +16,18 @@
 
 		public function insertAddress($address) {
 			$this->db->insert('orkney10_konektron_cli.address', $address);
+			return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
 		}
 
 		public function patchAddress($id_address, $address) {
 			$this->db->where('id_address', $id_address);
 			$this->db->update('orkney10_konektron_cli.address', $address);
-
-			if($this->db->affected_rows() > 0) {
-				return $id_address;
-			} 
-			return NULL;
+			return $this->db->affected_rows() > 0;
 		}
 
 		public function delAddress($id_address) {
 			$this->db->where('id_address', $id_address);
 			$this->db->delete('orkney10_konektron_cli.address');
+			return $this->db->affected_rows() > 0;
 		}
 	}

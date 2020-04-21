@@ -14,7 +14,7 @@ class SignModel extends CI_Model
     public function signinUser($us_email, $us_password) {
         $this->db->where("us_email", $us_email);
         $this->db->where("us_password", $us_password);
-        $user = $this->db->get("users")->row_array();
+		$user = $this->db->get("users")->row_array();
         return $user;
     }
     public function signinProviders($pr_email, $pr_password) {
@@ -41,7 +41,7 @@ class SignModel extends CI_Model
 
     public function tokenValidRecover($token)
     {
-        $user - $this->db->get_where('orkney10_konektron_cli.users', array('token_recover' => $token))->row();
+        $user = $this->db->get_where('orkney10_konektron_cli.users', array('token_recover' => $token))->row();
         return !is_null($user);
     }
     public function updatePassword($token, $password)

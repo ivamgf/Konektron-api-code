@@ -7,10 +7,17 @@ class Schedule extends CI_Controller {
 	{
 		$this->load->model('ScheduleModel', 'scheduleModel', true);
 		$list_schedule = $this->scheduleModel->getSchedule();
-
-		$dataSchedule = array(
-			"list_schedule" => $list_schedule
-		);
+		
+		return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(
+                json_encode(
+                    [
+						"list_schedule" => $list_schedule
+                    ]
+                )
+            );
 	}
 
 	public function consultScheduleId($id_schedule)

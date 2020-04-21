@@ -6,8 +6,8 @@
 			return $this->db->get('orkney10_konektron_cli.orders')->result();
 		}
 
-		public function getOrdersId($id_orders) {
-			return $this->db->get_where('orkney10_konektron_cli.orders', array('id_orders' => $id_orders))->row();
+		public function getOrdersId($id_order) {
+			return $this->db->get_where('orkney10_konektron_cli.orders', array('id_order' => $id_order))->row();
 		}
 
 		public function getOrdersUsers($id_users) {
@@ -16,20 +16,18 @@
 
 		public function insertOrders($orders) {
 			$this->db->insert('orkney10_konektron_cli.orders', $orders);
+			return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
 		}
 
-		public function patchOrders($id_orders, $orders) {
-			$this->db->where('id_orders', $id_orders);
+		public function patchOrders($id_order, $orders) {
+			$this->db->where('id_order', $id_order);
 			$this->db->update('orkney10_konektron_cli.orders', $orders);
-
-			if($this->db->affected_rows() > 0) {
-				return $id_orders;
-			} 
-			return NULL;
+			return $this->db->affected_rows() > 0;
 		}
 
-		public function delOrders($id_orders) {
-			$this->db->where('id_orders', $id_orders);
+		public function delOrders($id_order) {
+			$this->db->where('id_order', $id_order);
 			$this->db->delete('orkney10_konektron_cli.orders');
+			return $this->db->affected_rows() > 0;
 		}
 	}

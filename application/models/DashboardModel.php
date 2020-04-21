@@ -2,7 +2,7 @@
 
 	class DashboardModel extends CI_Model {
 		
-		public function getAdmin($id_admin) {
+		public function getAdmins() {
 			return $this->db->get('orkney10_konektron_cli.admin')->result();
 		}
 

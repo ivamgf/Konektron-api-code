@@ -12,20 +12,18 @@
 
 		public function insertCategory($category) {
 			$this->db->insert('orkney10_konektron_cli.category', $category);
+			return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
 		}
 
 		public function patchCategory($id_category, $category) {
 			$this->db->where('id_category', $id_category);
 			$this->db->update('orkney10_konektron_cli.category', $category);
-
-			if($this->db->affected_rows() > 0) {
-				return $id_category;
-			} 
-			return NULL;
+			return $this->db->affected_rows() > 0;
 		}
 
 		public function delCategory($id_category) {
 			$this->db->where('id_category', $id_category);
 			$this->db->delete('orkney10_konektron_cli.category');
+			return $this->db->affected_rows() > 0;
 		}
 	}

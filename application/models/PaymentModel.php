@@ -16,20 +16,18 @@
 
 		public function insertPayment($payment) {
 			$this->db->insert('orkney10_konektron_cli.payment', $payment);
+			return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
 		}
 
 		public function patchPayment($id_payment, $payment) {
 			$this->db->where('id_payment', $id_payment);
 			$this->db->update('orkney10_konektron_cli.payment', $payment);
-
-			if($this->db->affected_rows() > 0) {
-				return $id_payment;
-			} 
-			return NULL;
+			return $this->db->affected_rows() > 0;
 		}
-
+		
 		public function delPayment($id_payment) {
 			$this->db->where('id_payment', $id_payment);
 			$this->db->delete('orkney10_konektron_cli.payment');
+			return $this->db->affected_rows() > 0;
 		}
 	}
