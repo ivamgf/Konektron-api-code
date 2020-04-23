@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migrate extends CI_Controller
+class Migrate extends MY_Controller
 {
 
     public function index()

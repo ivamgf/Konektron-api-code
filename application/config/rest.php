@@ -110,7 +110,7 @@ $config['rest_realm'] = 'Konektron REST API';
 |           authorization key
 |
 */
-$config['rest_auth'] = 'basic';
+$config['rest_auth'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -179,7 +179,7 @@ $config['auth_library_function'] = '';
 | Acceptable values are; 'none', 'digest' and 'basic'.
 |
 */
-$config['auth_override_class_method']['address']['consultAddress'] = 'none';
+$config['auth_override_class_method']['api']['users'] = 'none';
 // $config['auth_override_class_method']['deals']['insert'] = 'digest';
 // $config['auth_override_class_method']['accounts']['user'] = 'basic';
 // $config['auth_override_class_method']['dashboard']['*'] = 'basic';
