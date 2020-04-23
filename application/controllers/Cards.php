@@ -45,32 +45,34 @@ class Cards extends MY_Controller {
     public function registerCards()
     {
         $this->load->model('CardsModel', 'cardsModel', true);
-        $cards = (array)json_decode($this->input->raw_input_stream);
-        $cards['ca_created'] = date('Y-m-d H:i:s');
-        $cards['ca_modified'] = date('Y-m-d H:i:s');
-        $id = $this->cardsModel->insertCards($cards);
-        $status_code = !empty($id) ? 201 : 400;
-        
-        $this->response(
-            [
-                "id_cards" => $id
-            ],
-            $status_code
-        );
+        if ($cards = $this->getData()) {
+            $cards->ca_created = date('Y-m-d H:i:s');
+            $cards->ca_modified = date('Y-m-d H:i:s');
+            $id = $this->cardsModel->insertCards($cards);
+            $status_code = !empty($id) ? 201 : 400;
+            
+            $this->response(
+                [
+                    "id_cards" => $id
+                ],
+                $status_code
+            );
+        }
     }
 
     public function updateCards($id_cards)
     {
         $this->load->model('CardsModel', 'cardsModel', true);
-        $cards = (array)json_decode($this->input->raw_input_stream);
-        $cards['ca_modified'] = date('Y-m-d H:i:s');
-        $updated = $this->cardsModel->patchCards($id_cards, $cards);
-        $status_code = $updated ? 204 : 400;
-        
-        $this->response(
-            null,
-            $status_code
-        );
+        if ($cards = $this->getData()) {
+            $cards->ca_modified = date('Y-m-d H:i:s');
+            $updated = $this->cardsModel->patchCards($id_cards, $cards);
+            $status_code = $updated ? 204 : 400;
+            
+            $this->response(
+                null,
+                $status_code
+            );
+        }
     }
 
     public function deleteCards($id_cards)

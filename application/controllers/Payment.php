@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Payment extends MY_Controller {
-        
+
     public function consultPayment()
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
@@ -20,7 +20,7 @@ class Payment extends MY_Controller {
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
         $payment = $this->paymentModel->getPaymentId($id_payment);
-        
+
         $this->response(
             [
                 "payment" => $payment
@@ -33,7 +33,7 @@ class Payment extends MY_Controller {
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
         $payment = $this->paymentModel->getPaymentUsers($id_users);
-        
+
         $this->response(
             [
                 "payment" => $payment
@@ -45,32 +45,34 @@ class Payment extends MY_Controller {
     public function registerPayment()
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
-        $payment = (array)json_decode($this->input->raw_input_stream);
-        $payment['pa_created'] = date('Y-m-d H:i:s');
-        $payment['pa_modified'] = date('Y-m-d H:i:s');
-        $id = $this->paymentModel->insertPayment($payment);
-        $status_code = !empty($id) ? 201 : 400;
+        if ($payment = $this->getData()) {
+            $payment->pa_created = date('Y-m-d H:i:s');
+            $payment->pa_modified = date('Y-m-d H:i:s');
+            $id = $this->paymentModel->insertPayment($payment);
+            $status_code = !empty($id) ? 201 : 400;
 
-        $this->response(
-            [
-                'id_payment' => $id
-            ],
-            $status_code
-        );
+            $this->response(
+                [
+                    'id_payment' => $id
+                ],
+                $status_code
+            );
+        }
     }
 
     public function updatePayment($id_payment)
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
-        $payment = (array)json_decode($this->input->raw_input_stream);
-        $payment['pa_modified'] = date('Y-m-d H:i:s');
-        $updated = $this->paymentModel->patchPayment($id_payment, $payment);
-        $status_code = $updated ? 204 : 400;
+        if ($payment = $this->getData()) {
+            $payment->pa_modified = date('Y-m-d H:i:s');
+            $updated = $this->paymentModel->patchPayment($id_payment, $payment);
+            $status_code = $updated ? 204 : 400;
 
-        $this->response(
-            null,
-            $status_code
-        );
+            $this->response(
+                null,
+                $status_code
+            );
+        }
     }
 
     public function deletePayment($id_payment)

@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Logs extends MY_Controller {
-        
+
     public function consultLogs()
     {
         $this->load->model('LogsModel', 'logsModel', true);
@@ -32,17 +32,18 @@ class Logs extends MY_Controller {
     public function registerLogs()
     {
         $this->load->model('LogsModel', 'logsModel', true);
-        $logs = (array)json_decode($this->input->raw_input_stream);
-        $logs['lo_created'] = date('Y-m-d H:i:s');
-        $logs['lo_modified'] = date('Y-m-d H:i:s');
-        $id = $this->logsModel->insertLogs($logs);
-        $status_code = !empty($id) ? 201 : 400;
+        if ($logs = $this->getData()) {
+            $logs->lo_created = date('Y-m-d H:i:s');
+            $logs->lo_modified = date('Y-m-d H:i:s');
+            $id = $this->logsModel->insertLogs($logs);
+            $status_code = !empty($id) ? 201 : 400;
 
-        $this->response(
-            [
-                "id_log" => $id
-            ],
-            $status_code
-        );
+            $this->response(
+                [
+                    "id_log" => $id
+                ],
+                $status_code
+            );
+        }
     }
 }

@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Orders extends MY_Controller {
-        
+
     public function consultOrder()
     {
         $this->load->model('OrdersModel', 'ordersModel', true);
@@ -20,7 +20,7 @@ class Orders extends MY_Controller {
     {
         $this->load->model('OrdersModel', 'ordersModel', true);
         $orders = $this->ordersModel->getOrdersId($id_order);
-        
+
         $this->response(
             [
                 "orders" => $orders
@@ -33,7 +33,7 @@ class Orders extends MY_Controller {
     {
         $this->load->model('OrdersModel', 'ordersModel', true);
         $orders = $this->ordersModel->getOrdersUsers($id_users);
-        
+
         $this->response(
             [
                 "orders" => $orders
@@ -45,32 +45,34 @@ class Orders extends MY_Controller {
     public function registerOrder()
     {
         $this->load->model('OrdersModel', 'ordersModel', true);
-        $orders = (array)json_decode($this->input->raw_input_stream);
-        $orders['or_created'] = date('Y-m-d H:i:s');
-        $orders['or_modified'] = date('Y-m-d H:i:s');
-        $id = $this->ordersModel->insertOrders($orders);
-        $status_code = !empty($id) ? 201 : 400;
+        if ($orders = $this->getData()) {
+            $orders->or_created = date('Y-m-d H:i:s');
+            $orders->or_modified = date('Y-m-d H:i:s');
+            $id = $this->ordersModel->insertOrders($orders);
+            $status_code = !empty($id) ? 201 : 400;
 
-        $this->response(
-            [
-                'id_order' => $id
-            ],
-            $status_code
-        );
+            $this->response(
+                [
+                    'id_order' => $id
+                ],
+                $status_code
+            );
+        }
     }
 
     public function updateOrder($id_order)
     {
         $this->load->model('OrdersModel', 'ordersModel', true);
-        $orders = (array)json_decode($this->input->raw_input_stream);
-        $orders['or_modified'] = date('Y-m-d H:i:s');
-        $updated = $this->ordersModel->patchOrders($id_order, $orders);
-        $status_code = $updated ? 204 : 400;
+        if ($orders = $this->getData()) {
+            $orders->or_modified = date('Y-m-d H:i:s');
+            $updated = $this->ordersModel->patchOrders($id_order, $orders);
+            $status_code = $updated ? 204 : 400;
 
-        $this->response(
-            null,
-            $status_code
-        );
+            $this->response(
+                null,
+                $status_code
+            );
+        }
     }
 
     public function deleteOrder($id_order)

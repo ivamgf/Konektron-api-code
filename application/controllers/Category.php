@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Category extends MY_Controller {
-    
+
     public function consultCategory()
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
@@ -19,7 +19,7 @@ class Category extends MY_Controller {
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
         $category = $this->categoryModel->getCategoryId($id_category);
-        
+
         $this->response(
             [
                 "category" => $category
@@ -30,31 +30,33 @@ class Category extends MY_Controller {
     public function registerCategory()
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
-        $category = (array)json_decode($this->input->raw_input_stream);
-        $category['ct_created'] = date('Y-m-d H:i:s');
-        $category['ct_modified'] = date('Y-m-d H:i:s');
-        $id = $this->categoryModel->insertCategory($category);
-        $status_code = !empty($id) ? 201 : 400;
+        if ($category = $this->getData()) {
+            $category->ct_created = date('Y-m-d H:i:s');
+            $category->ct_modified = date('Y-m-d H:i:s');
+            $id = $this->categoryModel->insertCategory($category);
+            $status_code = !empty($id) ? 201 : 400;
 
-        $this->response(
-            [
-                "id_category" => $id
-            ],
-            $status_code
-        );
+            $this->response(
+                [
+                    "id_category" => $id
+                ],
+                $status_code
+            );
+        }
     }
     public function updateCategory($id_category)
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
-        $category = (array)json_decode($this->input->raw_input_stream);
-        $category['ct_modified'] = date('Y-m-d H:i:s');
-        $updated = $this->categoryModel->patchCategory($id_category, $category);
-        $status_code = $updated ? 204 : 400;
+        if ($category = $this->getData()) {
+            $category->ct_modified = date('Y-m-d H:i:s');
+            $updated = $this->categoryModel->patchCategory($id_category, $category);
+            $status_code = $updated ? 204 : 400;
 
-        $this->response(
-            null,
-            $status_code
-        );
+            $this->response(
+                null,
+                $status_code
+            );
+        }
     }
     public function deleteCategory($id_category)
     {

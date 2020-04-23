@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Profile extends MY_Controller {
-        
+
     public function consultProfile()
     {
         $this->load->model('ProfileModel', 'profileModel', true);
@@ -33,7 +33,7 @@ class Profile extends MY_Controller {
     {
         $this->load->model('ProfileModel', 'profileModel', true);
         $profile = $this->profileModel->getProfileUsers($id_users);
-        
+
         $this->response(
             [
                 "profile" => $profile
@@ -45,32 +45,34 @@ class Profile extends MY_Controller {
     public function registerProfile()
     {
         $this->load->model('ProfileModel', 'profileModel', true);
-        $profile = (array)json_decode($this->input->raw_input_stream);
-        $profile['pf_created'] = date('Y-m-d H:i:s');
-        $profile['pf_modified'] = date('Y-m-d H:i:s');
-        $id = $this->profileModel->insertProfile($profile);
-        $status_code = !empty($id) ? 201 : 400;
+        if ($profile = $this->getData()) {
+            $profile->pf_created = date('Y-m-d H:i:s');
+            $profile->pf_modified = date('Y-m-d H:i:s');
+            $id = $this->profileModel->insertProfile($profile);
+            $status_code = !empty($id) ? 201 : 400;
 
-        $this->response(
-            [
-                "id_profile" => $id
-            ],
-            $status_code
-        );
+            $this->response(
+                [
+                    "id_profile" => $id
+                ],
+                $status_code
+            );
+        }
     }
 
     public function updateProfile($id_profile)
     {
         $this->load->model('ProfileModel', 'profileModel', true);
-        $profile = (array)json_decode($this->input->raw_input_stream);
-        $profile['pf_modified'] = date('Y-m-d H:i:s');
-        $updated = $this->profileModel->patchProfile($id_profile, $profile);
-        $status_code = $updated ? 204 : 400;
+        if ($profile = $this->getData()) {
+            $profile->pf_modified = date('Y-m-d H:i:s');
+            $updated = $this->profileModel->patchProfile($id_profile, $profile);
+            $status_code = $updated ? 204 : 400;
 
-        $this->response(
-            null,
-            $status_code
-        );
+            $this->response(
+                null,
+                $status_code
+            );
+        }
     }
 
     public function deleteProfile($id_profile)

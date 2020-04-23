@@ -4,68 +4,80 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-class Sign extends CI_Controller 
+class Sign extends CI_Controller
 {
 
     public function signin()
     {
         $this->load->model('SignModel', 'signModel', true);
-        $input = (array)json_decode($this->input->raw_input_stream);
-        $signin = $this->signModel->signinUser($input['us_email'], $input['us_password']);
-        
-        $output = !empty($signin['us_token'])
-            ? json_encode([ 'us_token' => $signin['us_token']])
-            : null;
-        
-        $status_code = $output ? 200 : 403;
+        if ($input = $this->getData()) {
+            $signin = $this->signModel->signinUser(
+                $input->us_email,
+                $input->us_password
+            );
 
-        return $this->output
-            ->set_content_type('application/json')
-            ->set_status_header($status_code)
-            ->set_output($output);
+            $output = !empty($signin['us_token'])
+                ? [ 'us_token' => $signin['us_token']]
+                : null;
+
+            $status_code = $output ? 200 : 403;
+
+            $this->response(
+                $output,
+                $status_code
+            );
+        }
     }
-    
+
     public function signinProviders()
     {
         $this->load->model('SignModel', 'signModel', true);
-        $input = (array)json_decode($this->input->raw_input_stream);
-        $signinProviders = $this->signModel->signinProviders($input['pr_email'], $input['pr_password']);
-        $output = !empty($signinProviders['pr_token'])
-            ? json_encode([ 'pr_token' => $signinProviders['pr_token']])
-            : null;
-        
-        $status_code = $output ? 200 : 403;
+        if ($input = $this->getData()) {
+            $signinProviders = $this->signModel->signinProviders(
+                $input->pr_email,
+                $input->pr_password
+            );
+            $output = !empty($signinProviders['pr_token'])
+                ? [ 'pr_token' => $signinProviders['pr_token']]
+                : null;
 
-        return $this->output
-            ->set_content_type('application/json')
-            ->set_status_header($status_code)
-            ->set_output($output);
+            $status_code = $output ? 200 : 403;
+
+            $this->response(
+                $output,
+                $status_code
+            );
+        }
     }
 
     public function signup()
     {
         $this->load->model('SignModel', 'signModel', true);
-        $signup = (array)json_decode($this->input->raw_input_stream);
-        $signup['us_created'] = date('Y-m-d H:i:s');
-        $signup['us_modified'] = date('Y-m-d H:i:s');
-        $this->signModel->db->insert('users', $signup);
+        if ($signup = $this->getData()) {
+            $signup->us_created = date('Y-m-d H:i:s');
+            $signup->us_modified = date('Y-m-d H:i:s');
+            $this->signModel->db->insert('users', $signup);
 
-        return $this->output
-            ->set_content_type('application/json')
-            ->set_status_header(200);
+            $this->response(
+                null,
+                200
+            );
+        }
     }
 
     public function signupProviders()
     {
         $this->load->model('SignModel', 'signModel', true);
-        $signupProviders = (array)json_decode($this->input->raw_input_stream);
-        $signupProviders['pr_created'] = date('Y-m-d H:i:s');
-        $signupProviders['pr_modified'] = date('Y-m-d H:i:s');
-        $this->signModel->db->insert('providers', $signupProviders);
+        if ($signupProviders = $this->getData()) {
+            $signupProviders->pr_created = date('Y-m-d H:i:s');
+            $signupProviders->pr_modified = date('Y-m-d H:i:s');
+            $this->signModel->db->insert('providers', $signupProviders);
 
-        return $this->output
-            ->set_content_type('application/json')
-            ->set_status_header(200);
+            $this->response(
+                null,
+                200
+            );
+        }
     }
 
     public function verify()
@@ -93,7 +105,7 @@ class Sign extends CI_Controller
                         'msg' => $msg
                     ]
                 );
-                
+
                 // var_dump($email->send());
                 // var_dump($email->ErrorInfo);
                 // die;
@@ -151,7 +163,7 @@ class Sign extends CI_Controller
                         'msg' => $msg
                     ]
                 );
-                
+
                 // var_dump($email->send());
                 // var_dump($email->ErrorInfo);
                 // die;
@@ -189,7 +201,7 @@ class Sign extends CI_Controller
         // Update for ativation
         $this->load->model('SignModel', 'signModel', true);
         $active = $this->signModel->activationModel($us_token);
-        
+
         $status_code = $active ? 200 : 400;
 
         return $this->output
@@ -202,7 +214,7 @@ class Sign extends CI_Controller
         // Update for ativation
         $this->load->model('SignModel', 'signModel', true);
         $active = $this->signModel->activationProvidersModel($pr_token);
-        
+
         $status_code = $active ? 200 : 400;
 
         return $this->output
@@ -215,7 +227,7 @@ class Sign extends CI_Controller
         $this->load->model('SignModel', 'signModel', true);
         $tokenValidRecover = $this->signModel->tokenValidRecover($token);
 
-        $output = !empty($tokenValidRecover) 
+        $output = !empty($tokenValidRecover)
             ? json_encode([ 'token' => $token, 'tokenValidRecover' => $tokenValidRecover])
             : null;
         $status_code = $output ? 200 : 400;
@@ -225,13 +237,13 @@ class Sign extends CI_Controller
             ->set_status_header($status_code)
             ->set_output($output);
 	}
-	
+
 	public function recoverTokenProviders($token)
     {
         $this->load->model('SignModel', 'signModel', true);
         $tokenValidRecoverproviders = $this->signModel->tokenValidRecoverProviders($token);
 
-        $output = !empty($tokenValidRecoverproviders) 
+        $output = !empty($tokenValidRecoverproviders)
             ? json_encode([ 'token' => $token, 'tokenValidRecoverProviders' => $tokenValidRecoverproviders])
             : null;
         $status_code = $output ? 200 : 400;
@@ -249,7 +261,7 @@ class Sign extends CI_Controller
         $input = (array)json_decode($this->input->raw_input_stream);
         $token = md5(time().$input['us_email']);
         $tokenUpdated = $this->signModel->tokenForgotUpdate($input['us_email'], $token);
-        
+
         // Message E-mail
         if ($tokenUpdated) {
             // Message E-mail
@@ -268,7 +280,7 @@ class Sign extends CI_Controller
                     'msg' => $msg
                 ]
             );
-            
+
             // var_dump($email->send());
             // var_dump($email->ErrorInfo);
             // die;
@@ -296,13 +308,13 @@ class Sign extends CI_Controller
                 )
             );
     }
-    
+
     public function recover($token)
     {
         $this->load->model('SignModel', 'signModel', true);
         $tokenValidForgot = $this->signModel->tokenValidForgot($token);
 
-        $output = !empty($tokenValidForgot) 
+        $output = !empty($tokenValidForgot)
             ? json_encode([ 'token' => $token, 'tokenValidForgot' => $tokenValidForgot])
             : null;
         $status_code = $output ? 200 : 400;
@@ -314,13 +326,13 @@ class Sign extends CI_Controller
     }
 
     public function forgotProviders()
-    {               
+    {
         $this->load->helper('url');
         $this->load->model('SignModel', 'signModel', true);
         $input = (array)json_decode($this->input->raw_input_stream);
         $token = md5(time().$input['pr_email']);
         $tokenUpdated = $this->signModel->tokenForgotProvidersUpdate($input['pr_email'], $token);
-        
+
         // Message E-mail
         if ($tokenUpdated) {
             // Message E-mail
@@ -339,7 +351,7 @@ class Sign extends CI_Controller
                     'msg' => $msg
                 ]
             );
-            
+
             // var_dump($email->send());
             // var_dump($email->ErrorInfo);
             // die;
@@ -367,13 +379,13 @@ class Sign extends CI_Controller
                 )
             );
 	}
-	
+
 	public function recoverProviders($token)
     {
         $this->load->model('SignModel', 'signModel', true);
         $tokenValidForgot = $this->signModel->tokenValidForgotProviders($token);
 
-        $output = !empty($tokenValidForgot) 
+        $output = !empty($tokenValidForgot)
             ? json_encode([ 'token' => $token, 'tokenValidForgot' => $tokenValidForgot])
             : null;
         $status_code = $output ? 200 : 400;
@@ -388,7 +400,7 @@ class Sign extends CI_Controller
     {
 		$this->load->helper('url');
         $this->load->model('SignModel', 'signModel', true);
-        $input = (array)json_decode($this->input->raw_input_stream);  
+        $input = (array)json_decode($this->input->raw_input_stream);
         // Message E-mail
         if (!empty($input['mensagem'])) {
             // Message E-mail
@@ -404,7 +416,7 @@ class Sign extends CI_Controller
                     'msg' => $msg
                 ]
             );
-            
+
             // var_dump($email->send());
             // var_dump($email->ErrorInfo);
             // die;
@@ -473,7 +485,7 @@ class Sign extends CI_Controller
             'subject' => null,
             'msg' => null
         ]
-    ) 
+    )
     {
         $config = $this->_emailConfig();
         // var_dump($config);die;
@@ -485,7 +497,7 @@ class Sign extends CI_Controller
         $this->email->to($mail['to']);
         $this->email->subject($mail['subject']);
         $this->email->message($mail['msg']);
-        
+
         return $this->email;
     }
 
@@ -523,7 +535,7 @@ class Sign extends CI_Controller
         $mail->Subject = $setting['subject'];
         $mail->msgHTML($setting['msg']);
         $mail->AltBody = $setting['msg'];
-    
+
         // var_dump($mail->send());
         // var_dump($mail->ErrorInfo);
         return $mail;
