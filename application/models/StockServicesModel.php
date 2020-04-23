@@ -12,20 +12,18 @@
 
 		public function insertStockServices($stockServices) {
 			$this->db->insert('orkney10_konektron_cli.services', $stockServices);
+			return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
 		}
 
 		public function patchStockServices($id_service, $stockServices) {
 			$this->db->where('id_service', $id_service);
 			$this->db->update('orkney10_konektron_cli.services', $stockServices);
-
-			if($this->db->affected_rows() > 0) {
-				return $id_service;
-			} 
-			return NULL;
+			return $this->db->affected_rows() > 0;
 		}
 
 		public function delStockServices($id_service) {
 			$this->db->where('id_service', $id_service);
 			$this->db->delete('orkney10_konektron_cli.services');
+			return $this->db->affected_rows() > 0;
 		}
 	}

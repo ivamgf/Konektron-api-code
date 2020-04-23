@@ -16,20 +16,18 @@
 
 		public function insertSchedule($schedule) {
 			$this->db->insert('orkney10_konektron_cli.schedule', $schedule);
+			return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
 		}
 
 		public function patchSchedule($id_schedule, $schedule) {
 			$this->db->where('id_schedule', $id_schedule);
 			$this->db->update('orkney10_konektron_cli.schedule', $schedule);
-
-			if($this->db->affected_rows() > 0) {
-				return $id_schedule;
-			} 
-			return NULL;
+			return $this->db->affected_rows() > 0;
 		}
 
 		public function delSchedule($id_schedule) {
 			$this->db->where('id_schedule', $id_schedule);
 			$this->db->delete('orkney10_konektron_cli.schedule');
+			return $this->db->affected_rows() > 0;
 		}
 	}

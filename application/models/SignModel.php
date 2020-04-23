@@ -14,12 +14,15 @@ class SignModel extends CI_Model
     public function signinUser($us_email, $us_password) {
         $this->db->where("us_email", $us_email);
         $this->db->where("us_password", $us_password);
-		$user = $this->db->get("users")->row_array();
+        $this->db->where("us_status", "active");
+        $user = $this->db->get("users")->row_array();
         return $user;
     }
+    
     public function signinProviders($pr_email, $pr_password) {
         $this->db->where("pr_email", $pr_email);
         $this->db->where("pr_password", $pr_password);
+        $this->db->where("pr_status", "active");
         $provider = $this->db->get("providers")->row_array();
         return $provider;
     }
@@ -27,22 +30,46 @@ class SignModel extends CI_Model
     public function getAuthUsers($id_auth) {
         return $this->db->get_where('orkney10_konektron_cli.authorization', array('id_auth' => $id_auth))->row();
     }
+    
+    public function verify($us_email) 
+    {
+        $this->db->where("us_email", $us_email);
+        $user = $this->db->get("users")->row_array();
+        return $user;
+    }
+    
+    public function verifyProviders($pr_email) 
+    {
+        $this->db->where("pr_email", $pr_email);
+        $provider = $this->db->get("providers")->row_array();
+        return $provider;
+    }
+
+    public function tokenValidActive($us_email, $token)
+    {
+        $this->db->where('us_email', $us_email);
+        $this->db->update('orkney10_konektron_cli.users', array('us_token' => $token));
+        return $this->db->affected_rows() > 0;
+    }
+    
+    public function tokenValidProviderActive($pr_email, $token)
+    {
+        $this->db->where('pr_email', $pr_email);
+        $this->db->update('orkney10_konektron_cli.providers', array('pr_token' => $token));
+        return $this->db->affected_rows() > 0;
+    }
 
     public function tokenValidForgot($us_email, $token)
     {
         $this->db->where($us_email);
-        $this->db->update('orkney10_konektron_cli.users', array('token_forgot' => $token));
-        if($this->db->affected_rows() > 0)
-        {
-            return TRUE;
-        }
-        return FALSE;
+        $this->db->update('orkney10_konektron_cli.users', array('us_token_forgot' => $token));
+        return $this->db->affected_rows() > 0;
     }
 
     public function tokenValidRecover($token)
     {
-        $user = $this->db->get_where('orkney10_konektron_cli.users', array('token_recover' => $token))->row();
-        return !is_null($user);
+        $user = $this->db->get_where('orkney10_konektron_cli.users', array('us_token' => $token))->row();
+        return !empty($user);
     }
     public function updatePassword($token, $password)
     {
@@ -67,8 +94,8 @@ class SignModel extends CI_Model
 
     public function tokenValidRecoverProviders($token)
     {
-        $user - $this->db->get_where('orkney10_konektron_cli.providers', array('token_recoverProviders' => $token))->row();
-        return !is_null($provider);
+        $provider = $this->db->get_where('orkney10_konektron_cli.providers', array('pr_token' => $token))->row();
+        return !empty($provider);
     }
 
     public function updatePasswordProviders($token, $password)
@@ -81,23 +108,17 @@ class SignModel extends CI_Model
         return FALSE;
     }
 
-    public function ativationModel($id_users)
+    public function activationModel($us_token)
     {
-        $status = true;
-        $this->db->update('orkney10_konektron_cli.users', array('status' => $status));
-        if ($this->db->affected_rows() > 0) {
-            return TRUE;
-        }
-        return FALSE;
+        $this->db->where('us_token', $us_token);
+        $this->db->update('orkney10_konektron_cli.users', array('us_status' => 'active'));
+        return $this->db->affected_rows() > 0;
     }
 
-    public function ativationProvidersModel($id_providers)
+    public function activationProvidersModel($pr_token)
     {
-        $status = true;
-        $this->db->update('orkney10_konektron_cli.providers', array('status' => $status));
-        if ($this->db->affected_rows() > 0) {
-            return TRUE;
-        }
-        return FALSE;
+        $this->db->where('pr_token', $pr_token);
+        $this->db->update('orkney10_konektron_cli.providers', array('pr_status' => 'active'));
+        return $this->db->affected_rows() > 0;
     }
 }

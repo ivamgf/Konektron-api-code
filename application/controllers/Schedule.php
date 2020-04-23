@@ -24,44 +24,73 @@ class Schedule extends CI_Controller {
 	{
 		$this->load->model('ScheduleModel', 'scheduleModel', true);
 		$schedule = $this->scheduleModel->getScheduleId($id_schedule);
-		$dataSchedule = array(
-			"schedule" => $schedule
-		);
+	
+		return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(
+                json_encode(
+                    [
+						"schedule" => $schedule
+                    ]
+                )
+            );
 	}
 
 	public function consultScheduleUsers($id_users)
 	{
 		$this->load->model('ScheduleModel', 'scheduleModel', true);
 		$schedule = $this->scheduleModel->getScheduleUsers($id_users);
-		$dataSchedule = array(
-			"schedule" => $schedule
-		);
+		
+		return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header(200)
+            ->set_output(
+                json_encode(
+                    [
+						"schedule" => $schedule
+                    ]
+                )
+            );
 	}
 
 	public function registerSchedule()
 	{
 		$this->load->model('ScheduleModel', 'scheduleModel', true);
-		$schedule = [];
-		$this->scheduleModel->insert($schedule);
+		$schedule = (array)json_decode($this->input->raw_input_stream);
+		$schedule['sc_created'] = date('Y-m-d H:i:s');
+		$schedule['sc_modified'] = date('Y-m-d H:i:s');
+		$id = $this->scheduleModel->insertSchedule($schedule);
+		$status_code = !empty($id) ? 201 : 400;
+		return $this->output
+            ->set_content_type('application/json')
+			->set_status_header($status_code)
+			->set_output(
+                json_encode(
+                    [ 'id_schedule' => $id ]
+                )
+            );
 	}
 
 	public function updateSchedule($id_schedule)
 	{
 		$this->load->model('ScheduleModel', 'scheduleModel', true);
-		$schedule = array();
-		$id = $this->scheduleModel->patchSchedule($id_schedule, $schedule);
-		if(is_null($id)) {
-			$this->session->set_flashdata('edit-schedule', 'Erro ao atualizar dados!');
-		}
-		else {
-			$this->session->set_flashdata('edit-schedule', 'Alteração feita com sucesso!');
-		}
-		$msgSchedule = $this->session->set_flashdata('edit-schedule');
+		$schedule = (array)json_decode($this->input->raw_input_stream);
+		$schedule['sc_modified'] = date('Y-m-d H:i:s');
+		$updated = $this->scheduleModel->patchSchedule($id_schedule, $schedule);
+		$status_code = $updated ? 204 : 400;
+		return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header($status_code);
 	}
 
 	public function deleteSchedule($id_schedule)
 	{
 		$this->load->model('ScheduleModel', 'scheduleModel', true);
-		$this->scheduleModel->delSchedule($id_schedule);
+		$deleted = $this->scheduleModel->delSchedule($id_schedule);
+		$status_code = $deleted ? 204 : 400;
+		return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header($status_code);
 	}
 }
