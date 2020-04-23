@@ -3,11 +3,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require FCPATH.'vendor/phpmailer/phpmailer/src/Exception.php';
-require FCPATH.'vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require FCPATH.'vendor/phpmailer/phpmailer/src/SMTP.php';
 
 class Sign extends CI_Controller 
 {
@@ -81,7 +76,7 @@ class Sign extends CI_Controller
         $signin = $this->signModel->verify($input['us_email']);
         if (!empty($signin) && $signin['us_status'] == 'inactive') {
             $token = md5(time().$signin['us_email']);
-            if ($this->signModel->tokenValidActive($input['us_email'], $token)) {
+            if ($this->signModel->tokenUpdate($input['us_email'], $token)) {
                 // Message E-mail
                 $subject = 'Ativação de conta';
                 $msg  = 'Ative sua conta para começar a usar o sistema, <br>';
@@ -139,7 +134,7 @@ class Sign extends CI_Controller
         $signin = $this->signModel->verifyProviders($input['pr_email']);
         if (!empty($signin) && $signin['pr_status'] == 'inactive') {
             $token = md5(time().$signin['pr_email']);
-            if ($this->signModel->tokenValidProviderActive($input['pr_email'], $token)) {
+            if ($this->signModel->tokenUpdateProvider($input['pr_email'], $token)) {
                 // Message E-mail
                 $subject = 'Ativação de conta';
                 $msg  = 'Ative sua conta para começar a usar o sistema, <br>';
@@ -229,33 +224,37 @@ class Sign extends CI_Controller
             ->set_content_type('application/json')
             ->set_status_header($status_code)
             ->set_output($output);
-    }
-
-    public function recover($token)
+	}
+	
+	public function recoverTokenProviders($token)
     {
-        $password = sha1($this->input->post('password'));
-        $newPassword = $this->usersSession->updatePassword($token, $password);
-        if ($newPassword) {
-            $message = 'Senha alterada com sucesso!';
-            redirect(base_url('sign/signin'));
-        } else {
-            $message = 'Erro, não foi possível alterar a senha!';
-            redirect(base_url('sign/recover/{$token}'));
-        }
+        $this->load->model('SignModel', 'signModel', true);
+        $tokenValidRecoverproviders = $this->signModel->tokenValidRecoverProviders($token);
+
+        $output = !empty($tokenValidRecoverproviders) 
+            ? json_encode([ 'token' => $token, 'tokenValidRecoverProviders' => $tokenValidRecoverproviders])
+            : null;
+        $status_code = $output ? 200 : 400;
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header($status_code)
+            ->set_output($output);
     }
 
     public function forgot()
     {
+        $this->load->helper('url');
         $this->load->model('SignModel', 'signModel', true);
         $input = (array)json_decode($this->input->raw_input_stream);
         $token = md5(time().$input['us_email']);
-        $tokenValid = $this->signModel->tokenValidForgot($input['us_email'], $token);
+        $tokenUpdated = $this->signModel->tokenForgotUpdate($input['us_email'], $token);
         
         // Message E-mail
-        if ($tokenValid) {
+        if ($tokenUpdated) {
             // Message E-mail
             $subject = 'Redefinição de senha';
-            $msg .= 'Recentemente recebemos uma solicitação sua para redefinição de senha, <br>';
+            $msg  = 'Recentemente recebemos uma solicitação sua para redefinição de senha, <br>';
             $msg .= 'Se não foi você que solicitou, entre em contato conosco, <br>';
             $msg .= 'pelo e-mail contatos@orkneytech.com.br <br>';
             $msg .= 'Se foi você que solicitou a redefinição de senha, clique no link abaixo. <br>';
@@ -264,7 +263,7 @@ class Sign extends CI_Controller
 
             $email = $this->_phpMailer(
                 [
-                    'to' => $signin['us_email'],
+                    'to' => $input['us_email'],
                     'subject' => $subject,
                     'msg' => $msg
                 ]
@@ -297,14 +296,14 @@ class Sign extends CI_Controller
                 )
             );
     }
-
-    public function recoverTokenProviders($token)
+    
+    public function recover($token)
     {
         $this->load->model('SignModel', 'signModel', true);
-        $tokenValidRecoverproviders = $this->signModel->tokenValidRecoverProviders($token);
+        $tokenValidForgot = $this->signModel->tokenValidForgot($token);
 
-        $output = !empty($tokenValidRecoverproviders) 
-            ? json_encode([ 'token' => $token, 'tokenValidRecoverProviders' => $tokenValidRecoverproviders])
+        $output = !empty($tokenValidForgot) 
+            ? json_encode([ 'token' => $token, 'tokenValidForgot' => $tokenValidForgot])
             : null;
         $status_code = $output ? 200 : 400;
 
@@ -314,119 +313,132 @@ class Sign extends CI_Controller
             ->set_output($output);
     }
 
-    public function recoverProviders($token)
-    {
-        $password = sha1($this->input->post('password'));
-        $newPassword = $this->providerSession->updatePassword($token, $password);
-        if ($newPassword)
-        {
-            $message = 'Senha alterada com sucesso!';
-            redirect(base_url('sign/signupProviders'));
-        }
-        else
-        {
-            $message = 'Erro, não foi possível alterar a senha!';
-            redirect(base_url('sign/recoverProviders/{$token}'));
-        }
-    }
-
-    public function forgotProviders($us_email)
-    {
-        // $this->load->library('email');
-                
-        $token = md5(date('YmdHis'), $us_email);
-        $tokenValid = $this->providerSession->tokenValidForgotProviders($pr_email, $token);
-        if($tokenValid)
-        {			
-            // Config E-mail
-            $config['protocol'] = 'sendmail';
-            $config['smtp_host'] = 'ssl://orkneytech.com.br';
-            $config['smtp_port'] = 465;
-            $config['smtp_user'] = 'contatos@orkneytech.com.br';
-            $config['smtp_pass'] = 'Orkneytech10106088';
-            $config['smtp_charset'] = 'utf-8';
-            $config['smtp_mailtype'] = 'html';
-            $config['mailpath'] = '/usr/sbin/sendmail';
-            $config['charset'] = 'iso-8859-1';
-            $config['wordwrap'] = TRUE;
-
-            $this->email->initialize($config);
-            // Config E-mail
-
+    public function forgotProviders()
+    {               
+        $this->load->helper('url');
+        $this->load->model('SignModel', 'signModel', true);
+        $input = (array)json_decode($this->input->raw_input_stream);
+        $token = md5(time().$input['pr_email']);
+        $tokenUpdated = $this->signModel->tokenForgotProvidersUpdate($input['pr_email'], $token);
+        
+        // Message E-mail
+        if ($tokenUpdated) {
             // Message E-mail
-            $URL = '';
-            $Title = 'Redefinição de senha';
-            $Paragraph_1 = 'Recentemente recebemos uma solicitação sua para redefinição de senha, <br>';
-            $Paragraph_2 = 'Se não foi você que solicitou, entre em contato conosco, <br>';
-            $paragraph_3 = 'pelo e-mail contatos@orkneytech.com.br <br>';
-            $paragraph_4 = 'Se foi você que solicitou a redefinição de senha, clique no link abaixo. <br>';
-            $link_1 = "<a href='" . base_url("'".$URL."/{".$token."}'") . "' target='_blank'>". base_url("'".$URL."/{".$token."}'") ."</a>";
-            $Msg = $Title . $Paragraph_1 . $Paragraph_2 . $paragraph_3 . $paragraph_4 . $link_1;
+            $subject = 'Redefinição de senha';
+            $msg  = 'Recentemente recebemos uma solicitação sua para redefinição de senha, <br>';
+            $msg .= 'Se não foi você que solicitou, entre em contato conosco, <br>';
+            $msg .= 'pelo e-mail contatos@orkneytech.com.br <br>';
+            $msg .= 'Se foi você que solicitou a redefinição de senha, clique no link abaixo. <br>';
+            $msg .= "<a href='" . base_url('recoverProviders/'.$token) . "' target='_blank'>Clique aqui para redefinir sua senha!</a>";
             // Message E-mail
 
-            // Send E-mail
-            $this->email->from($config['smtp_user'], 'Konektron');
-            $this->email->to($us_email);
-            $this->email->subject('Recuperação de Senha');
-            $this->email->message($Msg);
-            $this->email->send();			
-            // echo $this->email->print_debugger();
-            // Send E-mail
+            $email = $this->_phpMailer(
+                [
+                    'to' => $input['pr_email'],
+                    'subject' => $subject,
+                    'msg' => $msg
+                ]
+            );
             
-            // Message App
-            $message = 'Enviamos um e-mail para você poder redefinir a senha!';
-        } 
-        else 
-        {
-            $message = 'Não existe um usuário cadastrado com este E-mail!';
+            // var_dump($email->send());
+            // var_dump($email->ErrorInfo);
+            // die;
+
+            // var_dump($email);die;
+            // echo $email->send();
+            // Send E-mail
+
+            $status_code = 400;
+            $message = 'Não foi possível enviar o e-mail de redefinição! Tente novamente mais tarde.';
+            if ($email->send()) {
+                $status_code = 200;
+                $message = 'Enviamos um e-mail para você poder redefinir sua senha!';
+            }
         }
-        
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header($status_code)
+            ->set_output(
+                json_encode(
+                    [
+                        'msg' => $message
+                    ]
+                )
+            );
+	}
+	
+	public function recoverProviders($token)
+    {
+        $this->load->model('SignModel', 'signModel', true);
+        $tokenValidForgot = $this->signModel->tokenValidForgotProviders($token);
+
+        $output = !empty($tokenValidForgot) 
+            ? json_encode([ 'token' => $token, 'tokenValidForgot' => $tokenValidForgot])
+            : null;
+        $status_code = $output ? 200 : 400;
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header($status_code)
+            ->set_output($output);
     }
 
-    public function contact($Message)
+    public function contact()
     {
-        // Config E-mail
-        $config['protocol'] = 'sendmail';
-        $config['smtp_host'] = 'ssl://orkneytech.com.br';
-        $config['smtp_port'] = 465;
-        $config['smtp_user'] = 'contatos@orkneytech.com.br';
-        $config['smtp_pass'] = 'Orkneytech10106088';
-        $config['smtp_charset'] = 'utf-8';
-        $config['smtp_mailtype'] = 'html';
-        $config['mailpath'] = '/usr/sbin/sendmail';
-        $config['charset'] = 'iso-8859-1';
-        $config['wordwrap'] = TRUE;
-
-        $this->email->initialize($config);
-        // Config E-mail
-
+		$this->load->helper('url');
+        $this->load->model('SignModel', 'signModel', true);
+        $input = (array)json_decode($this->input->raw_input_stream);  
         // Message E-mail
-        $URL = '';
-        $Title = 'Mensagem de cliente';
-        $Msg = $Title . $Message;
-        // Message E-mail
+        if (!empty($input['mensagem'])) {
+            // Message E-mail
+            $subject = 'Mensagem do Cliente';
+            $msg  = 'Você recebeu uma mensagem do cliente: <br>';
+            $msg .= $input['mensagem'].'<br>';
+            // Message E-mail
 
-        // Send E-mail
-        $this->email->from($config['smtp_user'], 'Konektron');
-        $this->email->to('contatos@orkneytech.com.br');
-        $this->email->subject('Mensagem de cliente');
-        $this->email->message($Msg);
-        $this->email->send();			
-        // echo $this->email->print_debugger();
-        // Send E-mail
-        
-        // Message App
-        $message = 'Enviamos um e-mail para você poder redefinir a senha!';
+            $email = $this->_phpMailer(
+                [
+                    'to' => 'ramon@barros.cc',
+                    'subject' => $subject,
+                    'msg' => $msg
+                ]
+            );
+            
+            // var_dump($email->send());
+            // var_dump($email->ErrorInfo);
+            // die;
+
+            // var_dump($email);die;
+            // echo $email->send();
+            // Send E-mail
+
+            $status_code = 400;
+            $message = 'Não foi possível enviar o e-mail! Tente novamente mais tarde.';
+            if ($email->send()) {
+                $status_code = 200;
+                $message = 'Enviamos um e-mail com sucesso!';
+            }
+        }
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_status_header($status_code)
+            ->set_output(
+                json_encode(
+                    [
+                        'msg' => $message
+                    ]
+                )
+            );
     }
 
     public function logoutUser()
     {
-        $this->session->unset_userdata('usersSession');
     }
 
     public function logoutProviders()
     {
-        $this->session->unset_userdata('providerSession');
     }
 
     private function _emailConfig() {
