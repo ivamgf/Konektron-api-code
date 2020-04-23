@@ -54,20 +54,20 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = false;
 
 // Routes to Sign Methods
-$route['signin/(:any)/(:any)']['POST'] = 'sign/signin/$1/$2';
-$route['signinProviders/(:any)/(:any)']['POST'] = 'sign/signinProviders/$1/$2';
+$route['signin']['POST'] = 'sign/signin';
+$route['signinProviders']['POST'] = 'sign/signinProviders';
 $route['signup']['POST'] = 'sign/signup';
 $route['signupProviders']['POST'] = 'sign/signupProviders';
 $route['verify']['POST'] = 'sign/verify';
 $route['verifyProviders']['POST'] = 'sign/verifyProviders';
-$route['ativation']['POST'] = 'sign/ativation';
-$route['ativationProviders']['POST'] = 'sign/ativationProviders';
+$route['activation/(:any)']['GET'] = 'sign/activation/$1';
+$route['activationProviders/(:any)']['GET'] = 'sign/activationProviders/$1';
 $route['recoverToken/(:any)']['GET'] = 'sign/recoverToken/$1';
 $route['recoverTokenProviders/(:any)']['GET'] = 'sign/recoverTokenProviders/$1';
 $route['recover/(:any)']['POST'] = 'sign/recover/$1';
 $route['recoverProviders/(:any)']['POST'] = 'sign/recoverProviders/$1';
-$route['forgot/(:any)']['POST'] = 'sign/forgot/$1';
-$route['forgotProviders/(:any)']['POST'] = 'sign/forgotProviders/$1';
+$route['forgot']['POST'] = 'sign/forgot';
+$route['forgotProviders']['POST'] = 'sign/forgotProviders';
 $route['contact']['POST'] = 'sign/contact';
 $route['logoutUser']['GET'] = 'sign/logoutUser';
 $route['logoutProvider']['GET'] = 'sign/logoutProviders';
@@ -130,11 +130,11 @@ $route['updateCategory/(:num)']['PATCH'] = 'category/updateCategory/$1';
 $route['deleteCategory/(:num)']['DELETE'] = 'category/deleteCategory/$1';
 
 // Routes to StockServices Methods
-$route['consultServices']['GET'] = 'stockServices/consultServices';
-$route['consultServicesId/(:num)']['GET'] = 'stockServices/consultServicesId';
-$route['registerServices']['POST'] = 'stockServices/registerServices';
-$route['updateService/(:num)']['PATCH'] = 'stockServices/updateService/$1';
-$route['deleteService/(:num)']['DELETE'] = 'stockServices/deleteService/$1';
+$route['consultServices']['GET'] = 'stock_services/consultServices';
+$route['consultServicesId/(:num)']['GET'] = 'stock_services/consultServicesId/$1';
+$route['registerServices']['POST'] = 'stock_services/registerServices';
+$route['updateService/(:num)']['PATCH'] = 'stock_services/updateService/$1';
+$route['deleteService/(:num)']['DELETE'] = 'stock_services/deleteService/$1';
 
 // Routes to Schedules Methods
 $route['consultSchedule']['GET'] = 'schedule/consultSchedule';
