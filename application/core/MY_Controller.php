@@ -18,9 +18,38 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
 
+        $this->auth();
+
         $data = json_decode($this->input->raw_input_stream);
         if ($this->validateSchema($data)) {
             $this->data = $data;
+        }
+    }
+
+    public function auth()
+    {
+        $x_api_user = $this->input->server('HTTP_X_API_USER');
+        $x_api_admin = $this->input->server('HTTP_X_API_ADMIN');
+        $x_api_provider = $this->input->server('HTTP_X_API_PROVIDER');
+
+        $tokenValidRecover = false;
+        if (!empty($x_api_user)) {
+            $this->load->model('SignModel', 'signModel', true);
+            $tokenValidRecover = $this->signModel->tokenValidRecover($x_api_user);
+        } else if (!empty($x_api_admin)) {
+            $this->load->model('SignModel', 'signModel', true);
+            $tokenValidRecover = $this->signModel->tokenValidRecoverAdmin($x_api_admin);
+        } else if (!empty($x_api_provider)) {
+            $this->load->model('SignModel', 'signModel', true);
+            $tokenValidRecover = $this->signModel->tokenValidRecoverProviders($x_api_provider);
+        }
+
+        if (!$tokenValidRecover) {
+            // Display an error response
+            $this->response(
+                null,
+                401
+            );
         }
     }
 
@@ -50,6 +79,8 @@ class MY_Controller extends CI_Controller
                 )
             );
         }
+        $this->output->_display();
+        exit;
     }
 
     protected function getValidationSchema()

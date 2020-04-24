@@ -1,19 +1,26 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://konektron.local/api/category.json#",
+    "$id": "http://konektron.local/api/schedule.json#",
     "type": "object",
     "properties": {
-        "ct_title": {
+        "sc_date": {
             "type": "string",
-            "minLength": 1,
-            "maxLength": 255
+            "format": "date"
         },
-        "ct_description": {
+        "sc_hour": {
+            "type": "string",
+            "format": "time"
+        },
+        "sc_value": {
+            "type": "number",
+            "minLength": 1,
+            "maxLength": 10
+        },
+        "sc_status": {
             "type": "string",
             "minLength": 1,
             "maxLength": 255
         }
     },
-    "required": ["ct_title"],
     "additionalProperties": false
 }

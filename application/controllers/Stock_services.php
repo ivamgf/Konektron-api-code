@@ -33,6 +33,7 @@ class Stock_services extends MY_Controller {
     {
         $this->load->model('StockServicesModel', 'stockServicesModel', true);
         if ($stockServices = $this->getData()) {
+            $stockServices->sv_tag = implode(',', $stockServices->sv_tag);
             $stockServices->sv_created = date('Y-m-d H:i:s');
             $stockServices->sv_modified = date('Y-m-d H:i:s');
             $id = $this->stockServicesModel->insertStockServices($stockServices);
@@ -51,6 +52,7 @@ class Stock_services extends MY_Controller {
     {
         $this->load->model('StockServicesModel', 'stockServicesModel', true);
         if ($stockServices = $this->getData()) {
+            $stockServices->sv_tag = implode(',', $stockServices->sv_tag);
             $stockServices->sv_modified = date('Y-m-d H:i:s');
             $updated = $this->stockServicesModel->patchStockServices($id_service, $stockServices);
             $status_code = $updated ? 204 : 400;

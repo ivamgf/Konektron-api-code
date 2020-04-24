@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://konektron.local/api/address.json#",
+    "$id": "http://konektron.local/api/category.json#",
     "type": "object",
     "properties": {
         "ct_title": {
