@@ -1,8 +1,40 @@
 <?php
+/**
+ * This file is part of the Orkney Tech (http://orkneytech.com.br)
+ *
+ * Copyright (c) 2020  Orkney Tech (http://orkneytech.com.br)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
+ * PHP Version 7
+ *
+ * @category Controller
+ * @package  Orkney
+ * @author   Orkney Tech <suporte@orkneytech.com.br>
+ * @license  Copyright (c) 2020
+ * @link     https://www.orkneytech.com.br/license.md
+ */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Category extends MY_Controller {
-
+/**
+ * Controller para cadastro das categorias
+ *
+ * @category   Controller
+ * @package    Konektron
+ * @subpackage Category
+ * @author     Orkney Tech <suporte@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+ */
+class Category extends MY_Controller
+{
+    /**
+     * Retorna as categorias cadastradas
+     *
+     * @return void
+     */
     public function consultCategory()
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
@@ -15,7 +47,15 @@ class Category extends MY_Controller {
             200
         );
     }
-    public function consultCategoryId($id_category)
+
+    /**
+     * Retorna uma categoria pelo Id
+     *
+     * @param integer $id_category Id da categoria
+     *
+     * @return void
+     */
+    public function consultCategoryId(int $id_category = 0)
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
         $category = $this->categoryModel->getCategoryId($id_category);
@@ -27,6 +67,12 @@ class Category extends MY_Controller {
             200
         );
     }
+
+    /**
+     * Registra uma nova categoria
+     *
+     * @return void
+     */
     public function registerCategory()
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
@@ -44,7 +90,15 @@ class Category extends MY_Controller {
             );
         }
     }
-    public function updateCategory($id_category)
+
+    /**
+     * Atualiza uma categoria
+     *
+     * @param integer $id_category Id da categoria
+     *
+     * @return void
+     */
+    public function updateCategory(int $id_category = 0)
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
         if ($category = $this->getData()) {
@@ -58,7 +112,15 @@ class Category extends MY_Controller {
             );
         }
     }
-    public function deleteCategory($id_category)
+
+    /**
+     * Remove uma categoria
+     *
+     * @param integer $id_category Id da categoria
+     *
+     * @return void
+     */
+    public function deleteCategory(int $id_category = 0)
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
         $deleted = $this->categoryModel->delCategory($id_category);

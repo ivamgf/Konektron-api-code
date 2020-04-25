@@ -1,12 +1,43 @@
 <?php
-
+/**
+ * This file is part of the Orkney Tech (http://orkneytech.com.br)
+ *
+ * Copyright (c) 2020  Orkney Tech (http://orkneytech.com.br)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
+ * PHP Version 7
+ *
+ * @category Controller
+ * @package  Orkney
+ * @author   Orkney Tech <suporte@orkneytech.com.br>
+ * @license  Copyright (c) 2020
+ * @link     https://www.orkneytech.com.br/license.md
+ */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+/**
+ * Controller para autenticação do usuário
+ *
+ * @category   Controller
+ * @package    Konektron
+ * @subpackage Sign
+ * @author     Orkney Tech <suporte@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+ */
 class Sign extends CI_Controller
 {
 
+    /**
+     * Autenticação do clientes (user)
+     *
+     * @return void
+     */
     public function signin()
     {
         $this->load->model('SignModel', 'signModel', true);
@@ -29,6 +60,11 @@ class Sign extends CI_Controller
         }
     }
 
+    /**
+     * Autenticação dos fornecedores (provider)
+     *
+     * @return void
+     */
     public function signinProviders()
     {
         $this->load->model('SignModel', 'signModel', true);
@@ -50,6 +86,11 @@ class Sign extends CI_Controller
         }
     }
 
+    /**
+     * Cadastro do cliente
+     *
+     * @return void
+     */
     public function signup()
     {
         $this->load->model('SignModel', 'signModel', true);
@@ -65,6 +106,11 @@ class Sign extends CI_Controller
         }
     }
 
+    /**
+     * Cadastro do fornecedor
+     *
+     * @return void
+     */
     public function signupProviders()
     {
         $this->load->model('SignModel', 'signModel', true);
@@ -80,6 +126,11 @@ class Sign extends CI_Controller
         }
     }
 
+    /**
+     * Verificação e e-mail de ativação da conta do cliente
+     *
+     * @return void
+     */
     public function verify()
     {
         $this->load->helper('url');
@@ -106,14 +157,6 @@ class Sign extends CI_Controller
                     ]
                 );
 
-                // var_dump($email->send());
-                // var_dump($email->ErrorInfo);
-                // die;
-
-                // var_dump($email);die;
-                // echo $email->send();
-                // Send E-mail
-
                 $status_code = 400;
                 $message = 'Não foi possível enviar o e-mail de verificação! Tente novamente mais tarde.';
                 if ($email->send()) {
@@ -138,6 +181,11 @@ class Sign extends CI_Controller
             );
     }
 
+    /**
+     * Verificação e ativação da conta do fornecedor
+     *
+     * @return void
+     */
     public function verifyProviders()
     {
         $this->load->helper('url');
@@ -164,14 +212,6 @@ class Sign extends CI_Controller
                     ]
                 );
 
-                // var_dump($email->send());
-                // var_dump($email->ErrorInfo);
-                // die;
-
-                // var_dump($email);die;
-                // echo $email->send();
-                // Send E-mail
-
                 $status_code = 400;
                 $message = 'Não foi possível enviar o e-mail de verificação! Tente novamente mais tarde.';
                 if ($email->send()) {
@@ -196,7 +236,14 @@ class Sign extends CI_Controller
             );
     }
 
-    public function activation($us_token)
+    /**
+     * Ativação da conta do cliente
+     *
+     * @param string $us_token Token do cliente
+     *
+     * @return void
+     */
+    public function activation(string $us_token = '')
     {
         // Update for ativation
         $this->load->model('SignModel', 'signModel', true);
@@ -209,7 +256,14 @@ class Sign extends CI_Controller
             ->set_status_header($status_code);
     }
 
-    public function activationProviders($pr_token)
+    /**
+     * Ativação da conta do fornecedor
+     *
+     * @param string $pr_token Token do fornecedor
+     *
+     * @return void
+     */
+    public function activationProviders(string $pr_token = '')
     {
         // Update for ativation
         $this->load->model('SignModel', 'signModel', true);
@@ -222,7 +276,14 @@ class Sign extends CI_Controller
             ->set_status_header($status_code);
     }
 
-    public function recoverToken($token)
+    /**
+     * Validação do token do cliente
+     *
+     * @param string $token Token do cliente
+     *
+     * @return void
+     */
+    public function recoverToken(string $token = '')
     {
         $this->load->model('SignModel', 'signModel', true);
         $tokenValidRecover = $this->signModel->tokenValidRecover($token);
@@ -236,9 +297,16 @@ class Sign extends CI_Controller
             ->set_content_type('application/json')
             ->set_status_header($status_code)
             ->set_output($output);
-	}
+    }
 
-	public function recoverTokenProviders($token)
+    /**
+     * Validação do token do fornecedor
+     *
+     * @param string $token Token do fornecedor
+     *
+     * @return void
+     */
+    public function recoverTokenProviders(string $token = '')
     {
         $this->load->model('SignModel', 'signModel', true);
         $tokenValidRecoverproviders = $this->signModel->tokenValidRecoverProviders($token);
@@ -254,6 +322,11 @@ class Sign extends CI_Controller
             ->set_output($output);
     }
 
+    /**
+     * E-mail de recuperação da senha do cliente
+     *
+     * @return void
+     */
     public function forgot()
     {
         $this->load->helper('url');
@@ -281,14 +354,6 @@ class Sign extends CI_Controller
                 ]
             );
 
-            // var_dump($email->send());
-            // var_dump($email->ErrorInfo);
-            // die;
-
-            // var_dump($email);die;
-            // echo $email->send();
-            // Send E-mail
-
             $status_code = 400;
             $message = 'Não foi possível enviar o e-mail de redefinição! Tente novamente mais tarde.';
             if ($email->send()) {
@@ -309,7 +374,14 @@ class Sign extends CI_Controller
             );
     }
 
-    public function recover($token)
+    /**
+     * Recuperação da senha do cliente
+     *
+     * @param string $token Token do cliente
+     *
+     * @return void
+     */
+    public function recover(string $token = '')
     {
         $this->load->model('SignModel', 'signModel', true);
         $tokenValidForgot = $this->signModel->tokenValidForgot($token);
@@ -325,6 +397,11 @@ class Sign extends CI_Controller
             ->set_output($output);
     }
 
+    /**
+     * E-mail de recuperação da senha do fornecedor
+     *
+     * @return void
+     */
     public function forgotProviders()
     {
         $this->load->helper('url');
@@ -352,14 +429,6 @@ class Sign extends CI_Controller
                 ]
             );
 
-            // var_dump($email->send());
-            // var_dump($email->ErrorInfo);
-            // die;
-
-            // var_dump($email);die;
-            // echo $email->send();
-            // Send E-mail
-
             $status_code = 400;
             $message = 'Não foi possível enviar o e-mail de redefinição! Tente novamente mais tarde.';
             if ($email->send()) {
@@ -378,9 +447,16 @@ class Sign extends CI_Controller
                     ]
                 )
             );
-	}
+    }
 
-	public function recoverProviders($token)
+    /**
+     * Recuperação da senha do fornecedor
+     *
+     * @param string $token Token do fornecedor
+     *
+     * @return void
+     */
+    public function recoverProviders($token)
     {
         $this->load->model('SignModel', 'signModel', true);
         $tokenValidForgot = $this->signModel->tokenValidForgotProviders($token);
@@ -396,9 +472,14 @@ class Sign extends CI_Controller
             ->set_output($output);
     }
 
+    /**
+     * E-mail de contato
+     *
+     * @return void
+     */
     public function contact()
     {
-		$this->load->helper('url');
+        $this->load->helper('url');
         $this->load->model('SignModel', 'signModel', true);
         $input = (array)json_decode($this->input->raw_input_stream);
         // Message E-mail
@@ -416,14 +497,6 @@ class Sign extends CI_Controller
                     'msg' => $msg
                 ]
             );
-
-            // var_dump($email->send());
-            // var_dump($email->ErrorInfo);
-            // die;
-
-            // var_dump($email);die;
-            // echo $email->send();
-            // Send E-mail
 
             $status_code = 400;
             $message = 'Não foi possível enviar o e-mail! Tente novamente mais tarde.';
@@ -445,14 +518,11 @@ class Sign extends CI_Controller
             );
     }
 
-    public function logoutUser()
-    {
-    }
-
-    public function logoutProviders()
-    {
-    }
-
+    /**
+     * Configuração do e-mail
+     *
+     * @return void
+     */
     private function _emailConfig() {
         // Config E-mail
         // $config['protocol'] = 'sendmail';
@@ -479,6 +549,11 @@ class Sign extends CI_Controller
         return $config;
     }
 
+    /**
+     * Envio de e-mail padrão
+     *
+     * @return CI_Email
+     */
     private function _emailCreate(
         $mail = [
             'to' => null,
@@ -501,6 +576,11 @@ class Sign extends CI_Controller
         return $this->email;
     }
 
+    /**
+     * Envio de e-mail pelo PHPMailer
+     *
+     * @return PHPMailer
+     */
     private function _phpMailer(
         $setting = [
             'to' => null,

@@ -1,8 +1,41 @@
 <?php
+/**
+ * This file is part of the Orkney Tech (http://orkneytech.com.br)
+ *
+ * Copyright (c) 2020  Orkney Tech (http://orkneytech.com.br)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
+ * PHP Version 7
+ *
+ * @category Controller
+ * @package  Orkney
+ * @author   Orkney Tech <suporte@orkneytech.com.br>
+ * @license  Copyright (c) 2020
+ * @link     https://www.orkneytech.com.br/license.md
+ */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Profile extends MY_Controller {
+/**
+ * Controller para controle dos perfis dos usuários
+ *
+ * @category   Controller
+ * @package    Konektron
+ * @subpackage Profile
+ * @author     Orkney Tech <suporte@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+ */
+class Profile extends MY_Controller
+{
 
+    /**
+     * Retorna os perfis dos usuários
+     *
+     * @return void
+     */
     public function consultProfile()
     {
         $this->load->model('ProfileModel', 'profileModel', true);
@@ -16,7 +49,14 @@ class Profile extends MY_Controller {
         );
     }
 
-    public function consultProfileId($id_profile)
+    /**
+     * Retorna um perfil do usuário pelo Id
+     *
+     * @param integer $id_profile Id do perfil
+     *
+     * @return void
+     */
+    public function consultProfileId(int $id_profile = 0)
     {
         $this->load->model('ProfileModel', 'profileModel', true);
         $profile = $this->profileModel->getProfileId($id_profile);
@@ -29,7 +69,14 @@ class Profile extends MY_Controller {
         );
     }
 
-    public function consultProfileUsers($id_users)
+    /**
+     * Retorna os perfis do usuário pelo Id
+     *
+     * @param intetger $id_users Id do usuário
+     *
+     * @return void
+     */
+    public function consultProfileUsers(int $id_users = 0)
     {
         $this->load->model('ProfileModel', 'profileModel', true);
         $profile = $this->profileModel->getProfileUsers($id_users);
@@ -42,6 +89,11 @@ class Profile extends MY_Controller {
         );
     }
 
+    /**
+     * Registra um novo perfil
+     *
+     * @return void
+     */
     public function registerProfile()
     {
         $this->load->model('ProfileModel', 'profileModel', true);
@@ -60,7 +112,14 @@ class Profile extends MY_Controller {
         }
     }
 
-    public function updateProfile($id_profile)
+    /**
+     * Atualiza um perfil
+     *
+     * @param integer $id_profile Id do perfil
+     *
+     * @return void
+     */
+    public function updateProfile(int $id_profile = 0)
     {
         $this->load->model('ProfileModel', 'profileModel', true);
         if ($profile = $this->getData()) {
@@ -75,7 +134,14 @@ class Profile extends MY_Controller {
         }
     }
 
-    public function deleteProfile($id_profile)
+    /**
+     * Deleta um perfil
+     *
+     * @param integer $id_profile Id do perfil
+     *
+     * @return void
+     */
+    public function deleteProfile(int $id_profile = 0)
     {
         $this->load->model('ProfileModel', 'profileModel', true);
         $deleted = $this->profileModel->delProfile($id_profile);

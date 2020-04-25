@@ -1,8 +1,41 @@
 <?php
+/**
+ * This file is part of the Orkney Tech (http://orkneytech.com.br)
+ *
+ * Copyright (c) 2020  Orkney Tech (http://orkneytech.com.br)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
+ * PHP Version 7
+ *
+ * @category Controller
+ * @package  Orkney
+ * @author   Orkney Tech <suporte@orkneytech.com.br>
+ * @license  Copyright (c) 2020
+ * @link     https://www.orkneytech.com.br/license.md
+ */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Payment extends MY_Controller {
+/**
+ * Controller para controle dos pagamentos
+ *
+ * @category   Controller
+ * @package    Konektron
+ * @subpackage Payment
+ * @author     Orkney Tech <suporte@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+ */
+class Payment extends MY_Controller
+{
 
+    /**
+     * Retorna os pagamentos
+     *
+     * @return void
+     */
     public function consultPayment()
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
@@ -16,6 +49,13 @@ class Payment extends MY_Controller {
         );
     }
 
+    /**
+     * Retorna um pagamento pelo Id
+     *
+     * @param integer $id_payment Id do pagamento
+     *
+     * @return void
+     */
     public function consultPaymentId($id_payment)
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
@@ -29,7 +69,14 @@ class Payment extends MY_Controller {
         );
     }
 
-    public function consultPaymentUsers($id_users)
+    /**
+     * Retorna os pagamentos do usuário
+     *
+     * @param integer $id_users Id do usuário
+     *
+     * @return void
+     */
+    public function consultPaymentUsers(int $id_users = 0)
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
         $payment = $this->paymentModel->getPaymentUsers($id_users);
@@ -42,6 +89,11 @@ class Payment extends MY_Controller {
         );
     }
 
+    /**
+     * Registra um novo pagamento
+     *
+     * @return void
+     */
     public function registerPayment()
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
@@ -60,7 +112,14 @@ class Payment extends MY_Controller {
         }
     }
 
-    public function updatePayment($id_payment)
+    /**
+     * Atualiza um pagamento
+     *
+     * @param integer $id_payment Id do pagamento
+     *
+     * @return void
+     */
+    public function updatePayment(int $id_payment = 0)
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
         if ($payment = $this->getData()) {
@@ -75,7 +134,14 @@ class Payment extends MY_Controller {
         }
     }
 
-    public function deletePayment($id_payment)
+    /**
+     * Remove um pagamento pelo Id
+     *
+     * @param integer $id_payment Id do pagamento
+     *
+     * @return void
+     */
+    public function deletePayment(int $id_payment = 0)
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
         $deleted = $this->paymentModel->delPayment($id_payment);

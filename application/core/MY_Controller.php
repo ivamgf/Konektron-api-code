@@ -1,11 +1,37 @@
 <?php
+/**
+ * This file is part of the Orkney Tech (http://orkneytech.com.br)
+ *
+ * Copyright (c) 2020  Orkney Tech (http://orkneytech.com.br)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
+ * PHP Version 7
+ *
+ * @category Controller
+ * @package  Orkney
+ * @author   Orkney Tech <suporte@orkneytech.com.br>
+ * @license  Copyright (c) 2020
+ * @link     https://www.orkneytech.com.br/license.md
+ */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Opis\JsonSchema\{
     Validator, ValidationResult, ValidationError, Schema
 };
 
-
+/**
+ * Controller base para controle das rotas e autenticação
+ *
+ * @category   Controller
+ * @package    Konektron
+ * @subpackage MY_Controller
+ * @author     Orkney Tech <suporte@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+ */
 class MY_Controller extends CI_Controller
 {
     public $schema = null;
@@ -14,6 +40,9 @@ class MY_Controller extends CI_Controller
 
     public $data = [];
 
+    /**
+     * Define configurações necessárias
+     */
     public function __construct()
     {
         parent::__construct();
@@ -26,6 +55,11 @@ class MY_Controller extends CI_Controller
         }
     }
 
+    /**
+     * Valida o token através do cabeçalho da requisição
+     *
+     * @return void
+     */
     public function auth()
     {
         $x_api_user = $this->input->server('HTTP_X_API_USER');
@@ -53,6 +87,11 @@ class MY_Controller extends CI_Controller
         }
     }
 
+    /**
+     * Verifica se existem erros
+     *
+     * @return void
+     */
     public function getData()
     {
         if (!empty($this->error)) {
@@ -65,7 +104,15 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    public function response($data = null, $http_code = null, $continue = false)
+    /**
+     * Faz o tratamento da responsta para o client
+     *
+     * @param mixed   $data      Dados de retorno
+     * @param integer $http_code Status de retorno
+     *
+     * @return void
+     */
+    public function response($data = null, $http_code = null)
     {
         $this->output
             ->set_content_type('application/json')
@@ -83,6 +130,11 @@ class MY_Controller extends CI_Controller
         exit;
     }
 
+    /**
+     * Recupera o json-schema para validação dos dados de entrada
+     *
+     * @return void
+     */
     protected function getValidationSchema()
     {
         $schema = !empty($this->schema)
@@ -104,6 +156,13 @@ class MY_Controller extends CI_Controller
         return $string;
     }
 
+    /**
+     * Valida os dados de entrada conforme o json-schema de cada controller
+     *
+     * @param string $data Dados de input da requisição
+     *
+     * @return void
+     */
     public function validateSchema($data = null)
     {
         $schema = $this->getValidationSchema();
@@ -112,6 +171,8 @@ class MY_Controller extends CI_Controller
             $validator = new Validator();
 
             /**
+             * Resultado da validação do json
+             *
              * @var ValidationResult $result
              */
             $result = $validator->schemaValidation($data, $schema);
@@ -119,6 +180,8 @@ class MY_Controller extends CI_Controller
             $isValid = $result->isValid();
             if (!$isValid) {
                 /**
+                 * Erros na validação do json
+                 *
                  * @var ValidationError $error
                  */
                 $error = $result->getFirstError();
