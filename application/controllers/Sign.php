@@ -30,7 +30,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  * @license    Copyright (c) 2020
  * @link       https://www.orkneytech.com.br/license.md
  */
-class Sign extends CI_Controller
+class Sign extends MY_Controller
 {
 
     /**

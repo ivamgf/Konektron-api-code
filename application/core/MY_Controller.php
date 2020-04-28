@@ -195,4 +195,16 @@ class MY_Controller extends CI_Controller
 
         return $isValid;
     }
+
+    public static function geraSenha($password)
+    {
+        $salt = uniqid();
+        $str = '6';
+        $rounds = '5000';
+
+        $cryptSalt = '$' . $str . '$rounds=' . $rounds . '$' . $salt;
+        $hash = crypt($password, $cryptSalt);
+
+        return $hash;
+    }
 }

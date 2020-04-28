@@ -1,17 +1,53 @@
 <?php
+/**
+ * Model para cadastro dos dados auxiliares das tarefas
+ *
+ * @category   Model
+ * @package    Konektron
+ * @subpackage SignModel
+ * @author     Orkney Tech <suporte@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+*/
 class SignModel extends CI_Model
 {
-    public function signup($signup) {
+    /**
+     * Cria um novo usuário cliente
+     *
+     * @param object $signup Dados do usuário
+     *
+     * @return void
+     */
+    public function signup(object $signup)
+    {
         $this->db->insert('orkney10_konektron_cli.users', $signup);
         return $this->db->insert_id();
     }
 
-    public function signupProviders($signupProviders) {
+    /**
+     * Cria um novo fornecedor
+     *
+     * @param  object $signupProviders Dados do fornecedor
+     *
+     * @return void
+     */
+    public function signupProviders(object $signupProviders)
+    {
         $this->db->insert('orkney10_konektron_cli.providers', $signupProviders);
-        return $this->db->insert_id();
+        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
     }
 
-    public function signinUser($us_email, $us_password) {
+    /**
+     * Login do usuário cliente
+     *
+     * @param string $us_email    E-mail do usuário
+     * @param string $us_password Senha do usuário
+     *
+     * @return void
+     */
+    public function signinUser(string $us_email, string $us_password)
+    {
         $this->db->where("us_email", $us_email);
         $this->db->where("us_password", $us_password);
         $this->db->where("us_status", "active");
@@ -19,7 +55,16 @@ class SignModel extends CI_Model
         return $user;
     }
 
-    public function signinProviders($pr_email, $pr_password) {
+    /**
+     * Login do fornecedor
+     *
+     * @param string $pr_email    E-mail do fornecedor
+     * @param string $pr_password Senha do fornecedor
+     *
+     * @return void
+     */
+    public function signinProviders(string $pr_email, string $pr_password)
+    {
         $this->db->where("pr_email", $pr_email);
         $this->db->where("pr_password", $pr_password);
         $this->db->where("pr_status", "active");
@@ -27,42 +72,107 @@ class SignModel extends CI_Model
         return $provider;
     }
 
-    public function getAuthUsers($id_auth) {
-        return $this->db->get_where('orkney10_konektron_cli.authorization', array('id_auth' => $id_auth))->row();
+    /**
+     * Retorna os admins
+     *
+     * @param int $id_auth
+     *
+     * @return void
+     */
+    public function getAuthUsers($id_auth)
+    {
+        return $this->db->get_where(
+            'orkney10_konektron_cli.authorization',
+            [
+                'id_auth' => $id_auth
+            ]
+        )->row();
     }
 
-    public function verify($us_email)
+    /**
+     * Verifica o e-mail do usuário
+     *
+     * @param string $us_email E-mail do usuário
+     *
+     * @return void
+     */
+    public function verify(string $us_email)
     {
         $this->db->where("us_email", $us_email);
         $user = $this->db->get("users")->row_array();
         return $user;
     }
 
-    public function verifyProviders($pr_email)
+    /**
+     * Verifica o e-mail do fornecedor
+     *
+     * @param string $pr_email E-mail do usuário
+     *
+     * @return void
+     */
+    public function verifyProviders(string $pr_email)
     {
         $this->db->where("pr_email", $pr_email);
         $provider = $this->db->get("providers")->row_array();
         return $provider;
     }
 
+    /**
+     * Atualiza o token do usuário
+     *
+     * @param string $us_email E-mail do usuário
+     * @param string $token    Token do usuário
+     *
+     * @return void
+     */
     public function tokenUpdate($us_email, $token)
     {
         $this->db->where('us_email', $us_email);
-        $this->db->update('orkney10_konektron_cli.users', array('us_token' => $token));
+        $this->db->update(
+            'orkney10_konektron_cli.users',
+            [
+                'us_token' => $token
+            ]
+        );
         return $this->db->affected_rows() > 0;
     }
 
+    /**
+     * Atualiza o token do fornecedor
+     *
+     * @param string $pr_email E-mail do fornecedor
+     * @param string $token    Token do fornecedor
+     *
+     * @return void
+     */
     public function tokenUpdateProvider($pr_email, $token)
     {
         $this->db->where('pr_email', $pr_email);
-        $this->db->update('orkney10_konektron_cli.providers', array('pr_token' => $token));
+        $this->db->update(
+            'orkney10_konektron_cli.providers',
+            [
+                'pr_token' => $token
+            ]
+        );
         return $this->db->affected_rows() > 0;
     }
 
+    /**
+     * Atualiza o token do usuário
+     *
+     * @param string $us_email E-mail do usuário
+     * @param string $token    Token do usuário
+     * @return void
+     */
     public function tokenForgotUpdate($us_email, $token)
     {
         $this->db->where('us_email', $us_email);
-        $this->db->update('orkney10_konektron_cli.users', array('us_token_forgot' => $token));
+        $this->db->update(
+            'orkney10_konektron_cli.users',
+            [
+                'us_token_forgot' => $token
+            ]
+        );
         return $this->db->affected_rows() > 0;
     }
 

@@ -1,17 +1,55 @@
 <?php
+/**
+ * Model para cadastro dos logs
+ *
+ * @category   Model
+ * @package    Konektron
+ * @subpackage LogsModel
+ * @author     Orkney Tech <suporte@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+ */
+class LogsModel extends CI_Model
+{
 
-	class LogsModel extends CI_Model {
-		
-		public function getLogs() {
-			return $this->db->get('orkney10_konektron_cli.logs')->result();
-		}
+    /**
+     * Retorna os logs do sistema
+     *
+     * @return void
+     */
+    public function getLogs()
+    {
+        return $this->db->get('orkney10_konektron_cli.logs')->result();
+    }
 
-		public function getLogsId($id_log) {
-			return $this->db->get_where('orkney10_konektron_cli.logs', array('id_log' => $id_log))->row();
-		}
+    /**
+     * Retorna um log pelo Id
+     *
+     * @param integer $id_log Id do log
+     *
+     * @return void
+     */
+    public function getLogsId(int $id_log)
+    {
+        return $this->db->get_where(
+            'orkney10_konektron_cli.logs',
+            [
+                'id_log' => $id_log
+            ]
+        )->row();
+    }
 
-		public function insertLogs($logs) {
-			$this->db->insert('orkney10_konektron_cli.logs', $logs);
-			return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
-		}
-	}
+    /**
+     * Insere um novo log no sistema
+     *
+     * @param object $logs Dados do log
+     *
+     * @return void
+     */
+    public function insertLogs(object $logs)
+    {
+        $this->db->insert('orkney10_konektron_cli.logs', $logs);
+        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+    }
+}
