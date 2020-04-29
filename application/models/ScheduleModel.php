@@ -49,18 +49,20 @@ class ScheduleModel extends CI_Model
      */
     public function getScheduleUsers(int $id_users)
     {
-        return $this->db->get_where(
-            'orkney10_konektron_cli.schedule',
-            [
-                'id_users' => $id_users
-            ]
-        )->row();
+        return $this->db
+            ->join('schedule_aux', 'schedule_aux.id_schedule = schedule.id_schedule')
+            ->get_where(
+                'schedule',
+                [
+                    'schedule_aux.id_users' => $id_users
+                ]
+            )->row();
     }
 
     /**
      * Insere uma nova tarefa
      *
-     * @param object $schedule Dados da tarefa
+     * @param stdClass $schedule Dados da tarefa
      *
      * @return void
      */
@@ -78,7 +80,7 @@ class ScheduleModel extends CI_Model
      *
      * @return void
      */
-    public function patchSchedule(int $id_schedule, object $schedule)
+    public function patchSchedule(int $id_schedule, stdClass $schedule)
     {
         $this->db->where('id_schedule', $id_schedule);
         $this->db->update('orkney10_konektron_cli.schedule', $schedule);

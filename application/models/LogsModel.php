@@ -43,11 +43,11 @@ class LogsModel extends CI_Model
     /**
      * Insere um novo log no sistema
      *
-     * @param object $logs Dados do log
+     * @param stdClass $logs Dados do log
      *
      * @return void
      */
-    public function insertLogs(object $logs)
+    public function insertLogs(stdClass $logs)
     {
         $this->db->insert('orkney10_konektron_cli.logs', $logs);
         return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;

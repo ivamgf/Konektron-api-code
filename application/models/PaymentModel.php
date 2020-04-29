@@ -60,11 +60,11 @@ class PaymentModel extends CI_Model
     /**
      * Insere um novo pagamento
      *
-     * @param object $payment Dados do pagamento
+     * @param stdClass $payment Dados do pagamento
      *
      * @return void
      */
-    public function insertPayment(object $payment)
+    public function insertPayment(stdClass $payment)
     {
         $this->db->insert('orkney10_konektron_cli.payment', $payment);
         return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
@@ -74,11 +74,11 @@ class PaymentModel extends CI_Model
      * Atualiza um pagamento
      *
      * @param integer $id_payment Id do pagamento
-     * @param object  $payment    Dados do pagamento
+     * @param stdClass  $payment    Dados do pagamento
      *
      * @return void
      */
-    public function patchPayment(int $id_payment, object $payment)
+    public function patchPayment(int $id_payment, stdClass $payment)
     {
         $this->db->where('id_payment', $id_payment);
         $this->db->update('orkney10_konektron_cli.payment', $payment);

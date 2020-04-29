@@ -29,7 +29,7 @@ class CategoryModel extends CI_Model
      *
      * @return void
      */
-    public function getCategoryId(inte $id_category)
+    public function getCategoryId(int $id_category)
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.category',
@@ -42,11 +42,11 @@ class CategoryModel extends CI_Model
     /**
      * Insere uma nova categoria
      *
-     * @param object $category Dados da nova categoria
+     * @param stdClass $category Dados da nova categoria
      *
      * @return void
      */
-    public function insertCategory(object $category)
+    public function insertCategory(stdClass $category)
     {
         $this->db->insert('orkney10_konektron_cli.category', $category);
         return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
@@ -56,11 +56,11 @@ class CategoryModel extends CI_Model
      * Atualiza uma categoria pelo Id
      *
      * @param integer $id_category Id da categoria
-     * @param object  $category    Dados da categoria
+     * @param stdClass  $category    Dados da categoria
      *
      * @return void
      */
-    public function patchCategory(int $id_category, object $category)
+    public function patchCategory(int $id_category, stdClass $category)
     {
         $this->db->where('id_category', $id_category);
         $this->db->update('orkney10_konektron_cli.category', $category);

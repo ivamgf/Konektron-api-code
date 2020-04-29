@@ -10,7 +10,8 @@
  * @license    Copyright (c) 2020
  * @link       https://www.orkneytech.com.br/license.md
  */
-class CardsModel extends CI_Model {
+class CardsModel extends CI_Model
+{
 
     /**
      * Recupera os cardas cadastrados
@@ -29,7 +30,7 @@ class CardsModel extends CI_Model {
      *
      * @return void
      */
-    public function getCardsId(int $id_cards = 0)
+    public function getCardsId(int $id_cards)
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.cards',
@@ -46,7 +47,7 @@ class CardsModel extends CI_Model {
      *
      * @return void
      */
-    public function getCardsUsers(int $id_users = 0)
+    public function getCardsUsers(int $id_users)
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.cards',
@@ -59,11 +60,11 @@ class CardsModel extends CI_Model {
     /**
      * Insere um novo card
      *
-     * @param object $cards Dados do novo card
+     * @param stdClass $cards Dados do novo card
      *
      * @return void
      */
-    public function insertCards(object $cards)
+    public function insertCards(stdClass $cards)
     {
         $this->db->insert('orkney10_konektron_cli.cards', $cards);
         return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
@@ -73,11 +74,11 @@ class CardsModel extends CI_Model {
      * Atualiza um card
      *
      * @param integer $id_cards Id do card
-     * @param object  $cards    Dados do card
+     * @param stdClass  $cards    Dados do card
      *
      * @return void
      */
-    public function patchCards(int $id_cards, object $cards)
+    public function patchCards(int $id_cards, stdClass $cards)
     {
         $this->db->where('id_cards', $id_cards);
         $this->db->update('orkney10_konektron_cli.cards', $cards);
@@ -91,7 +92,7 @@ class CardsModel extends CI_Model {
      *
      * @return void
      */
-    public function delCards(int $id_cards = 0)
+    public function delCards(int $id_cards)
     {
         $this->db->where('id_cards', $id_cards);
         $this->db->delete('orkney10_konektron_cli.cards');

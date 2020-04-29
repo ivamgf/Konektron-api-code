@@ -1,0 +1,91 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/signupProviders.json#",
+    "type": "object",
+    "properties": {
+        "pr_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "pr_logo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "pr_natId": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 20
+        },
+        "pr_ie": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 20
+        },
+        "pr_address": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "pr_number": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+        },
+        "pr_block": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+        },
+        "pr_city": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+        },
+        "pr_uf": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+        },
+        "pr_complement": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "maxLength": 100
+        },
+        "pr_cep": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 11
+        },
+        "pr_phone": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 20
+        },
+        "pr_site": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "pr_email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "pr_password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12
+        },
+        "pr_balance": {
+            "type": "number",
+            "minLength": 1,
+            "maxLength": 11
+        }
+    },
+    "required": ["pr_name", "pr_address", "pr_block", "pr_city", "pr_uf",
+                 "pr_cep", "pr_phone", "pr_email", "pr_password"],
+    "additionalProperties": false
+}

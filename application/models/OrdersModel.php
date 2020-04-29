@@ -60,11 +60,11 @@ class OrdersModel extends CI_Model
     /**
      * Insere uma nova ordem no sistema
      *
-     * @param object $orders Dados da ordem
+     * @param stdClass $orders Dados da ordem
      *
      * @return void
      */
-    public function insertOrders(object $orders)
+    public function insertOrders(stdClass $orders)
     {
         $this->db->insert('orkney10_konektron_cli.orders', $orders);
         return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
@@ -74,11 +74,11 @@ class OrdersModel extends CI_Model
      * Atualiza uma ordem
      *
      * @param integer $id_order Id da ordem
-     * @param object  $orders Dados da ordem
+     * @param stdClass  $orders   Dados da ordem
      *
      * @return void
      */
-    public function patchOrders(int $id_order, object $orders)
+    public function patchOrders(int $id_order, stdClass $orders)
     {
         $this->db->where('id_order', $id_order);
         $this->db->update('orkney10_konektron_cli.orders', $orders);

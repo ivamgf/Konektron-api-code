@@ -56,7 +56,7 @@ class Schedule extends MY_Controller
      *
      * @return void
      */
-    public function consultScheduleId($id_schedule)
+    public function consultScheduleId(int $id_schedule)
     {
         $this->load->model('ScheduleModel', 'scheduleModel', true);
         $schedule = $this->scheduleModel->getScheduleId($id_schedule);
@@ -76,7 +76,7 @@ class Schedule extends MY_Controller
      *
      * @return void
      */
-    public function consultScheduleUsers(int $id_users = 0)
+    public function consultScheduleUsers(int $id_users)
     {
         $this->load->model('ScheduleModel', 'scheduleModel', true);
         $schedule = $this->scheduleModel->getScheduleUsers($id_users);
@@ -119,7 +119,7 @@ class Schedule extends MY_Controller
      *
      * @return void
      */
-    public function updateSchedule(int $id_schedule = 0)
+    public function updateSchedule(int $id_schedule)
     {
         $this->load->model('ScheduleModel', 'scheduleModel', true);
         if ($schedule = $this->getData()) {
@@ -141,7 +141,7 @@ class Schedule extends MY_Controller
      *
      * @return void
      */
-    public function deleteSchedule(int $id_schedule = 0)
+    public function deleteSchedule(int $id_schedule)
     {
         $this->load->model('ScheduleModel', 'scheduleModel', true);
         $deleted = $this->scheduleModel->delSchedule($id_schedule);

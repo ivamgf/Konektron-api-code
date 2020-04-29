@@ -47,7 +47,7 @@ class CategoryAuxModel extends CI_Model
      *
      * @return void
      */
-    public function getCategoryAuxService(int $id_service = 0)
+    public function getCategoryAuxService(int $id_service)
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.category_aux',
@@ -60,11 +60,11 @@ class CategoryAuxModel extends CI_Model
     /**
      * Insere os dados auxiliares da categoria
      *
-     * @param object $id_category_aux Dados auxiliares da categoria
+     * @param stdClass $id_category_aux Dados auxiliares da categoria
      *
      * @return void
      */
-    public function insertCategoryAux(object $id_category_aux)
+    public function insertCategoryAux(stdClass $id_category_aux)
     {
         $this->db->insert('orkney10_konektron_cli.category_aux', $id_category_aux);
         return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
@@ -74,11 +74,11 @@ class CategoryAuxModel extends CI_Model
      * Atualiza os dados auxiliares da categoria
      *
      * @param integer $id_category_aux Id dos dados auxiliares da categoria
-     * @param object  $categoryAux     Dados auxiliares da categoria
+     * @param stdClass  $categoryAux     Dados auxiliares da categoria
      *
      * @return void
      */
-    public function patchCategoryAux(int $id_category_aux, object $categoryAux)
+    public function patchCategoryAux(int $id_category_aux, stdClass $categoryAux)
     {
         $this->db->where('id_category_aux', $id_category_aux);
         $this->db->update('orkney10_konektron_cli.category_aux', $categoryAux);
@@ -92,7 +92,7 @@ class CategoryAuxModel extends CI_Model
      *
      * @return void
      */
-    public function delCategoryAux(int $id_category_aux = 0)
+    public function delCategoryAux(int $id_category_aux)
     {
         $this->db->where('id_category_aux', $id_category_aux);
         $this->db->delete('orkney10_konektron_cli.category_aux');

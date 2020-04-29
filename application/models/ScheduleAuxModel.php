@@ -111,11 +111,11 @@ class ScheduleAuxModelModel extends CI_Model
     /**
      * Insere os dados auxiliares da tarefa
      *
-     * @param object $scheduleAuxModel Dados auxiliares da tarefa
+     * @param stdClass $scheduleAuxModel Dados auxiliares da tarefa
      *
      * @return void
      */
-    public function insertScheduleAux(object $scheduleAuxModel)
+    public function insertScheduleAux(stdClass $scheduleAuxModel)
     {
         $this->db->insert(
             'orkney10_konektron_cli.schedule_aux',
@@ -128,11 +128,11 @@ class ScheduleAuxModelModel extends CI_Model
      * Atualiza os dados auxiliares da tarefa
      *
      * @param integer $id_schedule_aux  Id dos dados auxiliares
-     * @param object  $scheduleAuxModel Dados auxiliares da tarefa
+     * @param stdClass  $scheduleAuxModel Dados auxiliares da tarefa
      *
      * @return void
      */
-    public function patchScheduleAux(int $id_schedule_aux, object $scheduleAuxModel)
+    public function patchScheduleAux(int $id_schedule_aux, stdClass $scheduleAuxModel)
     {
         $this->db->where('id_schedule_aux', $id_schedule_aux);
         $this->db->update('orkney10_konektron_cli.schedule_aux', $scheduleAuxModel);

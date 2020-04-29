@@ -180,6 +180,20 @@ $config['auth_library_function'] = '';
 |
 */
 $config['auth_override_class_method']['api']['users'] = 'none';
+$config['auth_override_class_method']['sign']['signin'] = 'none';
+$config['auth_override_class_method']['sign']['signinProviders'] = 'none';
+$config['auth_override_class_method']['sign']['signup'] = 'none';
+$config['auth_override_class_method']['sign']['signupProviders'] = 'none';
+$config['auth_override_class_method']['sign']['verify'] = 'none';
+$config['auth_override_class_method']['sign']['activation'] = 'none';
+$config['auth_override_class_method']['sign']['verifyProviders'] = 'none';
+$config['auth_override_class_method']['sign']['activationProviders'] = 'none';
+$config['auth_override_class_method']['sign']['recoverToken'] = 'none';
+$config['auth_override_class_method']['sign']['recoverTokenProviders'] = 'none';
+$config['auth_override_class_method']['sign']['forgot'] = 'none';
+$config['auth_override_class_method']['sign']['forgotProviders'] = 'none';
+$config['auth_override_class_method']['sign']['recover'] = 'none';
+$config['auth_override_class_method']['sign']['contact'] = 'none';
 // $config['auth_override_class_method']['deals']['insert'] = 'digest';
 // $config['auth_override_class_method']['accounts']['user'] = 'basic';
 // $config['auth_override_class_method']['dashboard']['*'] = 'basic';

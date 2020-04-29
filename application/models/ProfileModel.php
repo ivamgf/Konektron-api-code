@@ -60,11 +60,11 @@ class ProfileModel extends CI_Model
     /**
      * Insere um novo perfil
      *
-     * @param object $profile Dados do perfil
+     * @param stdClass $profile Dados do perfil
      *
      * @return void
      */
-    public function insertProfile(object $profile)
+    public function insertProfile(stdClass $profile)
     {
         $this->db->insert('orkney10_konektron_cli.profiles', $profile);
         return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
@@ -74,11 +74,11 @@ class ProfileModel extends CI_Model
      * Atualiza um perfil pelo id
      *
      * @param integer $id_profile Id do perfil
-     * @param object  $profile    Dados do perfil
+     * @param stdClass  $profile    Dados do perfil
      *
      * @return void
      */
-    public function patchProfile(int $id_profile, objeect $profile)
+    public function patchProfile(int $id_profile, stdClass $profile)
     {
         $this->db->where('id_profile', $id_profile);
         $this->db->update('orkney10_konektron_cli.profiles', $profile);
