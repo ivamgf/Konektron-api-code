@@ -369,18 +369,67 @@ class Sign extends MY_Controller
      */
     public function recover(string $token = '')
     {
+        $this->load->helper(['form', 'url']);
+
+        $this->load->library('form_validation');
+
         $this->load->model('SignModel', 'signModel', true);
         $tokenValidForgot = $this->signModel->tokenValidForgot($token);
 
         $output = !empty($tokenValidForgot)
             ? [ 'token' => $token, 'tokenValidForgot' => $tokenValidForgot]
             : null;
-        $status_code = $output ? 200 : 400;
 
-        $this->response(
-            $output,
-            $status_code
+        $this->form_validation->set_rules(
+            [
+                [
+                    'field' => 'newpassword',
+                    'label' => 'Nova Senha',
+                    'rules' => 'required',
+                ],
+                [
+                    'field' => 'confirmpassword',
+                    'label' => 'Conformar Senha',
+                    'rules' => 'required|matches[newpassword]',
+                    'errors' => [
+                        'matches' => 'O campo Conformar Senha não coincide com o campo Nova Senha.'
+                    ]
+                ]
+            ]
         );
+        if (!empty($output)) {
+            if ($this->form_validation->run()) {
+                $newpassword = $this->input->post('newpassword');
+
+                if ($this->signModel->updatePassword($output['token'], $newpassword)) {
+                    $data = [
+                        'success' => 'Senha redefinida com sucesso!'
+                    ];
+                } else {
+                    $data = [
+                        'error' => 'Senha redefinida com sucesso!'
+                    ];
+                }
+                $this->template->set('title', 'Konektron API');
+                $this->template->load('template', 'recoverMessage', $data);
+            } else {
+                $data = [
+                    'token' => $token,
+                    'csrf' => [
+                        'name' => $this->security->get_csrf_token_name(),
+                        'hash' => $this->security->get_csrf_hash()
+                    ]
+                ];
+                $this->template->set('title', 'Konektron API');
+                $this->template->load('template', 'recover', $data);
+            }
+        } else {
+            $data = [
+                'error' => 'Url inválida!'
+            ];
+            $this->template->set('title', 'Konektron API');
+            $this->template->load('template', 'recoverMessage', $data);
+        }
     }
 
     /**

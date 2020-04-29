@@ -210,12 +210,15 @@ class SignModel extends MY_Model
 
     public function updatePassword($token, $password)
     {
-        $this->db->where('token_recover', $token);
-        $this->db->update('orkney10_konektron_cli.users', array('password' => $password, 'token_recover' => NULL));
-        if ($this->db->affected_rows() > 0) {
-            return TRUE;
-        }
-        return FALSE;
+        $this->db->where('us_token_forgot', $token);
+        $this->db->update(
+            'orkney10_konektron_cli.users',
+            [
+                'us_password' => $this->gerarSenha($password),
+                'us_token_forgot' => null
+            ]
+        );
+        return $this->db->affected_rows() > 0;
     }
 
     public function tokenValidForgotProviders($token)
@@ -247,10 +250,7 @@ class SignModel extends MY_Model
     {
         $this->db->where('token_recoverProviders', $token);
         $this->db->update('orkney10_konektron_cli.providers', array('password' => $password, 'token_recoverProviders' => NULL));
-        if ($this->db->affected_rows() > 0) {
-            return TRUE;
-        }
-        return FALSE;
+        return $this->db->affected_rows() > 0;
     }
 
     public function activationModel($us_token)
