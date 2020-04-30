@@ -5,7 +5,7 @@
  * @category   Model
  * @package    Konektron
  * @subpackage PaymentModel
- * @author     Orkney Tech <suporte@orkneytech.com.br>
+ * @author     Orkney Tech <contato@orkneytech.com.br>
  * @copyright  2020 Orkney Tech
  * @license    Copyright (c) 2020
  * @link       https://www.orkneytech.com.br/license.md
