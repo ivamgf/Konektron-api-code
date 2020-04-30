@@ -16,11 +16,12 @@ class CardsModel extends CI_Model
     /**
      * Recupera os cardas cadastrados
      *
-     * @return void
+     * @return array
      */
-    public function getCards()
+    public function getCards(): array
     {
-        return $this->db->get('orkney10_konektron_cli.cards')->result();
+        return $this->db->get('orkney10_konektron_cli.cards')
+            ->result() ?? [];
     }
 
     /**
@@ -28,16 +29,16 @@ class CardsModel extends CI_Model
      *
      * @param integer $id_cards Id do card
      *
-     * @return void
+     * @return stdClass
      */
-    public function getCardsId(int $id_cards)
+    public function getCardsId(int $id_cards): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.cards',
             [
                 'id_cards' => $id_cards
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -45,16 +46,16 @@ class CardsModel extends CI_Model
      *
      * @param integer $id_users Id do usuário
      *
-     * @return void
+     * @return stdClass
      */
-    public function getCardsUsers(int $id_users)
+    public function getCardsUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.cards',
             [
                 'id_users' => $id_users
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -62,23 +63,25 @@ class CardsModel extends CI_Model
      *
      * @param stdClass $cards Dados do novo card
      *
-     * @return void
+     * @return integer
      */
-    public function insertCards(stdClass $cards)
+    public function insertCards(stdClass $cards): int
     {
         $this->db->insert('orkney10_konektron_cli.cards', $cards);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
     /**
      * Atualiza um card
      *
-     * @param integer $id_cards Id do card
-     * @param stdClass  $cards    Dados do card
+     * @param integer  $id_cards Id do card
+     * @param stdClass $cards    Dados do card
      *
-     * @return void
+     * @return boolean
      */
-    public function patchCards(int $id_cards, stdClass $cards)
+    public function patchCards(int $id_cards, stdClass $cards): bool
     {
         $this->db->where('id_cards', $id_cards);
         $this->db->update('orkney10_konektron_cli.cards', $cards);
@@ -90,9 +93,9 @@ class CardsModel extends CI_Model
      *
      * @param integer $id_cards Id do card
      *
-     * @return void
+     * @return boolean
      */
-    public function delCards(int $id_cards)
+    public function delCards(int $id_cards): bool
     {
         $this->db->where('id_cards', $id_cards);
         $this->db->delete('orkney10_konektron_cli.cards');

@@ -16,11 +16,12 @@ class LogsModel extends CI_Model
     /**
      * Retorna os logs do sistema
      *
-     * @return void
+     * @return array
      */
-    public function getLogs()
+    public function getLogs(): array
     {
-        return $this->db->get('orkney10_konektron_cli.logs')->result();
+        return $this->db->get('orkney10_konektron_cli.logs')
+            ->result() ?? [];
     }
 
     /**
@@ -28,7 +29,7 @@ class LogsModel extends CI_Model
      *
      * @param integer $id_log Id do log
      *
-     * @return void
+     * @return stdClass
      */
     public function getLogsId(int $id_log)
     {
@@ -37,7 +38,7 @@ class LogsModel extends CI_Model
             [
                 'id_log' => $id_log
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -45,11 +46,13 @@ class LogsModel extends CI_Model
      *
      * @param stdClass $logs Dados do log
      *
-     * @return void
+     * @return integer
      */
-    public function insertLogs(stdClass $logs)
+    public function insertLogs(stdClass $logs): int
     {
         $this->db->insert('orkney10_konektron_cli.logs', $logs);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 }

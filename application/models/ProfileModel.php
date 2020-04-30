@@ -16,11 +16,12 @@ class ProfileModel extends CI_Model
     /**
      * Recupera o perfil do usuário
      *
-     * @return void
+     * @return array
      */
-    public function getProfile()
+    public function getProfile(): array
     {
-        return $this->db->get('orkney10_konektron_cli.profiles')->result();
+        return $this->db->get('orkney10_konektron_cli.profiles')
+            ->result() ?? [];
     }
 
     /**
@@ -28,16 +29,16 @@ class ProfileModel extends CI_Model
      *
      * @param integer $id_profile Id do perfil
      *
-     * @return void
+     * @return stdClass
      */
-    public function getProfileId(int $id_profile)
+    public function getProfileId(int $id_profile): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.profiles',
             [
                 'id_profile' => $id_profile
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -45,16 +46,16 @@ class ProfileModel extends CI_Model
      *
      * @param integer $id_users Id do usuário
      *
-     * @return void
+     * @return stdClass
      */
-    public function getProfileUsers(int $id_users)
+    public function getProfileUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.profiles',
             [
                 'id_users' => $id_users
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -62,23 +63,25 @@ class ProfileModel extends CI_Model
      *
      * @param stdClass $profile Dados do perfil
      *
-     * @return void
+     * @return integer
      */
-    public function insertProfile(stdClass $profile)
+    public function insertProfile(stdClass $profile): int
     {
         $this->db->insert('orkney10_konektron_cli.profiles', $profile);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
     /**
      * Atualiza um perfil pelo id
      *
-     * @param integer $id_profile Id do perfil
-     * @param stdClass  $profile    Dados do perfil
+     * @param integer  $id_profile Id do perfil
+     * @param stdClass $profile    Dados do perfil
      *
-     * @return void
+     * @return boolean
      */
-    public function patchProfile(int $id_profile, stdClass $profile)
+    public function patchProfile(int $id_profile, stdClass $profile): bool
     {
         $this->db->where('id_profile', $id_profile);
         $this->db->update('orkney10_konektron_cli.profiles', $profile);
@@ -90,9 +93,9 @@ class ProfileModel extends CI_Model
      *
      * @param integer $id_profile Id do perfil
      *
-     * @return void
+     * @return boolean
      */
-    public function delProfile(int $id_profile)
+    public function delProfile(int $id_profile): bool
     {
         $this->db->where('id_profile', $id_profile);
         $this->db->delete('orkney10_konektron_cli.profiles');

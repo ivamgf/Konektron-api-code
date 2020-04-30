@@ -16,11 +16,12 @@ class OrdersModel extends CI_Model
     /**
      * Retorna as ordens
      *
-     * @return void
+     * @return array
      */
     public function getOrders()
     {
-        return $this->db->get('orkney10_konektron_cli.orders')->result();
+        return $this->db->get('orkney10_konektron_cli.orders')
+            ->result() ?? [];
     }
 
     /**
@@ -28,16 +29,16 @@ class OrdersModel extends CI_Model
      *
      * @param integer $id_order Id da ordem
      *
-     * @return void
+     * @return stdClass
      */
-    public function getOrdersId(int $id_order)
+    public function getOrdersId(int $id_order): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.orders',
             [
                 'id_order' => $id_order
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -45,16 +46,16 @@ class OrdersModel extends CI_Model
      *
      * @param integer $id_users Id do usuário
      *
-     * @return void
+     * @return stdClass
      */
-    public function getOrdersUsers(int $id_users)
+    public function getOrdersUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.orders',
             [
                 'id_users' => $id_users
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -62,23 +63,25 @@ class OrdersModel extends CI_Model
      *
      * @param stdClass $orders Dados da ordem
      *
-     * @return void
+     * @return integer
      */
-    public function insertOrders(stdClass $orders)
+    public function insertOrders(stdClass $orders): int
     {
         $this->db->insert('orkney10_konektron_cli.orders', $orders);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
     /**
      * Atualiza uma ordem
      *
-     * @param integer $id_order Id da ordem
-     * @param stdClass  $orders   Dados da ordem
+     * @param integer  $id_order Id da ordem
+     * @param stdClass $orders   Dados da ordem
      *
-     * @return void
+     * @return boolean
      */
-    public function patchOrders(int $id_order, stdClass $orders)
+    public function patchOrders(int $id_order, stdClass $orders): bool
     {
         $this->db->where('id_order', $id_order);
         $this->db->update('orkney10_konektron_cli.orders', $orders);
@@ -90,9 +93,9 @@ class OrdersModel extends CI_Model
      *
      * @param integer $id_order Id da ordem
      *
-     * @return void
+     * @return boolean
      */
-    public function delOrders(int $id_order)
+    public function delOrders(int $id_order): bool
     {
         $this->db->where('id_order', $id_order);
         $this->db->delete('orkney10_konektron_cli.orders');

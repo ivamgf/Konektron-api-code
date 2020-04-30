@@ -16,11 +16,12 @@ class PaymentModel extends CI_Model
     /**
      * Retorna os pagamentos cadastrados
      *
-     * @return void
+     * @return array
      */
     public function getPayment()
     {
-        return $this->db->get('orkney10_konektron_cli.payment')->result();
+        return $this->db->get('orkney10_konektron_cli.payment')
+            ->result() ?? [];
     }
 
     /**
@@ -28,16 +29,16 @@ class PaymentModel extends CI_Model
      *
      * @param integer $id_payment Id do pagamento
      *
-     * @return void
+     * @return stdClass
      */
-    public function getPaymentId(int $id_payment)
+    public function getPaymentId(int $id_payment): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.payment',
             [
                 'id_payment' => $id_payment
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -45,16 +46,16 @@ class PaymentModel extends CI_Model
      *
      * @param integer $id_users Id do usuário
      *
-     * @return void
+     * @return stdClass
      */
-    public function getPaymentUsers(int $id_users)
+    public function getPaymentUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.payment',
             [
                 'id_users' => $id_users
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -62,23 +63,25 @@ class PaymentModel extends CI_Model
      *
      * @param stdClass $payment Dados do pagamento
      *
-     * @return void
+     * @return integer
      */
-    public function insertPayment(stdClass $payment)
+    public function insertPayment(stdClass $payment): int
     {
         $this->db->insert('orkney10_konektron_cli.payment', $payment);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
     /**
      * Atualiza um pagamento
      *
-     * @param integer $id_payment Id do pagamento
-     * @param stdClass  $payment    Dados do pagamento
+     * @param integer  $id_payment Id do pagamento
+     * @param stdClass $payment    Dados do pagamento
      *
-     * @return void
+     * @return boolean
      */
-    public function patchPayment(int $id_payment, stdClass $payment)
+    public function patchPayment(int $id_payment, stdClass $payment): bool
     {
         $this->db->where('id_payment', $id_payment);
         $this->db->update('orkney10_konektron_cli.payment', $payment);
@@ -90,9 +93,9 @@ class PaymentModel extends CI_Model
      *
      * @param integer $id_payment Id do pagamento
      *
-     * @return void
+     * @return boolean
      */
-    public function delPayment($id_payment)
+    public function delPayment($id_payment): bool
     {
         $this->db->where('id_payment', $id_payment);
         $this->db->delete('orkney10_konektron_cli.payment');

@@ -36,16 +36,44 @@ use Opis\JsonSchema\{
 class MY_Controller extends CI_Controller
 {
 
+    /**
+     * E-mail de contato
+     */
     const EMAIL_CONTATO = 'contatos@orkneytech.com.br';
 
+    /**
+     * Controller acessado
+     *
+     * @var string
+     */
     public $controller = null;
 
+    /**
+     * Método acessado
+     *
+     * @var string
+     */
     public $method = null;
 
+    /**
+     * Caminho do arquivo json-schema para validação da entrada de dados
+     *
+     * @var string
+     */
     public $schema = null;
 
+    /**
+     * Erros do sistema
+     *
+     * @var mixed
+     */
     public $error = null;
 
+    /**
+     * Dados da requisição
+     *
+     * @var array
+     */
     public $data = [];
 
     /**
@@ -74,7 +102,7 @@ class MY_Controller extends CI_Controller
      */
     public function auth()
     {
-        if ($this->_auth_override_check() === false) {
+        if ($this->_authOverrideCheck() === false) {
             $x_api_user = $this->input->server('HTTP_X_API_USER');
             $x_api_admin = $this->input->server('HTTP_X_API_ADMIN');
             $x_api_provider = $this->input->server('HTTP_X_API_PROVIDER');
@@ -101,9 +129,14 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    private function _auth_override_check()
+    /**
+     * Verifica se a rota necessita de autenticação ou não
+     *
+     * @return boolean
+     */
+    private function _authOverrideCheck(): bool
     {
-        $this->get_local_config('rest');
+        $this->_getLocalConfig('rest');
 
         $auth_override_class_method = $this->config->item('auth_override_class_method');
         if (!empty($auth_override_class_method)) {
@@ -118,9 +151,13 @@ class MY_Controller extends CI_Controller
     }
 
     /**
-     * @param $config_file
+     * Recupera o arquivo de configuração rest.php
+     *
+     * @param string $config_file Nome do arquivo
+     *
+     * @return void
      */
-    private function get_local_config($config_file)
+    private function _getLocalConfig($config_file)
     {
         if (!$this->load->config($config_file, false)) {
             $config = [];
@@ -134,7 +171,7 @@ class MY_Controller extends CI_Controller
     /**
      * Verifica se existem erros
      *
-     * @return void
+     * @return mixed
      */
     public function getData()
     {
@@ -177,7 +214,7 @@ class MY_Controller extends CI_Controller
     /**
      * Recupera o json-schema para validação dos dados de entrada
      *
-     * @return void
+     * @return mixed
      */
     private function _getValidationSchema()
     {
@@ -205,9 +242,9 @@ class MY_Controller extends CI_Controller
      *
      * @param string $data Dados de input da requisição
      *
-     * @return void
+     * @return boolean
      */
-    private function _validateSchema($data = null)
+    private function _validateSchema($data = null): bool
     {
         $schema = $this->_getValidationSchema();
         $isValid = false;
@@ -243,18 +280,19 @@ class MY_Controller extends CI_Controller
     /**
      * Configuração do e-mail
      *
-     * @return void
+     * @return array
      */
-    protected function emailConfig()
+    protected function emailConfig(): array
     {
-        // Config E-mail
-        // $config['protocol'] = 'sendmail';
-        // $config['smtp_host'] = 'ssl://orkneytech.com.br';
-        // $config['smtp_port'] = 465;
-        // $config['smtp_user'] = 'contatos@orkneytech.com.br';
-        // $config['smtp_pass'] = 'Orkneytech10106088';
-        // $config['mailpath'] = '/usr/sbin/sendmail';
-        // $config['charset'] = 'iso-8859-1';
+        // $config = [
+        //     'protocol' => 'sendmail',
+        //     'smtp_host' => 'ssl://orkneytech.com.br',
+        //     'smtp_port' => 465,
+        //     'smtp_user' => 'contatos@orkneytech.com.br',
+        //     'smtp_pass' => 'Orkneytech10106088',
+        //     'mailpath' => '/usr/sbin/sendmail',
+        //     'charset' => 'iso-8859-1'
+        // ];
 
         $config = [
             'protocol' => 'smtp',
@@ -275,31 +313,33 @@ class MY_Controller extends CI_Controller
     /**
      * Envio de e-mail padrão
      *
+     * @param array $setting Estrutura do e-mail
+     *
      * @return CI_Email
      */
     protected function emailCreate(
-        $mail = [
+        $setting = [
             'to' => null,
             'subject' => null,
             'msg' => null
         ]
-    ) {
-        $config = $this->emailConfig();
-        // var_dump($config);die;
-        $this->load->library('email', $config);
+    ): CI_Email {
         // Config E-mail
+        $config = $this->emailConfig();
+        $this->load->library('email', $config);
 
-        // Send E-mail
         $this->email->from($config['smtp_user'], 'Konektron');
-        $this->email->to($mail['to']);
-        $this->email->subject($mail['subject']);
-        $this->email->message($mail['msg']);
+        $this->email->to($setting['to']);
+        $this->email->subject($setting['subject']);
+        $this->email->message($setting['msg']);
 
         return $this->email;
     }
 
     /**
      * Envio de e-mail pelo PHPMailer
+     *
+     * @param array $setting Estrutura do e-mail
      *
      * @return PHPMailer
      */
@@ -309,7 +349,8 @@ class MY_Controller extends CI_Controller
             'subject' => null,
             'msg' => null
         ]
-    ) {
+    ): PHPMailer {
+        // Config E-mail
         $config = $this->emailConfig();
 
         $mail = new PHPMailer();
@@ -337,8 +378,6 @@ class MY_Controller extends CI_Controller
         $mail->msgHTML($setting['msg']);
         $mail->AltBody = $setting['msg'];
 
-        // var_dump($mail->send());
-        // var_dump($mail->ErrorInfo);
         return $mail;
     }
 }

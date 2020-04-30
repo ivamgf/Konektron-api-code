@@ -1,4 +1,4 @@
-<?php echo form_open('recover/'.$token, [ 'class' => 'form-signin' ]); ?>
+<?php echo form_open(null, [ 'class' => 'form-signin' ]); ?>
     <input type="hidden" name="<?php echo $csrf['name'];?>" value="<?php echo $csrf['hash'];?>" />
     <img class="mb-4" src="/assets/img/logo-konektron-large.png" alt="" width="120" height="120">
     <h1 class="h3 mb-3 font-weight-normal">

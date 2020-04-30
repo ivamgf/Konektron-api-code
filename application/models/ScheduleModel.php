@@ -16,11 +16,12 @@ class ScheduleModel extends CI_Model
     /**
      * Recupera as tarefas cadastradas
      *
-     * @return void
+     * @return array
      */
-    public function getSchedule()
+    public function getSchedule(): array
     {
-        return $this->db->get('orkney10_konektron_cli.schedule')->result();
+        return $this->db->get('orkney10_konektron_cli.schedule')
+            ->result() ?? [];
     }
 
     /**
@@ -28,16 +29,16 @@ class ScheduleModel extends CI_Model
      *
      * @param integer $id_schedule Id da tarefa
      *
-     * @return void
+     * @return stdClass
      */
-    public function getScheduleId(int $id_schedule)
+    public function getScheduleId(int $id_schedule): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.schedule',
             [
                 'id_schedule' => $id_schedule
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -45,9 +46,9 @@ class ScheduleModel extends CI_Model
      *
      * @param integer $id_users Id do usuário
      *
-     * @return void
+     * @return stdClass
      */
-    public function getScheduleUsers(int $id_users)
+    public function getScheduleUsers(int $id_users): stdClass
     {
         return $this->db
             ->join('schedule_aux', 'schedule_aux.id_schedule = schedule.id_schedule')
@@ -56,7 +57,7 @@ class ScheduleModel extends CI_Model
                 [
                     'schedule_aux.id_users' => $id_users
                 ]
-            )->row();
+            )->row() ?? new stdClass();
     }
 
     /**
@@ -64,12 +65,14 @@ class ScheduleModel extends CI_Model
      *
      * @param stdClass $schedule Dados da tarefa
      *
-     * @return void
+     * @return integer
      */
-    public function insertSchedule(int $schedule)
+    public function insertSchedule(stdClass $schedule): int
     {
         $this->db->insert('orkney10_konektron_cli.schedule', $schedule);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
     /**
@@ -78,9 +81,9 @@ class ScheduleModel extends CI_Model
      * @param integer $id_schedule Id da tarefa
      * @param object  $schedule    Dados da tarefa
      *
-     * @return void
+     * @return boolean
      */
-    public function patchSchedule(int $id_schedule, stdClass $schedule)
+    public function patchSchedule(int $id_schedule, stdClass $schedule): bool
     {
         $this->db->where('id_schedule', $id_schedule);
         $this->db->update('orkney10_konektron_cli.schedule', $schedule);
@@ -92,9 +95,9 @@ class ScheduleModel extends CI_Model
      *
      * @param int $id_schedule Id da tarefa
      *
-     * @return void
+     * @return boolean
      */
-    public function delSchedule(int $id_schedule)
+    public function delSchedule(int $id_schedule): bool
     {
         $this->db->where('id_schedule', $id_schedule);
         $this->db->delete('orkney10_konektron_cli.schedule');

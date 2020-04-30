@@ -41,19 +41,25 @@ class SignModel extends MY_Model
      *
      * @param stdClass $signupProviders Dados do fornecedor
      *
-     * @return void
+     * @return integer
      */
-    public function insertProvider(stdClass $signupProviders)
+    public function insertProvider(stdClass $signupProviders): int
     {
         // au_type 2 = provider
         $signupProviders->id_auth = self::AUTH_PROVIDER;
-        $signupProviders->pr_password = $this->gerarSenha($signupProviders->pr_password);
+        $signupProviders->pr_password = $this->gerarSenha(
+            $signupProviders->pr_password
+        );
         $signupProviders->pr_status = 'inactive';
-        $signupProviders->pr_token = $this->gerarToken($signupProviders->pr_email);
+        $signupProviders->pr_token = $this->gerarToken(
+            $signupProviders->pr_email
+        );
         $signupProviders->pr_modified = null;
 
         $this->db->insert('orkney10_konektron_cli.providers', $signupProviders);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
     /**
@@ -62,16 +68,16 @@ class SignModel extends MY_Model
      * @param string $us_email    E-mail do usuário
      * @param string $us_password Senha do usuário
      *
-     * @return void
+     * @return array
      */
-    public function signinUser(string $us_email, string $us_password)
+    public function signinUser(string $us_email, string $us_password): array
     {
         $this->db->where("us_email", $us_email);
         $this->db->where("us_status", "active");
         $user = $this->db->get("users")->row_array();
         $validate = !empty($user['us_password'])
             && $this->validaSenha($us_password, $user['us_password']);
-        return !empty($validate) ? $user : null;
+        return !empty($validate) ? $user : [];
     }
 
     /**
@@ -80,33 +86,33 @@ class SignModel extends MY_Model
      * @param string $pr_email    E-mail do fornecedor
      * @param string $pr_password Senha do fornecedor
      *
-     * @return void
+     * @return array
      */
-    public function signinProviders(string $pr_email, string $pr_password)
+    public function signinProviders(string $pr_email, string $pr_password): array
     {
         $this->db->where("pr_email", $pr_email);
         $this->db->where("pr_status", "active");
         $provider = $this->db->get("providers")->row_array();
         $validate = !empty($provider['pr_password'])
             && $this->validaSenha($pr_password, $provider['pr_password']);
-        return !empty($validate) ? $provider : null;
+        return !empty($validate) ? $provider : [];
     }
 
     /**
      * Retorna os admins
      *
-     * @param int $id_auth
+     * @param int $id_auth Id do admin
      *
-     * @return void
+     * @return stdClass
      */
-    public function getAuthUsers($id_auth)
+    public function getAuthUsers(int $id_auth): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.authorization',
             [
                 'id_auth' => $id_auth
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -114,9 +120,9 @@ class SignModel extends MY_Model
      *
      * @param string $us_email E-mail do usuário
      *
-     * @return void
+     * @return array
      */
-    public function verify(string $us_email)
+    public function verify(string $us_email): array
     {
         $this->db->where("us_email", $us_email);
         $user = $this->db->get("users")->row_array();
@@ -128,9 +134,9 @@ class SignModel extends MY_Model
      *
      * @param string $pr_email E-mail do usuário
      *
-     * @return void
+     * @return array
      */
-    public function verifyProviders(string $pr_email)
+    public function verifyProviders(string $pr_email): array
     {
         $this->db->where("pr_email", $pr_email);
         $provider = $this->db->get("providers")->row_array();
@@ -141,17 +147,17 @@ class SignModel extends MY_Model
      * Atualiza o token do usuário
      *
      * @param string $us_email E-mail do usuário
-     * @param string $token    Token do usuário
+     * @param string $us_token Token do usuário
      *
-     * @return void
+     * @return boolean
      */
-    public function tokenUpdate($us_email, $token)
+    public function tokenUpdate(string $us_email, string $us_token): bool
     {
         $this->db->where('us_email', $us_email);
         $this->db->update(
             'orkney10_konektron_cli.users',
             [
-                'us_token' => $token
+                'us_token' => $us_token
             ]
         );
         return $this->db->affected_rows() > 0;
@@ -161,17 +167,17 @@ class SignModel extends MY_Model
      * Atualiza o token do fornecedor
      *
      * @param string $pr_email E-mail do fornecedor
-     * @param string $token    Token do fornecedor
+     * @param string $pr_token Token do fornecedor
      *
-     * @return void
+     * @return boolean
      */
-    public function tokenUpdateProvider($pr_email, $token)
+    public function tokenUpdateProvider(string $pr_email, string $pr_token): bool
     {
         $this->db->where('pr_email', $pr_email);
         $this->db->update(
             'orkney10_konektron_cli.providers',
             [
-                'pr_token' => $token
+                'pr_token' => $pr_token
             ]
         );
         return $this->db->affected_rows() > 0;
@@ -180,90 +186,216 @@ class SignModel extends MY_Model
     /**
      * Atualiza o token do usuário
      *
-     * @param string $us_email E-mail do usuário
-     * @param string $token    Token do usuário
-     * @return void
+     * @param string $us_email        E-mail do usuário
+     * @param string $us_token_forgot Token do usuário
+     *
+     * @return boolean
      */
-    public function tokenForgotUpdate($us_email, $token)
+    public function tokenForgotUpdate(string $us_email, string $us_token_forgot): bool
     {
         $this->db->where('us_email', $us_email);
         $this->db->update(
             'orkney10_konektron_cli.users',
             [
-                'us_token_forgot' => $token
+                'us_token_forgot' => $us_token_forgot
             ]
         );
         return $this->db->affected_rows() > 0;
     }
 
-    public function tokenValidForgot($token)
+    /**
+     * Valida o token de redefinição da senha do cliente
+     *
+     * @param string $us_token_forgot Token de redefinição da senha
+     *
+     * @return boolean
+     */
+    public function tokenValidForgot(string $us_token_forgot): bool
     {
-        $user = $this->db->get_where('orkney10_konektron_cli.users', array('us_token_forgot' => $token))->row();
+        $user = $this->db->get_where(
+            'orkney10_konektron_cli.users',
+            [
+                'us_token_forgot' => $us_token_forgot
+            ]
+        )->row();
         return !empty($user);
     }
 
-    public function tokenValidRecover($token)
+    /**
+     * Valida o token de autenticação do cliente
+     *
+     * @param string $us_token Token de redefinição da senha
+     *
+     * @return boolean
+     */
+    public function tokenValidRecover(string $us_token): bool
     {
-        $user = $this->db->get_where('orkney10_konektron_cli.users', array('us_token' => $token))->row();
+        $user = $this->db->get_where(
+            'orkney10_konektron_cli.users',
+            [
+                'us_token' => $us_token
+            ]
+        )->row();
         return !empty($user);
     }
 
-    public function updatePassword($token, $password)
-    {
-        $this->db->where('us_token_forgot', $token);
+    /**
+     * Atualiza a senha do cliente
+     *
+     * @param string $us_token_forgot Token de recuperação da senha
+     * @param string $us_password     Nova senha do cliente
+     *
+     * @return boolean
+     */
+    public function updatePassword(
+        string $us_token_forgot,
+        string $us_password
+    ): bool {
+        $this->db->where('us_token_forgot', $us_token_forgot);
         $this->db->update(
             'orkney10_konektron_cli.users',
             [
-                'us_password' => $this->gerarSenha($password),
+                'us_password' => $this->gerarSenha($us_password),
                 'us_token_forgot' => null
             ]
         );
         return $this->db->affected_rows() > 0;
     }
 
-    public function tokenValidForgotProviders($token)
+    /**
+     * Valida o token de redefinição da senha do fornecedor
+     *
+     * @param string $pr_token_forgot Token de recuperação da senha
+     *
+     * @return boolean
+     */
+    public function tokenValidForgotProviders(string $pr_token_forgot): bool
     {
-        $user = $this->db->get_where('orkney10_konektron_cli.providers', array('pr_token_forgot' => $token))->row();
+        $user = $this->db->get_where(
+            'orkney10_konektron_cli.providers',
+            [
+                'pr_token_forgot' => $token
+            ]
+        )->row();
         return !empty($user);
     }
 
-    public function tokenForgotProvidersUpdate($pr_email, $token)
-    {
+    /**
+     * Atualiza o token de redefinição da senha do fornecedor
+     *
+     * @param string $pr_email        E-mail do fornecedor
+     * @param string $pr_token_forgot Token de recuperação da senha
+     *
+     * @return boolean
+     */
+    public function tokenForgotProvidersUpdate(
+        string $pr_email,
+        string $pr_token_forgot
+    ): bool {
         $this->db->where('pr_email', $pr_email);
-        $this->db->update('orkney10_konektron_cli.providers', array('pr_token_forgot' => $token));
+        $this->db->update(
+            'orkney10_konektron_cli.providers',
+            [
+                'pr_token_forgot' => $pr_token_forgot
+            ]
+        );
         return $this->db->affected_rows() > 0;
     }
 
-    public function tokenValidRecoverProviders($token)
+    /**
+     * Valida o token de autenticação do fornecedor
+     *
+     * @param string $pr_token Token de autenticação
+     *
+     * @return boolean
+     */
+    public function tokenValidRecoverProviders(string $pr_token): bool
     {
-        $provider = $this->db->get_where('orkney10_konektron_cli.providers', array('pr_token' => $token))->row();
+        $provider = $this->db->get_where(
+            'orkney10_konektron_cli.providers',
+            [
+                'pr_token' => $pr_token
+            ]
+        )->row();
         return !empty($provider);
     }
 
-    public function tokenValidRecoverAdmin($token)
+    /**
+     * Valida o token de autenticação do admin
+     *
+     * @param string $ad_token Token de autenticação
+     *
+     * @return boolean
+     */
+    public function tokenValidRecoverAdmin(string $ad_token): bool
     {
-        $admin = $this->db->get_where('orkney10_konektron_cli.admin', array('ad_token' => $token))->row();
+        $admin = $this->db->get_where(
+            'orkney10_konektron_cli.admin',
+            [
+                'ad_token' => $ad_token
+            ]
+        )->row();
         return !empty($admin);
     }
 
-    public function updatePasswordProviders($token, $password)
-    {
-        $this->db->where('token_recoverProviders', $token);
-        $this->db->update('orkney10_konektron_cli.providers', array('password' => $password, 'token_recoverProviders' => NULL));
+    /**
+     * Atualiza a senha do fornecedor
+     *
+     * @param string $pr_token_forgot Token de recuperação da senha
+     * @param string $pr_password     Nova senha
+     *
+     * @return boolean
+     */
+    public function updatePasswordProviders(
+        string $pr_token_forgot,
+        string $pr_password
+    ): bool {
+        $this->db->where('pr_token_forgot', $pr_token_forgot);
+        $this->db->update(
+            'orkney10_konektron_cli.providers',
+            [
+                'pr_password' => $this->gerarSenha($pr_password),
+                'pr_token_forgot' => null
+            ]
+        );
         return $this->db->affected_rows() > 0;
     }
 
-    public function activationModel($us_token)
+    /**
+     * Ativa a conta do cliente
+     *
+     * @param string $us_token Token de autenticação
+     *
+     * @return boolean
+     */
+    public function activationModel(string $us_token): bool
     {
         $this->db->where('us_token', $us_token);
-        $this->db->update('orkney10_konektron_cli.users', array('us_status' => 'active'));
+        $this->db->update(
+            'orkney10_konektron_cli.users',
+            [
+                'us_status' => 'active'
+            ]
+        );
         return $this->db->affected_rows() > 0;
     }
 
-    public function activationProvidersModel($pr_token)
+    /**
+     * Ativa a conta do fornecedor
+     *
+     * @param string $pr_token Token de autenticação
+     *
+     * @return boolean
+     */
+    public function activationProvidersModel(string $pr_token): bool
     {
         $this->db->where('pr_token', $pr_token);
-        $this->db->update('orkney10_konektron_cli.providers', array('pr_status' => 'active'));
+        $this->db->update(
+            'orkney10_konektron_cli.providers',
+            [
+                'pr_status' => 'active'
+            ]
+        );
         return $this->db->affected_rows() > 0;
     }
 }

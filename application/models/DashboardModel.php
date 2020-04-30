@@ -16,20 +16,22 @@ class DashboardModel extends CI_Model
     /**
      * Retorna os administradores do sistema
      *
-     * @return void
+     * @return array
      */
-    public function getAdmins()
+    public function getAdmins(): array
     {
-        return $this->db->get('orkney10_konektron_cli.admin')->result();
+        return $this->db->get('orkney10_konektron_cli.admin')
+            ->result() ?? [];
     }
 
     /**
      * Retorna os clientes do sistema
      *
-     * @return void
+     * @return array
      */
-    public function getClients()
+    public function getClients(): array
     {
-        return $this->db->get('orkney10_konektron_cli.users')->result();
+        return $this->db->get('orkney10_konektron_cli.users')
+            ->result() ?? [];
     }
 }

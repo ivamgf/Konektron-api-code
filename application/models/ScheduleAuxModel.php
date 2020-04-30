@@ -16,11 +16,12 @@ class ScheduleAuxModelModel extends CI_Model
     /**
      * Recupera os dados auxiliares das tarefas
      *
-     * @return void
+     * @return array
      */
-    public function getScheduleAux()
+    public function getScheduleAux(): array
     {
-        return $this->db->get('orkney10_konektron_cli.schedule_aux')->result();
+        return $this->db->get('orkney10_konektron_cli.schedule_aux')
+            ->result() ?? [];
     }
 
     /**
@@ -28,16 +29,16 @@ class ScheduleAuxModelModel extends CI_Model
      *
      * @param integer $id_schedule_aux Id dos dados auxiliares
      *
-     * @return void
+     * @return stdClass
      */
-    public function getScheduleAuxId(int $id_schedule_aux)
+    public function getScheduleAuxId(int $id_schedule_aux): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.schedule_aux',
             [
                 'id_schedule_aux' => $id_schedule_aux
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -45,16 +46,16 @@ class ScheduleAuxModelModel extends CI_Model
      *
      * @param integer $id_schedule Id da tarefa vinculada
      *
-     * @return void
+     * @return stdClass
      */
-    public function getScheduleAuxIdSch(int $id_schedule)
+    public function getScheduleAuxIdSch(int $id_schedule): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.schedule_aux',
             [
                 'id_schedule' => $id_schedule
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -62,16 +63,16 @@ class ScheduleAuxModelModel extends CI_Model
      *
      * @param integer $id_users Id do usuário
      *
-     * @return void
+     * @return stdClass
      */
-    public function getScheduleAuxUsers(int $id_users)
+    public function getScheduleAuxUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.schedule_aux',
             [
                 'id_users' => $id_users
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -79,16 +80,16 @@ class ScheduleAuxModelModel extends CI_Model
      *
      * @param integer $id_providers Id do fornecedor
      *
-     * @return void
+     * @return stdClass
      */
-    public function getScheduleAuxProviders(int $id_providers)
+    public function getScheduleAuxProviders(int $id_providers): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.schedule_aux',
             [
                 'id_providers' => $id_providers
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -96,16 +97,16 @@ class ScheduleAuxModelModel extends CI_Model
      *
      * @param integer $id_service Id do serviço
      *
-     * @return void
+     * @return stdClass
      */
-    public function getScheduleAuxService(int $id_service)
+    public function getScheduleAuxService(int $id_service): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.schedule_aux',
             [
                 'id_service' => $id_service
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -113,29 +114,35 @@ class ScheduleAuxModelModel extends CI_Model
      *
      * @param stdClass $scheduleAuxModel Dados auxiliares da tarefa
      *
-     * @return void
+     * @return integer
      */
-    public function insertScheduleAux(stdClass $scheduleAuxModel)
+    public function insertScheduleAux(stdClass $scheduleAuxModel): int
     {
         $this->db->insert(
             'orkney10_konektron_cli.schedule_aux',
             $scheduleAuxModel
         );
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
     /**
      * Atualiza os dados auxiliares da tarefa
      *
-     * @param integer $id_schedule_aux  Id dos dados auxiliares
-     * @param stdClass  $scheduleAuxModel Dados auxiliares da tarefa
+     * @param integer  $id_schedule_aux  Id dos dados auxiliares
+     * @param stdClass $scheduleAuxModel Dados auxiliares da tarefa
      *
-     * @return void
+     * @return boolean
      */
-    public function patchScheduleAux(int $id_schedule_aux, stdClass $scheduleAuxModel)
-    {
+    public function patchScheduleAux(
+        int $id_schedule_aux,
+        stdClass $scheduleAuxModel
+    ): bool {
         $this->db->where('id_schedule_aux', $id_schedule_aux);
-        $this->db->update('orkney10_konektron_cli.schedule_aux', $scheduleAuxModel);
+        $this->db->update(
+            'orkney10_konektron_cli.schedule_aux', $scheduleAuxModel
+        );
         return $this->db->affected_rows() > 0;
     }
 
@@ -144,9 +151,9 @@ class ScheduleAuxModelModel extends CI_Model
      *
      * @param integer $id_schedule_aux Id dos dados auxiliares
      *
-     * @return void
+     * @return boolean
      */
-    public function delScheduleAux(int $id_schedule_aux)
+    public function delScheduleAux(int $id_schedule_aux): bool
     {
         $this->db->where('id_schedule_aux', $id_schedule_aux);
         $this->db->delete('orkney10_konektron_cli.schedule_aux');

@@ -16,12 +16,12 @@ class AddressModel extends CI_Model
     /**
      * Recupera os endereços
      *
-     * @return void
+     * @return array
      */
-    public function getAddress()
+    public function getAddress(): array
     {
         return $this->db->get('orkney10_konektron_cli.address')
-            ->result();
+            ->result() ?? [];
     }
 
     /**
@@ -29,16 +29,16 @@ class AddressModel extends CI_Model
      *
      * @param integer $id_address Id do endereço
      *
-     * @return void
+     * @return stdClass
      */
-    public function getAddressId(int $id_address)
+    public function getAddressId(int $id_address): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.address',
             [
                 'id_address' => $id_address
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -46,16 +46,16 @@ class AddressModel extends CI_Model
      *
      * @param integer $id_users Id do usuário
      *
-     * @return void
+     * @return stdClass
      */
-    public function getAddressUsers(int $id_users)
+    public function getAddressUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.address',
             [
                 'id_users' => $id_users
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -63,9 +63,9 @@ class AddressModel extends CI_Model
      *
      * @param stdClass $address Dados do endereço
      *
-     * @return void
+     * @return integer
      */
-    public function insertAddress(stdClass $address)
+    public function insertAddress(stdClass $address): int
     {
         $this->db->insert('orkney10_konektron_cli.address', $address);
         return $this->db->affected_rows() > 0
@@ -76,12 +76,12 @@ class AddressModel extends CI_Model
     /**
      * Atualiza um endereço
      *
-     * @param integer $id_address Id do endereço
-     * @param stdClass  $address    Dados do endereço
+     * @param integer  $id_address Id do endereço
+     * @param stdClass $address    Dados do endereço
      *
-     * @return void
+     * @return boolean
      */
-    public function patchAddress(int $id_address, stdClass  $address)
+    public function patchAddress(int $id_address, stdClass  $address): bool
     {
         $this->db->where('id_address', $id_address);
         $this->db->update('orkney10_konektron_cli.address', $address);
@@ -93,9 +93,9 @@ class AddressModel extends CI_Model
      *
      * @param integer $id_address Id do endereço
      *
-     * @return void
+     * @return boolean
      */
-    public function delAddress(int $id_address)
+    public function delAddress(int $id_address): bool
     {
         $this->db->where('id_address', $id_address);
         $this->db->delete('orkney10_konektron_cli.address');

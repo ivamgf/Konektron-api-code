@@ -15,11 +15,12 @@ class CategoryModel extends CI_Model
     /**
      * Recupera as categorias cadastradas
      *
-     * @return void
+     * @return array
      */
-    public function getCategory()
+    public function getCategory(): array
     {
-        return $this->db->get('orkney10_konektron_cli.category')->result();
+        return $this->db->get('orkney10_konektron_cli.category')
+            ->result() ?? [];
     }
 
     /**
@@ -27,16 +28,16 @@ class CategoryModel extends CI_Model
      *
      * @param integer $id_category Id da categoria
      *
-     * @return void
+     * @return stdClass
      */
-    public function getCategoryId(int $id_category)
+    public function getCategoryId(int $id_category): stdClass
     {
         return $this->db->get_where(
             'orkney10_konektron_cli.category',
             [
                 'id_category' => $id_category
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -44,23 +45,25 @@ class CategoryModel extends CI_Model
      *
      * @param stdClass $category Dados da nova categoria
      *
-     * @return void
+     * @return integer
      */
-    public function insertCategory(stdClass $category)
+    public function insertCategory(stdClass $category): int
     {
         $this->db->insert('orkney10_konektron_cli.category', $category);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
     /**
      * Atualiza uma categoria pelo Id
      *
-     * @param integer $id_category Id da categoria
-     * @param stdClass  $category    Dados da categoria
+     * @param integer  $id_category Id da categoria
+     * @param stdClass $category    Dados da categoria
      *
-     * @return void
+     * @return boolean
      */
-    public function patchCategory(int $id_category, stdClass $category)
+    public function patchCategory(int $id_category, stdClass $category): bool
     {
         $this->db->where('id_category', $id_category);
         $this->db->update('orkney10_konektron_cli.category', $category);
@@ -72,9 +75,9 @@ class CategoryModel extends CI_Model
      *
      * @param integer $id_category Id da categoria
      *
-     * @return void
+     * @return boolean
      */
-    public function delCategory(int $id_category)
+    public function delCategory(int $id_category): bool
     {
         $this->db->where('id_category', $id_category);
         $this->db->delete('orkney10_konektron_cli.category');
