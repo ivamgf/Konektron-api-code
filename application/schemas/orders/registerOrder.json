@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/orders.json#",
+    "type": "object",
+    "properties": {
+        "id_users": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "id_payment": {
+            "type": "integer",
+            "minimum": 1
+        }
+    },
+    "required": ["id_users", "id_payment"],
+    "additionalProperties": false
+}

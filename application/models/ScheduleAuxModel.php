@@ -1,47 +1,162 @@
 <?php
+/**
+ * Model para cadastro dos dados auxiliares das tarefas
+ *
+ * @category   Model
+ * @package    Konektron
+ * @subpackage ProfileModel
+ * @author     Orkney Tech <contato@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+*/
+class ScheduleAuxModelModel extends CI_Model
+{
 
-	class ScheduleAuxModelModel extends CI_Model {
-		
-		public function getScheduleAux() {
-			return $this->db->get('orkney10_konektron_cli.schedule_aux')->result();
-		}
+    /**
+     * Recupera os dados auxiliares das tarefas
+     *
+     * @return array
+     */
+    public function getScheduleAux(): array
+    {
+        return $this->db->get('orkney10_konektron_cli.schedule_aux')
+            ->result() ?? [];
+    }
 
-		public function getScheduleAuxId($id_schedule_aux) {
-			return $this->db->get_where('orkney10_konektron_cli.schedule_aux', array('id_schedule_aux' => $id_schedule_aux))->row();
-		}
+    /**
+     * Recupera os dados auxiliares da tarefa pelo id
+     *
+     * @param integer $id_schedule_aux Id dos dados auxiliares
+     *
+     * @return stdClass
+     */
+    public function getScheduleAuxId(int $id_schedule_aux): stdClass
+    {
+        return $this->db->get_where(
+            'orkney10_konektron_cli.schedule_aux',
+            [
+                'id_schedule_aux' => $id_schedule_aux
+            ]
+        )->row() ?? new stdClass();
+    }
 
-		public function getScheduleAuxIdSch($id_schedule) {
-			return $this->db->get_where('orkney10_konektron_cli.schedule_aux', array('id_schedule' => $id_schedule))->row();
-		}
+    /**
+     * Recuperar os dados auxiliares da tarefa pelo id de outra tarefa
+     *
+     * @param integer $id_schedule Id da tarefa vinculada
+     *
+     * @return stdClass
+     */
+    public function getScheduleAuxIdSch(int $id_schedule): stdClass
+    {
+        return $this->db->get_where(
+            'orkney10_konektron_cli.schedule_aux',
+            [
+                'id_schedule' => $id_schedule
+            ]
+        )->row() ?? new stdClass();
+    }
 
-		public function getScheduleAuxUsers($id_users) {
-			return $this->db->get_where('orkney10_konektron_cli.schedule_aux', array('id_users' => $id_users))->row();
-		}		
+    /**
+     * Recupera os dados auxiliares da tarefa pelo id do usuário
+     *
+     * @param integer $id_users Id do usuário
+     *
+     * @return stdClass
+     */
+    public function getScheduleAuxUsers(int $id_users): stdClass
+    {
+        return $this->db->get_where(
+            'orkney10_konektron_cli.schedule_aux',
+            [
+                'id_users' => $id_users
+            ]
+        )->row() ?? new stdClass();
+    }
 
-		public function getScheduleAuxProviders($id_providers) {
-			return $this->db->get_where('orkney10_konektron_cli.schedule_aux', array('id_providers' => $id_providers))->row();
-		}
+    /**
+     * Recupera os dados auxiliares da tarefa pelo id do fornecedor
+     *
+     * @param integer $id_providers Id do fornecedor
+     *
+     * @return stdClass
+     */
+    public function getScheduleAuxProviders(int $id_providers): stdClass
+    {
+        return $this->db->get_where(
+            'orkney10_konektron_cli.schedule_aux',
+            [
+                'id_providers' => $id_providers
+            ]
+        )->row() ?? new stdClass();
+    }
 
-		public function getScheduleAuxService($id_service) {
-			return $this->db->get_where('orkney10_konektron_cli.schedule_aux', array('id_service' => $id_service))->row();
-		}
+    /**
+     * Recupera os dados auxiliares da tarefa pelo id do serviço
+     *
+     * @param integer $id_service Id do serviço
+     *
+     * @return stdClass
+     */
+    public function getScheduleAuxService(int $id_service): stdClass
+    {
+        return $this->db->get_where(
+            'orkney10_konektron_cli.schedule_aux',
+            [
+                'id_service' => $id_service
+            ]
+        )->row() ?? new stdClass();
+    }
 
-		public function insertScheduleAux($scheduleAuxModel) {
-			$this->db->insert('orkney10_konektron_cli.schedule_aux', $scheduleAuxModel);
-		}
+    /**
+     * Insere os dados auxiliares da tarefa
+     *
+     * @param stdClass $scheduleAuxModel Dados auxiliares da tarefa
+     *
+     * @return integer
+     */
+    public function insertScheduleAux(stdClass $scheduleAuxModel): int
+    {
+        $this->db->insert(
+            'orkney10_konektron_cli.schedule_aux',
+            $scheduleAuxModel
+        );
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
+    }
 
-		public function patchScheduleAux($id_schedule_aux, $scheduleAuxModel) {
-			$this->db->where('id_schedule_aux', $id_schedule_aux);
-			$this->db->update('orkney10_konektron_cli.schedule_aux', $scheduleAuxModel);
+    /**
+     * Atualiza os dados auxiliares da tarefa
+     *
+     * @param integer  $id_schedule_aux  Id dos dados auxiliares
+     * @param stdClass $scheduleAuxModel Dados auxiliares da tarefa
+     *
+     * @return boolean
+     */
+    public function patchScheduleAux(
+        int $id_schedule_aux,
+        stdClass $scheduleAuxModel
+    ): bool {
+        $this->db->where('id_schedule_aux', $id_schedule_aux);
+        $this->db->update(
+            'orkney10_konektron_cli.schedule_aux', $scheduleAuxModel
+        );
+        return $this->db->affected_rows() > 0;
+    }
 
-			if($this->db->affected_rows() > 0) {
-				return $id_schedule_aux;
-			} 
-			return NULL;
-		}
-
-		public function delScheduleAux($id_schedule_aux) {
-			$this->db->where('id_schedule_aux', $id_schedule_aux);
-			$this->db->delete('orkney10_konektron_cli.schedule_aux');
-		}
-	}
+    /**
+     * Remove os dados auxiliares da tarefa
+     *
+     * @param integer $id_schedule_aux Id dos dados auxiliares
+     *
+     * @return boolean
+     */
+    public function delScheduleAux(int $id_schedule_aux): bool
+    {
+        $this->db->where('id_schedule_aux', $id_schedule_aux);
+        $this->db->delete('orkney10_konektron_cli.schedule_aux');
+        return $this->db->affected_rows() > 0;
+    }
+}

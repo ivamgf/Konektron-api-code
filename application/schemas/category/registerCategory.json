@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/category.json#",
+    "type": "object",
+    "properties": {
+        "ct_title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+        },
+        "ct_description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+        }
+    },
+    "required": ["ct_title"],
+    "additionalProperties": false
+}
