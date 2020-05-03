@@ -1,0 +1,37 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/cards.json#",
+    "type": "object",
+    "properties": {
+        "id_users": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "ca_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+        },
+        "ca_number": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 20
+        },
+        "ca_validity": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10
+        },
+        "ca_cod": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 3
+        },
+        "ca_brand": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+        }
+    },
+    "additionalProperties": false
+}

@@ -1,0 +1,47 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/address.json#",
+    "type": "object",
+    "properties": {
+		"id_users": {
+            "type": "integer",
+            "minimum": 1
+		},
+        "as_address": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+		},
+		"as_number": {
+			"type": "string",
+            "minLength": 1,
+            "maxLength": 11
+		},
+        "as_block": {
+			"type": "string",
+            "minLength": 1,
+            "maxLength": 255
+		},
+		"as_city": {
+			"type": "string",
+            "minLength": 1,
+            "maxLength": 255
+		},
+		"as_uf": {
+			"type": "string",
+            "minLength": 1,
+            "maxLength": 2
+		},
+		"as_complement": {
+			"type": "string",
+            "minLength": 1,
+            "maxLength": 200
+		},
+		"as_cep": {
+            "type": "integer",
+			"minLength": 1,
+            "maxLength": 11
+		}
+    },
+    "additionalProperties": false
+}

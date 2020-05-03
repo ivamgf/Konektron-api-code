@@ -1,31 +1,86 @@
 <?php
+/**
+ * Model para cadastro das categorias
+ *
+ * @category   Model
+ * @package    Konektron
+ * @subpackage CategoryModel
+ * @author     Orkney Tech <contato@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+ */
+class CategoryModel extends CI_Model
+{
+    /**
+     * Recupera as categorias cadastradas
+     *
+     * @return array
+     */
+    public function getCategory(): array
+    {
+        return $this->db->get('orkney10_konektron_cli.category')
+            ->result() ?? [];
+    }
 
-	class CategoryModel extends CI_Model {
-		
-		public function getCategory() {
-			return $this->db->get('orkney10_konektron_cli.category')->result();
-		}
+    /**
+     * Recupera um categoria pelo Id
+     *
+     * @param integer $id_category Id da categoria
+     *
+     * @return stdClass
+     */
+    public function getCategoryId(int $id_category): stdClass
+    {
+        return $this->db->get_where(
+            'orkney10_konektron_cli.category',
+            [
+                'id_category' => $id_category
+            ]
+        )->row() ?? new stdClass();
+    }
 
-		public function getCategoryId($id_category) {
-			return $this->db->get_where('orkney10_konektron_cli.category', array('id_category' => $id_category))->row();
-		}
+    /**
+     * Insere uma nova categoria
+     *
+     * @param stdClass $category Dados da nova categoria
+     *
+     * @return integer
+     */
+    public function insertCategory(stdClass $category): int
+    {
+        $this->db->insert('orkney10_konektron_cli.category', $category);
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
+    }
 
-		public function insertCategory($category) {
-			$this->db->insert('orkney10_konektron_cli.category', $category);
-		}
+    /**
+     * Atualiza uma categoria pelo Id
+     *
+     * @param integer  $id_category Id da categoria
+     * @param stdClass $category    Dados da categoria
+     *
+     * @return boolean
+     */
+    public function patchCategory(int $id_category, stdClass $category): bool
+    {
+        $this->db->where('id_category', $id_category);
+        $this->db->update('orkney10_konektron_cli.category', $category);
+        return $this->db->affected_rows() > 0;
+    }
 
-		public function patchCategory($id_category, $category) {
-			$this->db->where('id_category', $id_category);
-			$this->db->update('orkney10_konektron_cli.category', $category);
-
-			if($this->db->affected_rows() > 0) {
-				return $id_category;
-			} 
-			return NULL;
-		}
-
-		public function delCategory($id_category) {
-			$this->db->where('id_category', $id_category);
-			$this->db->delete('orkney10_konektron_cli.category');
-		}
-	}
+    /**
+     * Remove uma categoria pelo Id
+     *
+     * @param integer $id_category Id da categoria
+     *
+     * @return boolean
+     */
+    public function delCategory(int $id_category): bool
+    {
+        $this->db->where('id_category', $id_category);
+        $this->db->delete('orkney10_konektron_cli.category');
+        return $this->db->affected_rows() > 0;
+    }
+}
