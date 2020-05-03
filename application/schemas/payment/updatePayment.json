@@ -1,0 +1,35 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/payment.json#",
+    "type": "object",
+    "properties": {
+        "id_users": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "id_service": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "id_cards": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "pa_quant": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 11
+        },
+        "pa_value": {
+            "type": "number",
+            "minLength": 1,
+            "maxLength": 10
+        },
+        "pa_type": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+        }
+    },
+    "additionalProperties": false
+}

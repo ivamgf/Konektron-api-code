@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/forgotProviders.json#",
+    "type": "object",
+    "properties": {
+        "pr_email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1,
+            "maxLength": 200
+        }
+    },
+    "required": ["pr_email"],
+    "additionalProperties": false
+}

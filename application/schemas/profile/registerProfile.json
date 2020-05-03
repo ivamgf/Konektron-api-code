@@ -1,0 +1,52 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/profile.json#",
+    "type": "object",
+    "properties": {
+        "id_users": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "pf_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "pf_nickname": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+        },
+        "pf_picture": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "pf_gender": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+        },
+        "pf_natId": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 20
+        },
+        "pf_phone": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 20
+        },
+        "pf_birthday": {
+            "type": "string",
+            "format": "date"
+        },
+        "pf_balance": {
+            "type": "number",
+            "minLength": 1,
+            "maxLength": 10
+        }
+    },
+    "required": ["id_users", "pf_gender", "pf_birthday"],
+    "additionalProperties": false
+}

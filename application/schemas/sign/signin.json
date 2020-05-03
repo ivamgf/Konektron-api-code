@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/signin.json#",
+    "type": "object",
+    "properties": {
+        "us_email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "us_password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 12
+        }
+    },
+    "required": ["us_email", "us_password"],
+    "additionalProperties": false
+}
