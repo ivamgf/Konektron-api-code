@@ -1,3 +1,7 @@
+<IfModule mod_env.c>
+    SetEnv CI_ENV production
+</IfModule>
+
 RewriteEngine On
 
 # Some hosts may require you to use the `RewriteBase` directive.
