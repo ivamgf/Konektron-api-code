@@ -179,7 +179,6 @@ $config['auth_library_function'] = '';
 | Acceptable values are; 'none', 'digest' and 'basic'.
 |
 */
-$config['auth_override_class_method']['welcome']['*'] = 'none';
 $config['auth_override_class_method']['api']['users'] = 'none';
 $config['auth_override_class_method']['sign']['signin'] = 'none';
 $config['auth_override_class_method']['sign']['signinProviders'] = 'none';

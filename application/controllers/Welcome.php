@@ -30,11 +30,4 @@ class Welcome extends MY_Controller {
             200
         );
     }
-
-    public function key()
-    {
-        var_dump(password_hash('123456', PASSWORD_BCRYPT));
-        var_dump(password_verify('123456', '$2y$10$ykij4cNUoYASIOau2F2md.YkLwM5LpEBTDGus93eXs1gBKVPG68ju'));
-        die;
-    }
 }

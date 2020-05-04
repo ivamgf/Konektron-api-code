@@ -140,7 +140,11 @@ class MY_Controller extends CI_Controller
 
         $auth_override_class_method = $this->config->item('auth_override_class_method');
         if (!empty($auth_override_class_method)) {
-            if (!empty($auth_override_class_method[$this->router->class][$this->router->method])) {
+            if (!empty($auth_override_class_method[$this->router->class]['*'])) {
+                if ($auth_override_class_method[$this->router->class]['*'] === 'none') {
+                    return true;
+                }
+            } else if (!empty($auth_override_class_method[$this->router->class][$this->router->method])) {
                 if ($auth_override_class_method[$this->router->class][$this->router->method] === 'none') {
                     return true;
                 }
@@ -284,25 +288,40 @@ class MY_Controller extends CI_Controller
      */
     protected function emailConfig(): array
     {
-        // $config = [
-        //     'protocol' => 'sendmail',
-        //     'smtp_host' => 'ssl://orkneytech.com.br',
-        //     'smtp_port' => 465,
-        //     'smtp_user' => 'contatos@orkneytech.com.br',
-        //     'smtp_pass' => 'Orkneytech10106088',
-        //     'mailpath' => '/usr/sbin/sendmail',
-        //     'charset' => 'iso-8859-1'
-        // ];
+        $this->load->model('SettingsModel', 'settingsModel', true);
+
+        // Recupera os parâmetros do banco de dados.
+        $protocol = $this->settingsModel->getSettingsParam('protocol');
+        $smtp_host = $this->settingsModel->getSettingsParam('smtp_host');
+        $smtp_port = $this->settingsModel->getSettingsParam('smtp_port');
+        $smtp_user = $this->settingsModel->getSettingsParam('smtp_user');
+        $smtp_pass = $this->settingsModel->getSettingsParam('smtp_pass');
+        $smtp_crypto = $this->settingsModel->getSettingsParam('smtp_crypto');
+        $smtp_charset = $this->settingsModel->getSettingsParam('smtp_charset');
 
         $config = [
-            'protocol' => 'smtp',
+            'protocol' => !empty($protocol->st_value)
+                ? $protocol->st_value
+                : 'smtp',
             '_smtp_auth' => true,
-            'smtp_host' => 'smtp.zoho.com',
-            'smtp_port' => 587,
-            'smtp_user' => 'no-reply@rsb.cc',
-            'smtp_pass' => '!HGhbxh98pDsXC#',
-            'smtp_crypto' => 'tls',
-            'smtp_charset' => 'utf-8',
+            'smtp_host' => !empty($smtp_host->st_value)
+                ? $smtp_host->st_value
+                : 'contatos@orkneytech.com.br',
+            'smtp_port' => !empty($smtp_port->st_value)
+                ? $smtp_port->st_value
+                : 587,
+            'smtp_user' => !empty($smtp_user->st_value)
+                ? $smtp_user->st_value
+                : 'contatos@orkneytech.com.br',
+            'smtp_pass' => !empty($smtp_pass->st_value)
+                ? $smtp_pass->st_value
+                : 'Orkneytech10106088',
+            'smtp_crypto' => !empty($smtp_crypto->st_value)
+                ? $smtp_crypto->st_value
+                : 'tls',
+            'smtp_charset' => !empty($smtp_charset->st_value)
+                ? $smtp_charset->st_value
+                : 'utf-8',
             'smtp_mailtype' => 'html',
             'charset' => 'UTF-8',
             'wordwrap' => true,
