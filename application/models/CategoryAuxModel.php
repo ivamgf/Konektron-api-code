@@ -20,7 +20,7 @@ class CategoryAuxModel extends CI_Model
      */
     public function getCategoryAux()
     {
-        return $this->db->get('orkney10_konektron_cli.category_aux')->result();
+        return $this->db->get('category_aux')->result();
     }
 
     /**
@@ -33,7 +33,7 @@ class CategoryAuxModel extends CI_Model
     public function getCategoryAuxId(int $id_category_aux)
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.category_aux',
+            'category_aux',
             [
                 'id_category_aux' => $id_category_aux
             ]
@@ -50,7 +50,7 @@ class CategoryAuxModel extends CI_Model
     public function getCategoryAuxService(int $id_service)
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.category_aux',
+            'category_aux',
             [
                 'id_service' => $id_service
             ]
@@ -66,7 +66,7 @@ class CategoryAuxModel extends CI_Model
      */
     public function insertCategoryAux(stdClass $id_category_aux)
     {
-        $this->db->insert('orkney10_konektron_cli.category_aux', $id_category_aux);
+        $this->db->insert('category_aux', $id_category_aux);
         return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
     }
 
@@ -81,7 +81,7 @@ class CategoryAuxModel extends CI_Model
     public function patchCategoryAux(int $id_category_aux, stdClass $categoryAux)
     {
         $this->db->where('id_category_aux', $id_category_aux);
-        $this->db->update('orkney10_konektron_cli.category_aux', $categoryAux);
+        $this->db->update('category_aux', $categoryAux);
         return $this->db->affected_rows() > 0;
     }
 
@@ -95,7 +95,7 @@ class CategoryAuxModel extends CI_Model
     public function delCategoryAux(int $id_category_aux)
     {
         $this->db->where('id_category_aux', $id_category_aux);
-        $this->db->delete('orkney10_konektron_cli.category_aux');
+        $this->db->delete('category_aux');
         return $this->db->affected_rows() > 0;
     }
 }

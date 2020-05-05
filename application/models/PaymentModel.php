@@ -20,7 +20,7 @@ class PaymentModel extends CI_Model
      */
     public function getPayment()
     {
-        return $this->db->get('orkney10_konektron_cli.payment')
+        return $this->db->get('payment')
             ->result() ?? [];
     }
 
@@ -34,7 +34,7 @@ class PaymentModel extends CI_Model
     public function getPaymentId(int $id_payment): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.payment',
+            'payment',
             [
                 'id_payment' => $id_payment
             ]
@@ -51,7 +51,7 @@ class PaymentModel extends CI_Model
     public function getPaymentUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.payment',
+            'payment',
             [
                 'id_users' => $id_users
             ]
@@ -67,7 +67,7 @@ class PaymentModel extends CI_Model
      */
     public function insertPayment(stdClass $payment): int
     {
-        $this->db->insert('orkney10_konektron_cli.payment', $payment);
+        $this->db->insert('payment', $payment);
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;
@@ -84,7 +84,7 @@ class PaymentModel extends CI_Model
     public function patchPayment(int $id_payment, stdClass $payment): bool
     {
         $this->db->where('id_payment', $id_payment);
-        $this->db->update('orkney10_konektron_cli.payment', $payment);
+        $this->db->update('payment', $payment);
         return $this->db->affected_rows() > 0;
     }
 
@@ -98,7 +98,7 @@ class PaymentModel extends CI_Model
     public function delPayment($id_payment): bool
     {
         $this->db->where('id_payment', $id_payment);
-        $this->db->delete('orkney10_konektron_cli.payment');
+        $this->db->delete('payment');
         return $this->db->affected_rows() > 0;
     }
 }

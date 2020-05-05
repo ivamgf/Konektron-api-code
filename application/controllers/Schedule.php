@@ -101,7 +101,7 @@ class Schedule extends MY_Controller
             $schedule->sc_created = date('Y-m-d H:i:s');
             $schedule->sc_modified = date('Y-m-d H:i:s');
             $id = $this->scheduleModel->insertSchedule($schedule);
-            $status_code = !empty($id) ? 201 : 400;
+            $status_code = !empty($id) ? 201 : 404;
 
             $this->response(
                 [
@@ -125,10 +125,13 @@ class Schedule extends MY_Controller
         if ($schedule = $this->getData()) {
             $schedule->sc_modified = date('Y-m-d H:i:s');
             $updated = $this->scheduleModel->patchSchedule($id_schedule, $schedule);
-            $status_code = $updated ? 204 : 400;
+            $output = !empty($updated)
+                ? ['updated' => $updated ]
+                : ['code' => 404, 'msg' => 'Tarefa não encontrada!' ];
+            $status_code = $updated ? 204 : 404;
 
             $this->response(
-                null,
+                $output,
                 $status_code
             );
         }
@@ -145,10 +148,13 @@ class Schedule extends MY_Controller
     {
         $this->load->model('ScheduleModel', 'scheduleModel', true);
         $deleted = $this->scheduleModel->delSchedule($id_schedule);
-        $status_code = $deleted ? 204 : 400;
+        $output = !empty($deleted)
+                ? ['deleted' => $deleted ]
+                : ['code' => 404, 'msg' => 'Tarefa não encontrada!' ];
+        $status_code = $deleted ? 204 : 404;
 
         $this->response(
-            null,
+            $output,
             $status_code
         );
     }
