@@ -20,7 +20,7 @@ class CardsModel extends CI_Model
      */
     public function getCards(): array
     {
-        return $this->db->get('orkney10_konektron_cli.cards')
+        return $this->db->get('cards')
             ->result() ?? [];
     }
 
@@ -34,7 +34,7 @@ class CardsModel extends CI_Model
     public function getCardsId(int $id_cards): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.cards',
+            'cards',
             [
                 'id_cards' => $id_cards
             ]
@@ -51,7 +51,7 @@ class CardsModel extends CI_Model
     public function getCardsUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.cards',
+            'cards',
             [
                 'id_users' => $id_users
             ]
@@ -67,7 +67,7 @@ class CardsModel extends CI_Model
      */
     public function insertCards(stdClass $cards): int
     {
-        $this->db->insert('orkney10_konektron_cli.cards', $cards);
+        $this->db->insert('cards', $cards);
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;
@@ -84,7 +84,7 @@ class CardsModel extends CI_Model
     public function patchCards(int $id_cards, stdClass $cards): bool
     {
         $this->db->where('id_cards', $id_cards);
-        $this->db->update('orkney10_konektron_cli.cards', $cards);
+        $this->db->update('cards', $cards);
         return $this->db->affected_rows() > 0;
     }
 
@@ -98,7 +98,7 @@ class CardsModel extends CI_Model
     public function delCards(int $id_cards): bool
     {
         $this->db->where('id_cards', $id_cards);
-        $this->db->delete('orkney10_konektron_cli.cards');
+        $this->db->delete('cards');
         return $this->db->affected_rows() > 0;
     }
 }

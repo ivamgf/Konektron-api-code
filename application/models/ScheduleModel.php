@@ -20,7 +20,7 @@ class ScheduleModel extends CI_Model
      */
     public function getSchedule(): array
     {
-        return $this->db->get('orkney10_konektron_cli.schedule')
+        return $this->db->get('schedule')
             ->result() ?? [];
     }
 
@@ -34,7 +34,7 @@ class ScheduleModel extends CI_Model
     public function getScheduleId(int $id_schedule): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.schedule',
+            'schedule',
             [
                 'id_schedule' => $id_schedule
             ]
@@ -69,7 +69,7 @@ class ScheduleModel extends CI_Model
      */
     public function insertSchedule(stdClass $schedule): int
     {
-        $this->db->insert('orkney10_konektron_cli.schedule', $schedule);
+        $this->db->insert('schedule', $schedule);
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;
@@ -86,7 +86,7 @@ class ScheduleModel extends CI_Model
     public function patchSchedule(int $id_schedule, stdClass $schedule): bool
     {
         $this->db->where('id_schedule', $id_schedule);
-        $this->db->update('orkney10_konektron_cli.schedule', $schedule);
+        $this->db->update('schedule', $schedule);
         return $this->db->affected_rows() > 0;
     }
 
@@ -100,7 +100,7 @@ class ScheduleModel extends CI_Model
     public function delSchedule(int $id_schedule): bool
     {
         $this->db->where('id_schedule', $id_schedule);
-        $this->db->delete('orkney10_konektron_cli.schedule');
+        $this->db->delete('schedule');
         return $this->db->affected_rows() > 0;
     }
 }

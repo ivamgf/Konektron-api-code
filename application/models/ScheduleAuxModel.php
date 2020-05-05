@@ -20,7 +20,7 @@ class ScheduleAuxModelModel extends CI_Model
      */
     public function getScheduleAux(): array
     {
-        return $this->db->get('orkney10_konektron_cli.schedule_aux')
+        return $this->db->get('schedule_aux')
             ->result() ?? [];
     }
 
@@ -34,7 +34,7 @@ class ScheduleAuxModelModel extends CI_Model
     public function getScheduleAuxId(int $id_schedule_aux): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.schedule_aux',
+            'schedule_aux',
             [
                 'id_schedule_aux' => $id_schedule_aux
             ]
@@ -51,7 +51,7 @@ class ScheduleAuxModelModel extends CI_Model
     public function getScheduleAuxIdSch(int $id_schedule): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.schedule_aux',
+            'schedule_aux',
             [
                 'id_schedule' => $id_schedule
             ]
@@ -68,7 +68,7 @@ class ScheduleAuxModelModel extends CI_Model
     public function getScheduleAuxUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.schedule_aux',
+            'schedule_aux',
             [
                 'id_users' => $id_users
             ]
@@ -85,7 +85,7 @@ class ScheduleAuxModelModel extends CI_Model
     public function getScheduleAuxProviders(int $id_providers): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.schedule_aux',
+            'schedule_aux',
             [
                 'id_providers' => $id_providers
             ]
@@ -102,7 +102,7 @@ class ScheduleAuxModelModel extends CI_Model
     public function getScheduleAuxService(int $id_service): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.schedule_aux',
+            'schedule_aux',
             [
                 'id_service' => $id_service
             ]
@@ -119,7 +119,7 @@ class ScheduleAuxModelModel extends CI_Model
     public function insertScheduleAux(stdClass $scheduleAuxModel): int
     {
         $this->db->insert(
-            'orkney10_konektron_cli.schedule_aux',
+            'schedule_aux',
             $scheduleAuxModel
         );
         return $this->db->affected_rows() > 0
@@ -141,7 +141,7 @@ class ScheduleAuxModelModel extends CI_Model
     ): bool {
         $this->db->where('id_schedule_aux', $id_schedule_aux);
         $this->db->update(
-            'orkney10_konektron_cli.schedule_aux', $scheduleAuxModel
+            'schedule_aux', $scheduleAuxModel
         );
         return $this->db->affected_rows() > 0;
     }
@@ -156,7 +156,7 @@ class ScheduleAuxModelModel extends CI_Model
     public function delScheduleAux(int $id_schedule_aux): bool
     {
         $this->db->where('id_schedule_aux', $id_schedule_aux);
-        $this->db->delete('orkney10_konektron_cli.schedule_aux');
+        $this->db->delete('schedule_aux');
         return $this->db->affected_rows() > 0;
     }
 }

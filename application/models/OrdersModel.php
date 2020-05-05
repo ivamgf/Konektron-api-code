@@ -20,7 +20,7 @@ class OrdersModel extends CI_Model
      */
     public function getOrders()
     {
-        return $this->db->get('orkney10_konektron_cli.orders')
+        return $this->db->get('orders')
             ->result() ?? [];
     }
 
@@ -34,7 +34,7 @@ class OrdersModel extends CI_Model
     public function getOrdersId(int $id_order): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.orders',
+            'orders',
             [
                 'id_order' => $id_order
             ]
@@ -51,7 +51,7 @@ class OrdersModel extends CI_Model
     public function getOrdersUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.orders',
+            'orders',
             [
                 'id_users' => $id_users
             ]
@@ -67,7 +67,7 @@ class OrdersModel extends CI_Model
      */
     public function insertOrders(stdClass $orders): int
     {
-        $this->db->insert('orkney10_konektron_cli.orders', $orders);
+        $this->db->insert('orders', $orders);
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;
@@ -84,7 +84,7 @@ class OrdersModel extends CI_Model
     public function patchOrders(int $id_order, stdClass $orders): bool
     {
         $this->db->where('id_order', $id_order);
-        $this->db->update('orkney10_konektron_cli.orders', $orders);
+        $this->db->update('orders', $orders);
         return $this->db->affected_rows() > 0;
     }
 
@@ -98,7 +98,7 @@ class OrdersModel extends CI_Model
     public function delOrders(int $id_order): bool
     {
         $this->db->where('id_order', $id_order);
-        $this->db->delete('orkney10_konektron_cli.orders');
+        $this->db->delete('orders');
         return $this->db->affected_rows() > 0;
     }
 }

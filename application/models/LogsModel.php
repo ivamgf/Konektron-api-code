@@ -20,7 +20,7 @@ class LogsModel extends CI_Model
      */
     public function getLogs(): array
     {
-        return $this->db->get('orkney10_konektron_cli.logs')
+        return $this->db->get('logs')
             ->result() ?? [];
     }
 
@@ -34,7 +34,7 @@ class LogsModel extends CI_Model
     public function getLogsId(int $id_log)
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.logs',
+            'logs',
             [
                 'id_log' => $id_log
             ]
@@ -50,7 +50,7 @@ class LogsModel extends CI_Model
      */
     public function insertLogs(stdClass $logs): int
     {
-        $this->db->insert('orkney10_konektron_cli.logs', $logs);
+        $this->db->insert('logs', $logs);
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;

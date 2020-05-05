@@ -20,7 +20,7 @@ class DashboardModel extends CI_Model
      */
     public function getAdmins(): array
     {
-        return $this->db->get('orkney10_konektron_cli.admin')
+        return $this->db->get('admin')
             ->result() ?? [];
     }
 
@@ -31,7 +31,7 @@ class DashboardModel extends CI_Model
      */
     public function getClients(): array
     {
-        return $this->db->get('orkney10_konektron_cli.users')
+        return $this->db->get('users')
             ->result() ?? [];
     }
 }
