@@ -1,8 +1,41 @@
 <?php
+/**
+ * This file is part of the Orkney Tech (http://orkneytech.com.br)
+ *
+ * Copyright (c) 2020  Orkney Tech (http://orkneytech.com.br)
+ *
+ * For the full copyright and license information, please view
+ * the file license.txt that was distributed with this source code.
+ *
+ * PHP Version 7
+ *
+ * @category Controller
+ * @package  Orkney
+ * @author   Orkney Tech <contato@orkneytech.com.br>
+ * @license  Copyright (c) 2020
+ * @link     https://www.orkneytech.com.br/license.md
+ */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Stock_services extends MY_Controller {
+/**
+ * Controller dos serviços
+ *
+ * @category   Controller
+ * @package    Konektron
+ * @subpackage Stock_Services
+ * @author     Orkney Tech <contato@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+ */
+class Stock_Services extends MY_Controller
+{
 
+    /**
+     * Recupera os serviços cadastrados
+     *
+     * @return void
+     */
     public function consultServices()
     {
         $this->load->model('StockServicesModel', 'stockServicesModel', true);
@@ -16,7 +49,14 @@ class Stock_services extends MY_Controller {
         );
     }
 
-    public function consultServicesId($id_service)
+    /**
+     * Recupera o serviço pelo Id
+     *
+     * @param integer $id_service Id do serviço
+     *
+     * @return void
+     */
+    public function consultServicesId(int $id_service)
     {
         $this->load->model('StockServicesModel', 'stockServicesModel', true);
         $stockServices = $this->stockServicesModel->getStockServicesId($id_service);
@@ -29,15 +69,18 @@ class Stock_services extends MY_Controller {
         );
     }
 
+    /**
+     * Registra um novo serviço
+     *
+     * @return void
+     */
     public function registerServices()
     {
         $this->load->model('StockServicesModel', 'stockServicesModel', true);
         if ($stockServices = $this->getData()) {
             $stockServices->sv_tag = implode(',', $stockServices->sv_tag);
-            $stockServices->sv_created = date('Y-m-d H:i:s');
-            $stockServices->sv_modified = date('Y-m-d H:i:s');
             $id = $this->stockServicesModel->insertStockServices($stockServices);
-            $status_code = !empty($id) ? 201 : 400;
+            $status_code = !empty($id) ? 201 : 404;
 
             $this->response(
                 [
@@ -48,34 +91,49 @@ class Stock_services extends MY_Controller {
         }
     }
 
-    public function updateService($id_service)
+    /**
+     * Atualiza um serviço pelo id
+     *
+     * @param integer $id_service Id do serviço
+     *
+     * @return void
+     */
+    public function updateService(int $id_service)
     {
         $this->load->model('StockServicesModel', 'stockServicesModel', true);
         if ($stockServices = $this->getData()) {
             $stockServices->sv_tag = implode(',', $stockServices->sv_tag);
-            $stockServices->sv_modified = date('Y-m-d H:i:s');
             $updated = $this->stockServicesModel->patchStockServices($id_service, $stockServices);
-            $status_code = $updated ? 204 : 400;
+            $output = !empty($updated)
+                ? ['updated' => $updated ]
+                : ['code' => 404, 'msg' => 'Serviço não encontrado!' ];
+            $status_code = $updated ? 204 : 404;
 
             $this->response(
-                [
-                    'id_service' => $id
-                ],
+                $output,
                 $status_code
             );
         }
     }
 
-    public function deleteService($id_service)
+    /**
+     * Remover um serviço
+     *
+     * @param integer $id_service Id do serviço
+     *
+     * @return void
+     */
+    public function deleteService(int $id_service)
     {
         $this->load->model('StockServicesModel', 'stockServicesModel', true);
         $deleted = $this->stockServicesModel->delStockServices($id_service);
-        $status_code = $deleted ? 204 : 400;
+        $output = !empty($deleted)
+                ? ['deleted' => $deleted ]
+                : ['code' => 404, 'msg' => 'Serviço não encontrado!' ];
+        $status_code = $deleted ? 204 : 404;
 
         $this->response(
-            [
-                'id_service' => $id
-            ],
+            $output,
             $status_code
         );
     }

@@ -101,7 +101,7 @@ class Orders extends MY_Controller
             $orders->or_created = date('Y-m-d H:i:s');
             $orders->or_modified = date('Y-m-d H:i:s');
             $id = $this->ordersModel->insertOrders($orders);
-            $status_code = !empty($id) ? 201 : 400;
+            $status_code = !empty($id) ? 201 : 404;
 
             $this->response(
                 [
@@ -125,10 +125,13 @@ class Orders extends MY_Controller
         if ($orders = $this->getData()) {
             $orders->or_modified = date('Y-m-d H:i:s');
             $updated = $this->ordersModel->patchOrders($id_order, $orders);
-            $status_code = $updated ? 204 : 400;
+            $output = !empty($updated)
+                ? ['updated' => $updated ]
+                : ['code' => 404, 'msg' => 'Ordem não encontrada!' ];
+            $status_code = $updated ? 204 : 404;
 
             $this->response(
-                null,
+                $output,
                 $status_code
             );
         }
@@ -145,10 +148,13 @@ class Orders extends MY_Controller
     {
         $this->load->model('OrdersModel', 'ordersModel', true);
         $deleted = $this->ordersModel->delOrders($id_order);
-        $status_code = $deleted ? 204 : 400;
+        $output = !empty($deleted)
+                ? ['deleted' => $deleted ]
+                : ['code' => 404, 'msg' => 'Ordem não encontrada!' ];
+        $status_code = $deleted ? 204 : 404;
 
         $this->response(
-            null,
+            $output,
             $status_code
         );
     }

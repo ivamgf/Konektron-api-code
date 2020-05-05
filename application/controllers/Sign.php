@@ -236,10 +236,13 @@ class Sign extends MY_Controller
         $this->load->model('SignModel', 'signModel', true);
         $active = $this->signModel->activationModel($us_token);
 
-        $status_code = $active ? 200 : 400;
+        $output = !empty($active)
+            ? ['us_status' => 'active']
+            : ['code' => 404, 'msg' => 'Token inválido ou cliente já ativo!' ];
+        $status_code = $active ? 200 : 404;
 
         $this->response(
-            null,
+            $output,
             $status_code
         );
     }
@@ -257,10 +260,13 @@ class Sign extends MY_Controller
         $this->load->model('SignModel', 'signModel', true);
         $active = $this->signModel->activationProvidersModel($pr_token);
 
-        $status_code = $active ? 200 : 400;
+        $output = !empty($active)
+            ? ['us_status' => 'active']
+            : ['code' => 404, 'msg' => 'Token inválido ou fornecedor já ativo!' ];
+        $status_code = $active ? 200 : 404;
 
         $this->response(
-            null,
+            $output,
             $status_code
         );
     }
@@ -279,8 +285,8 @@ class Sign extends MY_Controller
 
         $output = !empty($tokenValidRecover)
             ? [ 'token' => $token, 'tokenValidRecover' => $tokenValidRecover]
-            : null;
-        $status_code = $output ? 200 : 400;
+            : [ 'code' => 404, 'msg' => 'Token inválido!' ];
+        $status_code = $output ? 200 : 404;
 
         $this->response(
             $output,
@@ -302,8 +308,8 @@ class Sign extends MY_Controller
 
         $output = !empty($tokenValidRecoverproviders)
             ? [ 'token' => $token, 'tokenValidRecoverProviders' => $tokenValidRecoverproviders]
-            : null;
-        $status_code = $output ? 200 : 400;
+            : [ 'code' => 404, 'msg' => 'Token inválido!' ];
+        $status_code = $output ? 200 : 404;
 
         $this->response(
             $output,

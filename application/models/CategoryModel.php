@@ -19,7 +19,7 @@ class CategoryModel extends CI_Model
      */
     public function getCategory(): array
     {
-        return $this->db->get('orkney10_konektron_cli.category')
+        return $this->db->get('category')
             ->result() ?? [];
     }
 
@@ -33,7 +33,7 @@ class CategoryModel extends CI_Model
     public function getCategoryId(int $id_category): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.category',
+            'category',
             [
                 'id_category' => $id_category
             ]
@@ -49,7 +49,7 @@ class CategoryModel extends CI_Model
      */
     public function insertCategory(stdClass $category): int
     {
-        $this->db->insert('orkney10_konektron_cli.category', $category);
+        $this->db->insert('category', $category);
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;
@@ -66,7 +66,7 @@ class CategoryModel extends CI_Model
     public function patchCategory(int $id_category, stdClass $category): bool
     {
         $this->db->where('id_category', $id_category);
-        $this->db->update('orkney10_konektron_cli.category', $category);
+        $this->db->update('category', $category);
         return $this->db->affected_rows() > 0;
     }
 
@@ -80,7 +80,7 @@ class CategoryModel extends CI_Model
     public function delCategory(int $id_category): bool
     {
         $this->db->where('id_category', $id_category);
-        $this->db->delete('orkney10_konektron_cli.category');
+        $this->db->delete('category');
         return $this->db->affected_rows() > 0;
     }
 }

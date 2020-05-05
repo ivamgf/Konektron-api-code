@@ -32,7 +32,7 @@ class SignModel extends MY_Model
         $signup->us_token = $this->gerarToken($signup->us_email);
         $signup->us_modified = null;
 
-        $this->db->insert('orkney10_konektron_cli.users', $signup);
+        $this->db->insert('users', $signup);
         return $this->db->insert_id();
     }
 
@@ -56,7 +56,7 @@ class SignModel extends MY_Model
         );
         $signupProviders->pr_modified = null;
 
-        $this->db->insert('orkney10_konektron_cli.providers', $signupProviders);
+        $this->db->insert('providers', $signupProviders);
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;
@@ -108,7 +108,7 @@ class SignModel extends MY_Model
     public function getAuthUsers(int $id_auth): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.authorization',
+            'authorization',
             [
                 'id_auth' => $id_auth
             ]
@@ -126,7 +126,7 @@ class SignModel extends MY_Model
     {
         $this->db->where("us_email", $us_email);
         $user = $this->db->get("users")->row_array();
-        return $user;
+        return $user ?? [];
     }
 
     /**
@@ -140,7 +140,7 @@ class SignModel extends MY_Model
     {
         $this->db->where("pr_email", $pr_email);
         $provider = $this->db->get("providers")->row_array();
-        return $provider;
+        return $provider ?? [];
     }
 
     /**
@@ -155,7 +155,7 @@ class SignModel extends MY_Model
     {
         $this->db->where('us_email', $us_email);
         $this->db->update(
-            'orkney10_konektron_cli.users',
+            'users',
             [
                 'us_token' => $us_token
             ]
@@ -175,7 +175,7 @@ class SignModel extends MY_Model
     {
         $this->db->where('pr_email', $pr_email);
         $this->db->update(
-            'orkney10_konektron_cli.providers',
+            'providers',
             [
                 'pr_token' => $pr_token
             ]
@@ -195,7 +195,7 @@ class SignModel extends MY_Model
     {
         $this->db->where('us_email', $us_email);
         $this->db->update(
-            'orkney10_konektron_cli.users',
+            'users',
             [
                 'us_token_forgot' => $us_token_forgot
             ]
@@ -213,7 +213,7 @@ class SignModel extends MY_Model
     public function tokenValidForgot(string $us_token_forgot): bool
     {
         $user = $this->db->get_where(
-            'orkney10_konektron_cli.users',
+            'users',
             [
                 'us_token_forgot' => $us_token_forgot
             ]
@@ -231,7 +231,7 @@ class SignModel extends MY_Model
     public function tokenValidRecover(string $us_token): bool
     {
         $user = $this->db->get_where(
-            'orkney10_konektron_cli.users',
+            'users',
             [
                 'us_token' => $us_token
             ]
@@ -253,7 +253,7 @@ class SignModel extends MY_Model
     ): bool {
         $this->db->where('us_token_forgot', $us_token_forgot);
         $this->db->update(
-            'orkney10_konektron_cli.users',
+            'users',
             [
                 'us_password' => $this->gerarSenha($us_password),
                 'us_token_forgot' => null
@@ -272,7 +272,7 @@ class SignModel extends MY_Model
     public function tokenValidForgotProviders(string $pr_token_forgot): bool
     {
         $user = $this->db->get_where(
-            'orkney10_konektron_cli.providers',
+            'providers',
             [
                 'pr_token_forgot' => $token
             ]
@@ -294,7 +294,7 @@ class SignModel extends MY_Model
     ): bool {
         $this->db->where('pr_email', $pr_email);
         $this->db->update(
-            'orkney10_konektron_cli.providers',
+            'providers',
             [
                 'pr_token_forgot' => $pr_token_forgot
             ]
@@ -312,7 +312,7 @@ class SignModel extends MY_Model
     public function tokenValidRecoverProviders(string $pr_token): bool
     {
         $provider = $this->db->get_where(
-            'orkney10_konektron_cli.providers',
+            'providers',
             [
                 'pr_token' => $pr_token
             ]
@@ -330,7 +330,7 @@ class SignModel extends MY_Model
     public function tokenValidRecoverAdmin(string $ad_token): bool
     {
         $admin = $this->db->get_where(
-            'orkney10_konektron_cli.admin',
+            'admin',
             [
                 'ad_token' => $ad_token
             ]
@@ -352,7 +352,7 @@ class SignModel extends MY_Model
     ): bool {
         $this->db->where('pr_token_forgot', $pr_token_forgot);
         $this->db->update(
-            'orkney10_konektron_cli.providers',
+            'providers',
             [
                 'pr_password' => $this->gerarSenha($pr_password),
                 'pr_token_forgot' => null
@@ -372,7 +372,7 @@ class SignModel extends MY_Model
     {
         $this->db->where('us_token', $us_token);
         $this->db->update(
-            'orkney10_konektron_cli.users',
+            'users',
             [
                 'us_status' => 'active'
             ]
@@ -391,7 +391,7 @@ class SignModel extends MY_Model
     {
         $this->db->where('pr_token', $pr_token);
         $this->db->update(
-            'orkney10_konektron_cli.providers',
+            'providers',
             [
                 'pr_status' => 'active'
             ]

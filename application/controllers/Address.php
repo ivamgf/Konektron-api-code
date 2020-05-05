@@ -101,7 +101,7 @@ class Address extends MY_Controller
             $address->as_created = date('Y-m-d H:i:s');
             $address->as_modified = date('Y-m-d H:i:s');
             $id = $this->addressModel->insertAddress($address);
-            $status_code = !empty($id) ? 201 : 400;
+            $status_code = !empty($id) ? 201 : 404;
 
             $this->response(
                 [ 'id_address' => $id ],
@@ -123,10 +123,13 @@ class Address extends MY_Controller
         if ($address = $this->getData()) {
             $address->as_modified = date('Y-m-d H:i:s');
             $updated = $this->addressModel->patchAddress($id_address, $address);
-            $status_code = $updated ? 204 : 400;
+            $output = !empty($updated)
+                ? ['updated' => $updated ]
+                : ['code' => 404, 'msg' => 'Endereço não encontrado!' ];
+            $status_code = $updated ? 204 : 404;
 
             $this->response(
-                null,
+                $output,
                 $status_code
             );
         }
@@ -143,10 +146,13 @@ class Address extends MY_Controller
     {
         $this->load->model('AddressModel', 'addressModel', true);
         $deleted = $this->addressModel->delAddress($id_address);
-        $status_code = $deleted ? 204 : 400;
+        $output = !empty($deleted)
+            ? ['deleted' => $deleted ]
+            : ['code' => 404, 'msg' => 'Endereço não encontrado!' ];
+        $status_code = $deleted ? 204 : 404;
 
         $this->response(
-            null,
+            $output,
             $status_code
         );
     }
