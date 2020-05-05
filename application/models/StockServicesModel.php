@@ -1,29 +1,89 @@
 <?php
+/**
+ * Model para cadastro dos dados auxiliares das tarefas
+ *
+ * @category   Model
+ * @package    Konektron
+ * @subpackage StockServicesModel
+ * @author     Orkney Tech <contato@orkneytech.com.br>
+ * @copyright  2020 Orkney Tech
+ * @license    Copyright (c) 2020
+ * @link       https://www.orkneytech.com.br/license.md
+*/
+class StockServicesModel extends CI_Model
+{
 
-class StockServicesModel extends CI_Model {
-
-    public function getStockServices() {
-        return $this->db->get('orkney10_konektron_cli.services')->result();
+    /**
+     * Recupera os serviços cadastrados
+     *
+     * @return void
+     */
+    public function getStockServices(): array
+    {
+        return $this->db->get('services')
+            ->result() ?? [];
     }
 
-    public function getStockServicesId($id_service) {
-        return $this->db->get_where('orkney10_konektron_cli.services', array('id_service' => $id_service))->row();
+    /**
+     * Recupera um serviço pelo Id
+     *
+     * @param integer $id_service Id do serviço
+     *
+     * @return stdClass
+     */
+    public function getStockServicesId(int $id_service): stdClass
+    {
+        return $this->db->get_where(
+            'services',
+            [
+                'id_service' => $id_service
+            ]
+        )->row() ?? new stdClass();
     }
 
-    public function insertStockServices($stockServices) {
-        $this->db->insert('orkney10_konektron_cli.services', $stockServices);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+    /**
+     * Registra um novo serviç
+     *
+     * @param stdClass $stockServices Novo serviço
+     *
+     * @return integer
+     */
+    public function insertStockServices(stdClass $stockServices): int
+    {
+        $this->db->insert('services', $stockServices);
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
-    public function patchStockServices($id_service, $stockServices) {
+    /**
+     * Atualiza um serviço pelo id
+     *
+     * @param integer $id_service Id do serviço
+     * @param stdClass $stockServices Dados do serviço
+     *
+     * @return boolean
+     */
+    public function patchStockServices(
+        int $id_service,
+        stdClass $stockServices
+    ): bool {
         $this->db->where('id_service', $id_service);
-        $this->db->update('orkney10_konektron_cli.services', $stockServices);
+        $this->db->update('services', $stockServices);
         return $this->db->affected_rows() > 0;
     }
 
-    public function delStockServices($id_service) {
+    /**
+     * Remove um serviço pelo id
+     *
+     * @param integer $id_service Id do serviço
+     *
+     * @return boolean
+     */
+    public function delStockServices(int $id_service): bool
+    {
         $this->db->where('id_service', $id_service);
-        $this->db->delete('orkney10_konektron_cli.services');
+        $this->db->delete('services');
         return $this->db->affected_rows() > 0;
     }
 }

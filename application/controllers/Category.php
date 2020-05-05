@@ -80,7 +80,7 @@ class Category extends MY_Controller
             $category->ct_created = date('Y-m-d H:i:s');
             $category->ct_modified = date('Y-m-d H:i:s');
             $id = $this->categoryModel->insertCategory($category);
-            $status_code = !empty($id) ? 201 : 400;
+            $status_code = !empty($id) ? 201 : 404;
 
             $this->response(
                 [
@@ -104,10 +104,13 @@ class Category extends MY_Controller
         if ($category = $this->getData()) {
             $category->ct_modified = date('Y-m-d H:i:s');
             $updated = $this->categoryModel->patchCategory($id_category, $category);
-            $status_code = $updated ? 204 : 400;
+            $output = !empty($updated)
+                ? ['updated' => $updated ]
+                : ['code' => 404, 'msg' => 'Categoria não encontrada!' ];
+            $status_code = $updated ? 204 : 404;
 
             $this->response(
-                null,
+                $output,
                 $status_code
             );
         }
@@ -124,10 +127,13 @@ class Category extends MY_Controller
     {
         $this->load->model('CategoryModel', 'categoryModel', true);
         $deleted = $this->categoryModel->delCategory($id_category);
-        $status_code = $deleted ? 204 : 400;
+        $output = !empty($deleted)
+                ? ['deleted' => $deleted ]
+                : ['code' => 404, 'msg' => 'Categoria não encontrada!' ];
+        $status_code = $deleted ? 204 : 404;
 
         $this->response(
-            null,
+            $output,
             $status_code
         );
     }

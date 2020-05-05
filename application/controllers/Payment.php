@@ -101,7 +101,7 @@ class Payment extends MY_Controller
             $payment->pa_created = date('Y-m-d H:i:s');
             $payment->pa_modified = date('Y-m-d H:i:s');
             $id = $this->paymentModel->insertPayment($payment);
-            $status_code = !empty($id) ? 201 : 400;
+            $status_code = !empty($id) ? 201 : 404;
 
             $this->response(
                 [
@@ -125,10 +125,13 @@ class Payment extends MY_Controller
         if ($payment = $this->getData()) {
             $payment->pa_modified = date('Y-m-d H:i:s');
             $updated = $this->paymentModel->patchPayment($id_payment, $payment);
-            $status_code = $updated ? 204 : 400;
+            $output = !empty($updated)
+                ? ['updated' => $updated ]
+                : ['code' => 404, 'msg' => 'Pagamento não encontrado!' ];
+            $status_code = $updated ? 204 : 404;
 
             $this->response(
-                null,
+                $output,
                 $status_code
             );
         }
@@ -145,10 +148,13 @@ class Payment extends MY_Controller
     {
         $this->load->model('PaymentModel', 'paymentModel', true);
         $deleted = $this->paymentModel->delPayment($id_payment);
-        $status_code = $deleted ? 204 : 400;
+        $output = !empty($deleted)
+                ? ['deleted' => $deleted ]
+                : ['code' => 404, 'msg' => 'Pagamento não encontrado!' ];
+        $status_code = $deleted ? 204 : 404;
 
         $this->response(
-            null,
+            $output,
             $status_code
         );
     }

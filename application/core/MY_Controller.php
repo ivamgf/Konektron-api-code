@@ -382,7 +382,7 @@ class MY_Controller extends CI_Controller
             )
         );
         $mail->CharSet = 'UTF-8';
-        $mail->SMTPDebug = 1;
+        $mail->SMTPDebug = 0;
         $mail->Debugoutput = 'html';
         $mail->SMTPAuth = true;
         $mail->SMTPSecure = $config['smtp_crypto'];

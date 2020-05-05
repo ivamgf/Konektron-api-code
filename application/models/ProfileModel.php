@@ -20,7 +20,7 @@ class ProfileModel extends CI_Model
      */
     public function getProfile(): array
     {
-        return $this->db->get('orkney10_konektron_cli.profiles')
+        return $this->db->get('profiles')
             ->result() ?? [];
     }
 
@@ -34,7 +34,7 @@ class ProfileModel extends CI_Model
     public function getProfileId(int $id_profile): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.profiles',
+            'profiles',
             [
                 'id_profile' => $id_profile
             ]
@@ -51,7 +51,7 @@ class ProfileModel extends CI_Model
     public function getProfileUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.profiles',
+            'profiles',
             [
                 'id_users' => $id_users
             ]
@@ -67,7 +67,7 @@ class ProfileModel extends CI_Model
      */
     public function insertProfile(stdClass $profile): int
     {
-        $this->db->insert('orkney10_konektron_cli.profiles', $profile);
+        $this->db->insert('profiles', $profile);
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;
@@ -84,7 +84,7 @@ class ProfileModel extends CI_Model
     public function patchProfile(int $id_profile, stdClass $profile): bool
     {
         $this->db->where('id_profile', $id_profile);
-        $this->db->update('orkney10_konektron_cli.profiles', $profile);
+        $this->db->update('profiles', $profile);
         return $this->db->affected_rows() > 0;
     }
 
@@ -98,7 +98,7 @@ class ProfileModel extends CI_Model
     public function delProfile(int $id_profile): bool
     {
         $this->db->where('id_profile', $id_profile);
-        $this->db->delete('orkney10_konektron_cli.profiles');
+        $this->db->delete('profiles');
         return $this->db->affected_rows() > 0;
     }
 }
