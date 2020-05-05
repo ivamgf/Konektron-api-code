@@ -20,7 +20,7 @@ class AddressModel extends CI_Model
      */
     public function getAddress(): array
     {
-        return $this->db->get('orkney10_konektron_cli.address')
+        return $this->db->get('address')
             ->result() ?? [];
     }
 
@@ -34,7 +34,7 @@ class AddressModel extends CI_Model
     public function getAddressId(int $id_address): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.address',
+            'address',
             [
                 'id_address' => $id_address
             ]
@@ -51,7 +51,7 @@ class AddressModel extends CI_Model
     public function getAddressUsers(int $id_users): stdClass
     {
         return $this->db->get_where(
-            'orkney10_konektron_cli.address',
+            'address',
             [
                 'id_users' => $id_users
             ]
@@ -67,7 +67,7 @@ class AddressModel extends CI_Model
      */
     public function insertAddress(stdClass $address): int
     {
-        $this->db->insert('orkney10_konektron_cli.address', $address);
+        $this->db->insert('address', $address);
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;
@@ -84,7 +84,7 @@ class AddressModel extends CI_Model
     public function patchAddress(int $id_address, stdClass  $address): bool
     {
         $this->db->where('id_address', $id_address);
-        $this->db->update('orkney10_konektron_cli.address', $address);
+        $this->db->update('address', $address);
         return $this->db->affected_rows() > 0;
     }
 
@@ -98,7 +98,7 @@ class AddressModel extends CI_Model
     public function delAddress(int $id_address): bool
     {
         $this->db->where('id_address', $id_address);
-        $this->db->delete('orkney10_konektron_cli.address');
+        $this->db->delete('address');
         return $this->db->affected_rows() > 0;
     }
 }

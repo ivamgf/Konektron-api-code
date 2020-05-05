@@ -101,7 +101,7 @@ class Cards extends MY_Controller
             $cards->ca_created = date('Y-m-d H:i:s');
             $cards->ca_modified = date('Y-m-d H:i:s');
             $id = $this->cardsModel->insertCards($cards);
-            $status_code = !empty($id) ? 201 : 400;
+            $status_code = !empty($id) ? 201 : 404;
 
             $this->response(
                 [
@@ -125,10 +125,13 @@ class Cards extends MY_Controller
         if ($cards = $this->getData()) {
             $cards->ca_modified = date('Y-m-d H:i:s');
             $updated = $this->cardsModel->patchCards($id_cards, $cards);
-            $status_code = $updated ? 204 : 400;
+            $output = !empty($updated)
+                ? ['updated' => $updated ]
+                : ['code' => 404, 'msg' => 'Cartão não encontrado!' ];
+            $status_code = $updated ? 204 : 404;
 
             $this->response(
-                null,
+                $output,
                 $status_code
             );
         }
@@ -145,10 +148,13 @@ class Cards extends MY_Controller
     {
         $this->load->model('CardsModel', 'cardsModel', true);
         $deleted = $this->cardsModel->delCards($id_cards);
-        $status_code = $deleted ? 204 : 400;
+        $output = !empty($deleted)
+                ? ['deleted' => $deleted ]
+                : ['code' => 404, 'msg' => 'Cartão não encontrado!' ];
+        $status_code = $deleted ? 204 : 404;
 
         $this->response(
-            null,
+            $output,
             $status_code
         );
     }

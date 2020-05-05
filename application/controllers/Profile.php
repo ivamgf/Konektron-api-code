@@ -101,7 +101,7 @@ class Profile extends MY_Controller
             $profile->pf_created = date('Y-m-d H:i:s');
             $profile->pf_modified = date('Y-m-d H:i:s');
             $id = $this->profileModel->insertProfile($profile);
-            $status_code = !empty($id) ? 201 : 400;
+            $status_code = !empty($id) ? 201 : 404;
 
             $this->response(
                 [
@@ -125,10 +125,13 @@ class Profile extends MY_Controller
         if ($profile = $this->getData()) {
             $profile->pf_modified = date('Y-m-d H:i:s');
             $updated = $this->profileModel->patchProfile($id_profile, $profile);
-            $status_code = $updated ? 204 : 400;
+            $output = !empty($updated)
+                ? ['updated' => $updated ]
+                : ['code' => 404, 'msg' => 'Perfil não encontrado!' ];
+            $status_code = $updated ? 204 : 404;
 
             $this->response(
-                null,
+                $output,
                 $status_code
             );
         }
@@ -145,10 +148,13 @@ class Profile extends MY_Controller
     {
         $this->load->model('ProfileModel', 'profileModel', true);
         $deleted = $this->profileModel->delProfile($id_profile);
-        $status_code = $deleted ? 204 : 400;
+        $output = !empty($deleted)
+                ? ['deleted' => $deleted ]
+                : ['code' => 404, 'msg' => 'Perfil não encontrado!' ];
+        $status_code = $deleted ? 204 : 404;
 
         $this->response(
-            null,
+            $output,
             $status_code
         );
     }

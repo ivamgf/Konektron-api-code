@@ -81,7 +81,7 @@ class Logs extends MY_Controller
             $logs->lo_created = date('Y-m-d H:i:s');
             $logs->lo_modified = date('Y-m-d H:i:s');
             $id = $this->logsModel->insertLogs($logs);
-            $status_code = !empty($id) ? 201 : 400;
+            $status_code = !empty($id) ? 201 : 404;
 
             $this->response(
                 [
