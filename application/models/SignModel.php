@@ -274,7 +274,7 @@ class SignModel extends MY_Model
         $user = $this->db->get_where(
             'providers',
             [
-                'pr_token_forgot' => $token
+                'pr_token_forgot' => $pr_token_forgot
             ]
         )->row();
         return !empty($user);
