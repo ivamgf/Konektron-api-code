@@ -23,7 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://konektron.local:8080/';
+$config['base_url'] = ENVIRONMENT == 'development'
+    ? 'http://konektron.local:8080/'
+    : 'https://api-konektron.orkneytech.com.br/';
 
 /*
 |--------------------------------------------------------------------------
