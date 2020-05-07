@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://konektron.local/api/scheduleAux.json#",
+    "type": "object",
+    "properties": {
+        "id_schedule": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 11
+        },
+        "id_service": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 11
+        },
+        "id_users": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 11
+        },
+        "id_providers": {
+            "type": "integer",
+            "minLength": 1,
+            "maxLength": 11
+        }
+    },
+    "additionalProperties": false
+}

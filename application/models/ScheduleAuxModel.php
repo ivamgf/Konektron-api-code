@@ -10,7 +10,7 @@
  * @license    Copyright (c) 2020
  * @link       https://www.orkneytech.com.br/license.md
 */
-class ScheduleAuxModelModel extends CI_Model
+class ScheduleAuxModel extends CI_Model
 {
 
     /**
