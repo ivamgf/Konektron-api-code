@@ -93,9 +93,12 @@ class Sign extends MY_Controller
         $this->load->model('SignModel', 'signModel', true);
         if ($signup = $this->getData()) {
             $created = $this->signModel->insertUser($signup);
+            $output = !empty($created)
+                ? [ 'created' => true]
+                : $this->signModel->error;
             $status_code = $created ? 200 : 403;
             $this->response(
-                null,
+                $output,
                 $status_code
             );
         }
@@ -111,9 +114,12 @@ class Sign extends MY_Controller
         $this->load->model('SignModel', 'signModel', true);
         if ($signupProviders = $this->getData()) {
             $created = $this->signModel->insertProvider($signupProviders);
+            $output = !empty($created)
+                ? [ 'created' => true]
+                : $this->signModel->error;
             $status_code = $created ? 200 : 403;
             $this->response(
-                null,
+                $output,
                 $status_code
             );
         }
