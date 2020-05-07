@@ -32,8 +32,12 @@ class SignModel extends MY_Model
         $signup->us_token = $this->gerarToken($signup->us_email);
         $signup->us_modified = null;
 
-        $this->db->insert('users', $signup);
-        return $this->db->insert_id();
+        if (!$this->db->insert('users', $signup)) {
+            $this->error = $this->db->error();
+        }
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id()
+            : 0;
     }
 
     /**
@@ -56,7 +60,9 @@ class SignModel extends MY_Model
         );
         $signupProviders->pr_modified = null;
 
-        $this->db->insert('providers', $signupProviders);
+        if (!$this->db->insert('providers', $signupProviders)) {
+            $this->error = $this->db->error();
+        }
         return $this->db->affected_rows() > 0
             ? $this->db->insert_id()
             : 0;
