@@ -413,7 +413,7 @@ class Sign extends MY_Controller
                     ];
                 } else {
                     $data = [
-                        'error' => 'Senha redefinida com sucesso!'
+                        'error' => 'Não foi possível redefinir a senha!'
                     ];
                 }
                 $this->template->set('title', 'Konektron API');
