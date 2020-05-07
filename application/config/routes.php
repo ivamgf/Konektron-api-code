@@ -131,6 +131,13 @@ $route['registerCategory']['POST'] = 'category/registerCategory';
 $route['updateCategory/(:num)']['PATCH'] = 'category/updateCategory/$1';
 $route['deleteCategory/(:num)']['DELETE'] = 'category/deleteCategory/$1';
 
+$route['consultCategoryAux']['GET'] = 'category_aux/consultCategoryAux';
+$route['consultCategoryAuxId/(:num)']['GET'] = 'category_aux/consultCategoryAuxId/$1';
+$route['consultCategoryAuxService/(:num)']['GET'] = 'category_aux/consultCategoryAuxService/$1';
+$route['registerCategoryAux']['POST'] = 'category_aux/registerCategoryAux';
+$route['updateCategoryAux/(:num)']['PATCH'] = 'category_aux/updateCategoryAux/$1';
+$route['deleteCategoryAux/(:num)']['DELETE'] = 'category_aux/deleteCategoryAux/$1';
+
 // Routes to StockServices Methods
 $route['consultServices']['GET'] = 'stock_services/consultServices';
 $route['consultServicesId/(:num)']['GET'] = 'stock_services/consultServicesId/$1';
@@ -145,3 +152,12 @@ $route['consultScheduleUsers/(:num)']['GET'] = 'schedule/consultScheduleUsers/$1
 $route['registerSchedule']['POST'] = 'schedule/registerSchedule';
 $route['updateSchedule/(:num)']['PATCH'] = 'schedule/updateSchedule/$1';
 $route['deleteSchedule/(:num)']['DELETE'] = 'schedule/deleteSchedule/$1';
+
+$route['consultScheduleAux']['GET'] = 'schedule_aux/consultScheduleAux';
+$route['consultScheduleAuxId/(:num)']['GET'] = 'schedule_aux/consultScheduleAuxId/$1';
+$route['consultScheduleAuxIdSch/(:num)']['GET'] = 'schedule_aux/consultScheduleAuxIdSch/$1';
+$route['consultScheduleAuxUsers/(:num)']['GET'] = 'schedule_aux/consultScheduleAuxUsers/$1';
+$route['consultScheduleAuxProviders/(:num)']['GET'] = 'schedule_aux/consultScheduleAuxProviders/$1';
+$route['registerScheduleAux']['POST'] = 'schedule_aux/registerScheduleAux';
+$route['updateScheduleAux/(:num)']['PATCH'] = 'schedule_aux/updateScheduleAux/$1';
+$route['deleteScheduleAux/(:num)']['DELETE'] = 'schedule_aux/deleteScheduleAux/$1';

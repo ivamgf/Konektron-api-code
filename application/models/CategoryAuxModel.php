@@ -16,11 +16,12 @@ class CategoryAuxModel extends CI_Model
     /**
      * Recupera os dados auxiliares da categoria
      *
-     * @return void
+     * @return array
      */
-    public function getCategoryAux()
+    public function getCategoryAux(): array
     {
-        return $this->db->get('category_aux')->result();
+        return $this->db->get('category_aux')
+            ->result() ?? [];
     }
 
     /**
@@ -28,16 +29,16 @@ class CategoryAuxModel extends CI_Model
      *
      * @param integer $id_category_aux Id dos dados auxiliares
      *
-     * @return void
+     * @return stdClass
      */
-    public function getCategoryAuxId(int $id_category_aux)
+    public function getCategoryAuxId(int $id_category_aux): stdClass
     {
         return $this->db->get_where(
             'category_aux',
             [
                 'id_category_aux' => $id_category_aux
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -45,16 +46,16 @@ class CategoryAuxModel extends CI_Model
      *
      * @param integer $id_service Id do serviço
      *
-     * @return void
+     * @return stdClass
      */
-    public function getCategoryAuxService(int $id_service)
+    public function getCategoryAuxService(int $id_service): stdClass
     {
         return $this->db->get_where(
             'category_aux',
             [
                 'id_service' => $id_service
             ]
-        )->row();
+        )->row() ?? new stdClass();
     }
 
     /**
@@ -67,19 +68,23 @@ class CategoryAuxModel extends CI_Model
     public function insertCategoryAux(stdClass $id_category_aux)
     {
         $this->db->insert('category_aux', $id_category_aux);
-        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : 0;
+        return $this->db->affected_rows() > 0
+            ? $this->db->insert_id() :
+            0;
     }
 
     /**
      * Atualiza os dados auxiliares da categoria
      *
-     * @param integer $id_category_aux Id dos dados auxiliares da categoria
-     * @param stdClass  $categoryAux     Dados auxiliares da categoria
+     * @param integer  $id_category_aux Id dos dados auxiliares da categoria
+     * @param stdClass $categoryAux     Dados auxiliares da categoria
      *
-     * @return void
+     * @return boolean
      */
-    public function patchCategoryAux(int $id_category_aux, stdClass $categoryAux)
-    {
+    public function patchCategoryAux(
+        int $id_category_aux,
+        stdClass $categoryAux
+    ): bool {
         $this->db->where('id_category_aux', $id_category_aux);
         $this->db->update('category_aux', $categoryAux);
         return $this->db->affected_rows() > 0;
@@ -90,9 +95,9 @@ class CategoryAuxModel extends CI_Model
      *
      * @param integer $id_category_aux Id dos dados auxiliares da categoria
      *
-     * @return void
+     * @return boolean
      */
-    public function delCategoryAux(int $id_category_aux)
+    public function delCategoryAux(int $id_category_aux): bool
     {
         $this->db->where('id_category_aux', $id_category_aux);
         $this->db->delete('category_aux');
