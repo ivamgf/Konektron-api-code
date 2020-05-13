@@ -43,3 +43,15 @@ Konektron-api-code/
  |__ user_guide/ - Manual do framework
  |__ index.php - Arquivo principal da aplicação
  ```
+
+### Documentação das Classes
+
+Gerador de documentação para as classes [phpDox](http://phpdox.de/getting-started.html).
+
+```
+$ wget http://phpdox.de/releases/phpdox.phar
+$ chmod +x phpdox.phar
+$ mv phpdox.phar /usr/local/bin/phpdox
+$ phpdox --version
+$ phpdox # Executar na raiz do projeto
+```
